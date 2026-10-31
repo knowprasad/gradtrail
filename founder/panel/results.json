@@ -1,0 +1,137 @@
+{
+ "business": "Northstar, a self-hosted job-search and application workspace for Indian college students",
+ "seed": 419470,
+ "dealt": 20,
+ "answered": 20,
+ "skipped": [],
+ "buys": 0,
+ "passes": 20,
+ "buy_rate": 0.0,
+ "by_segment": [
+  [
+   "Pre-final-year student seeking a technical internship",
+   8,
+   0.0
+  ],
+  [
+   "Early-year student exploring internships",
+   6,
+   0.0
+  ],
+  [
+   "Final-year student preparing for campus placement",
+   6,
+   0.0
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Campus-channel checker",
+   5,
+   0.0
+  ],
+  [
+   "Eligibility-first applicant",
+   4,
+   0.0
+  ],
+  [
+   "High-volume applicant",
+   2,
+   0.0
+  ],
+  [
+   "Self-hosting skeptic",
+   1,
+   0.0
+  ],
+  [
+   "Referral seeker",
+   3,
+   0.0
+  ],
+  [
+   "Project-led candidate",
+   3,
+   0.0
+  ],
+  [
+   "Scam and fee cautious",
+   2,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "$1,000 and up",
+   14,
+   0.0
+  ],
+  [
+   "under $1,000",
+   6,
+   0.0
+  ]
+ ],
+ "why_not": [
+  [
+   "convenience",
+   17,
+   [
+    "I already check my placement cell, college groups, and LinkedIn, and I mainly need relevant openings rather than another workspace to manage. Having to provide hosting and search or AI credentials sounds like setup work I would avoid during the semester.",
+    "I already check placement and internship links on my phone, and setting up hosting plus provider keys sounds like a project of its own. I would skip it unless it worked easily on mobile without setup."
+   ],
+   [
+    "P001",
+    "P003"
+   ]
+  ],
+  [
+   "trust",
+   2,
+   [
+    "I would keep checking the internship posts on the platforms I already use because this does not tell me which sources are covered or whether the listings are current and legitimate. I also do not want to configure hosting and provider keys just to try it.",
+    "I already see openings in several places, and this does not tell me whether the listings are current, paid, or legitimate. I would rather follow the original post directly than set up another tool with hosting and credentials."
+   ],
+   [
+    "P002",
+    "P004"
+   ]
+  ],
+  [
+   "need",
+   1,
+   [
+    "As an early-year student, I am only exploring and can keep checking my placement group and the job sites I already know. The offer does not show whether it has the campus and off-campus opportunities I need, and setting up hosting and credentials feels like too much work for now."
+   ],
+   [
+    "P006"
+   ]
+  ]
+ ],
+ "why_yes": [],
+ "flip": [
+  "A simple phone-friendly demo showing current, eligible internship and placement posts, with setup and provider costs clearly handled.",
+  "A no-setup demo with current India internships, original links, and clear eligibility details.",
+  "A simple hosted mobile-friendly version with current India listings and no credential setup.",
+  "A phone-friendly demo showing current Indian internships with original links, stipend, and a clear freshness date.",
+  "A simple phone-friendly hosted version that works without setup or provider keys.",
+  "A simple demo showing current, eligible India internships and campus drives, with no setup needed.",
+  "A ready-to-use mobile demo that shows current India roles with clear eligibility and original links.",
+  "A simple phone-friendly demo that brings together current eligible campus and internship posts without requiring me to host it or configure keys.",
+  "A working, phone-friendly hosted version with no setup and clear current India listings.",
+  "A free, phone-friendly demo with guided setup and examples of project-based resumes that do not add unsupported claims.",
+  "A phone-friendly hosted demo showing current India listings, campus drives, and the original post links.",
+  "A simple hosted version I can use on my phone with clear setup and provider costs.",
+  "A no-setup mobile demo with current India internship posts and clear original links.",
+  "A free, simple phone-friendly version that works without setup or paid keys.",
+  "A no-setup demo with current India internships, eligibility details, and project-based resume drafts I can review.",
+  "A simple hosted version with a free student tier and clear controls over what the AI writes.",
+  "A phone-friendly hosted version with setup handled and clear links to current India internships.",
+  "A no-setup, phone-friendly demo with current India listings and clear original links.",
+  "A mobile-friendly demo with current India listings and original links that I can try without setting up anything.",
+  "A hosted, phone-friendly trial that already has current India internships and makes deadlines easy to track."
+ ],
+ "purchases_first_month_per_buyer": null,
+ "price_answers": 20
+}

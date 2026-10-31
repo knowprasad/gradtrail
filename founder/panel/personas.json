@@ -1,0 +1,222 @@
+[
+ {
+  "id": "P001",
+  "name": "Adrian",
+  "age": 21,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 1000,
+  "behaviour": "Campus-channel checker",
+  "behaviour_how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings.",
+  "objection": "Will this include campus placement drives and off-campus internships, not just generic jobs?",
+  "habit": "You check internship posts on a phone between lectures, labs, assignments, and commute time."
+ },
+ {
+  "id": "P002",
+  "name": "Luis",
+  "age": 21,
+  "segment": "Early-year student exploring internships",
+  "income": 1000,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying.",
+  "objection": "Are internships current, paid, and legitimate, and can I see the original post?",
+  "habit": "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+ },
+ {
+  "id": "P003",
+  "name": "Emil",
+  "age": 23,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 1000,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying.",
+  "objection": "Can I use it comfortably on my phone between classes?",
+  "habit": "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability."
+ },
+ {
+  "id": "P004",
+  "name": "Tess",
+  "age": 24,
+  "segment": "Early-year student exploring internships",
+  "income": 1000,
+  "behaviour": "Campus-channel checker",
+  "behaviour_how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings.",
+  "objection": "Are internships current, paid, and legitimate, and can I see the original post?",
+  "habit": "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards."
+ },
+ {
+  "id": "P005",
+  "name": "Ana",
+  "age": 19,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 0,
+  "behaviour": "High-volume applicant",
+  "behaviour_how": "Applies to many internships and placement drives and loses track of tests, deadlines, and follow-ups.",
+  "objection": "Can I use it comfortably on my phone between classes?",
+  "habit": "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+ },
+ {
+  "id": "P006",
+  "name": "Priya",
+  "age": 21,
+  "segment": "Early-year student exploring internships",
+  "income": 0,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying.",
+  "objection": "Will this include campus placement drives and off-campus internships, not just generic jobs?",
+  "habit": "You compare stipend, duration, city, remote options, graduation batch, and eligibility before applying."
+ },
+ {
+  "id": "P007",
+  "name": "Maya",
+  "age": 22,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 1000,
+  "behaviour": "Self-hosting skeptic",
+  "behaviour_how": "Likes privacy but is unsure they can set up a server, database, and AI/search keys without help.",
+  "objection": "I already check Internshala, Unstop, LinkedIn, and my placement cell. Why add another tool?",
+  "habit": "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability."
+ },
+ {
+  "id": "P008",
+  "name": "Seth",
+  "age": 18,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 0,
+  "behaviour": "Campus-channel checker",
+  "behaviour_how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings.",
+  "objection": "I already check Internshala, Unstop, LinkedIn, and my placement cell. Why add another tool?",
+  "habit": "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards."
+ },
+ {
+  "id": "P009",
+  "name": "Talia",
+  "age": 21,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 3000,
+  "behaviour": "Campus-channel checker",
+  "behaviour_how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings.",
+  "objection": "Self-hosting and API keys sound too technical. Who helps me set it up?",
+  "habit": "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards."
+ },
+ {
+  "id": "P010",
+  "name": "Yara",
+  "age": 19,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 3000,
+  "behaviour": "Referral seeker",
+  "behaviour_how": "Asks seniors, alumni, and employees for referrals and wants to send a concise, relevant introduction.",
+  "objection": "I have projects but no work experience. Can it help me show what I built without inventing claims?",
+  "habit": "You check internship posts on a phone between lectures, labs, assignments, and commute time."
+ },
+ {
+  "id": "P011",
+  "name": "Leila",
+  "age": 21,
+  "segment": "Early-year student exploring internships",
+  "income": 1000,
+  "behaviour": "Project-led candidate",
+  "behaviour_how": "Uses coursework, hackathons, and personal projects to prove skills because they have little formal experience.",
+  "objection": "Will this include campus placement drives and off-campus internships, not just generic jobs?",
+  "habit": "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+ },
+ {
+  "id": "P012",
+  "name": "Mira",
+  "age": 23,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 2000,
+  "behaviour": "Project-led candidate",
+  "behaviour_how": "Uses coursework, hackathons, and personal projects to prove skills because they have little formal experience.",
+  "objection": "I do not want to pay for an AI tool while I am a student.",
+  "habit": "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability."
+ },
+ {
+  "id": "P013",
+  "name": "Jasper",
+  "age": 24,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 2000,
+  "behaviour": "Referral seeker",
+  "behaviour_how": "Asks seniors, alumni, and employees for referrals and wants to send a concise, relevant introduction.",
+  "objection": "Can I use it comfortably on my phone between classes?",
+  "habit": "You check internship posts on a phone between lectures, labs, assignments, and commute time."
+ },
+ {
+  "id": "P014",
+  "name": "Ruby",
+  "age": 18,
+  "segment": "Early-year student exploring internships",
+  "income": 0,
+  "behaviour": "Campus-channel checker",
+  "behaviour_how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings.",
+  "objection": "I do not want to pay for an AI tool while I am a student.",
+  "habit": "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards."
+ },
+ {
+  "id": "P015",
+  "name": "Nora",
+  "age": 24,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 0,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying.",
+  "objection": "I have projects but no work experience. Can it help me show what I built without inventing claims?",
+  "habit": "You compare stipend, duration, city, remote options, graduation batch, and eligibility before applying."
+ },
+ {
+  "id": "P016",
+  "name": "Alma",
+  "age": 19,
+  "segment": "Final-year student preparing for campus placement",
+  "income": 3000,
+  "behaviour": "Project-led candidate",
+  "behaviour_how": "Uses coursework, hackathons, and personal projects to prove skills because they have little formal experience.",
+  "objection": "I have projects but no work experience. Can it help me show what I built without inventing claims?",
+  "habit": "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+ },
+ {
+  "id": "P017",
+  "name": "Keisha",
+  "age": 19,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 0,
+  "behaviour": "Referral seeker",
+  "behaviour_how": "Asks seniors, alumni, and employees for referrals and wants to send a concise, relevant introduction.",
+  "objection": "Self-hosting and API keys sound too technical. Who helps me set it up?",
+  "habit": "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards."
+ },
+ {
+  "id": "P018",
+  "name": "Gabriel",
+  "age": 23,
+  "segment": "Early-year student exploring internships",
+  "income": 1000,
+  "behaviour": "Scam and fee cautious",
+  "behaviour_how": "Checks the employer and original link and avoids openings that ask candidates to pay.",
+  "objection": "I do not want to pay for an AI tool while I am a student.",
+  "habit": "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+ },
+ {
+  "id": "P019",
+  "name": "Elle",
+  "age": 18,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 1000,
+  "behaviour": "Scam and fee cautious",
+  "behaviour_how": "Checks the employer and original link and avoids openings that ask candidates to pay.",
+  "objection": "Can I use it comfortably on my phone between classes?",
+  "habit": "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability."
+ },
+ {
+  "id": "P020",
+  "name": "Sienna",
+  "age": 20,
+  "segment": "Pre-final-year student seeking a technical internship",
+  "income": 1000,
+  "behaviour": "High-volume applicant",
+  "behaviour_how": "Applies to many internships and placement drives and loses track of tests, deadlines, and follow-ups.",
+  "objection": "I have projects but no work experience. Can it help me show what I built without inventing claims?",
+  "habit": "You compare stipend, duration, city, remote options, graduation batch, and eligibility before applying."
+ }
+]

@@ -1,0 +1,176 @@
+{
+ "business": "Northstar, a self-hosted job-search and application workspace for Indian college students",
+ "seed": 419470,
+ "dealt": 20,
+ "answered": 20,
+ "skipped": [],
+ "buys": 1,
+ "passes": 19,
+ "buy_rate": 0.05,
+ "by_segment": [
+  [
+   "Final-year student preparing for campus placement",
+   6,
+   0.16666666666666666
+  ],
+  [
+   "Pre-final-year student seeking a technical internship",
+   8,
+   0.0
+  ],
+  [
+   "Early-year student exploring internships",
+   6,
+   0.0
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Project-led candidate",
+   3,
+   0.3333333333333333
+  ],
+  [
+   "Campus-channel checker",
+   5,
+   0.0
+  ],
+  [
+   "Eligibility-first applicant",
+   4,
+   0.0
+  ],
+  [
+   "High-volume applicant",
+   2,
+   0.0
+  ],
+  [
+   "Self-hosting skeptic",
+   1,
+   0.0
+  ],
+  [
+   "Referral seeker",
+   3,
+   0.0
+  ],
+  [
+   "Scam and fee cautious",
+   2,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "$117,000 and up",
+   7,
+   0.14285714285714285
+  ],
+  [
+   "$41,000 to $117,000",
+   7,
+   0.0
+  ],
+  [
+   "under $41,000",
+   6,
+   0.0
+  ]
+ ],
+ "why_not": [
+  [
+   "convenience",
+   9,
+   [
+    "I would check it out if it worked smoothly on my phone, but the self-hosting and setting up provider credentials sounds like friction I won't take on while juggling classes and placements.",
+    "I do lose track of rounds and follow-ups, so the idea is relevant, but I would not set up self-hosting and provider credentials just to try another tracker. I need something that works easily on my phone between classes, and that is not clear from this offer."
+   ],
+   [
+    "P003",
+    "P005"
+   ]
+  ],
+  [
+   "need",
+   3,
+   [
+    "I would stick with the placement-cell and LinkedIn checks I already do; this sounds useful for organizing applications, but I don't know that it covers campus drives or enough relevant internship sources to change my routine.",
+    "I might use a tracker, but this sounds like another job board and I already keep applications in a spreadsheet. The project-based profile is relevant, though I need to know whether it actually covers campus drives and internships before I would switch."
+   ],
+   [
+    "P001",
+    "P011"
+   ]
+  ],
+  [
+   "trust",
+   3,
+   [
+    "I would try a free tracker, but I wouldn’t set up hosting or hand over paid search and AI credentials without knowing the internships are current, paid, and actually legitimate. I need the original posts and eligibility details before this saves me enough time to bother.",
+    "I would try the placement-cell and job-group links I already use before setting up a self-hosted workspace, especially when I can’t tell which postings are current or paid. I might reconsider if I could check the original listing quickly and verify it’s legitimate."
+   ],
+   [
+    "P002",
+    "P004"
+   ]
+  ],
+  [
+   "price",
+   3,
+   [
+    "I would not pay for an AI job-search tool while I’m a student, and I can already use my coursework and projects to show what I can do. Since this concept is free but still needs my hosting and provider credentials, I’d rather keep using the tools I already have.",
+    "I already check placement messages, college groups, LinkedIn, seniors, and job boards, so I would keep using those before adding a self-hosted tool. Even though the software is free, hosting and provider credentials sound like extra cost and setup I don't want as a student."
+   ],
+   [
+    "P012",
+    "P014"
+   ]
+  ],
+  [
+   "habit",
+   1,
+   [
+    "I already check Internshala, Unstop, LinkedIn, and my placement cell, so I don't see a reason to add another place to search. Free is nice, but setting up hosting and provider credentials sounds like extra hassle while I'm applying."
+   ],
+   [
+    "P008"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "need",
+   1,
+   [
+    "I’m actively preparing for placements, and keeping applications and rounds in one place would help. The project-based resume drafts sound useful if they stick to what I actually built."
+   ],
+   [
+    "P016"
+   ]
+  ]
+ ],
+ "flip": [
+  "A free demo showing current Indian campus and off-campus technical internships from sources I already use, with clear source coverage.",
+  "A live demo showing recent, paid internship listings with links to the original posts and clear eligibility details.",
+  "A simple mobile-friendly demo showing supported India postings and application tracking without a complicated setup.",
+  "A live demo showing verified, current internship listings with original-post links and clear paid/unpaid details.",
+  "A quick phone demo showing me adding an opportunity and tracking its assessment and follow-ups in a few taps.",
+  "A no-setup trial showing current, verified internship and campus-drive listings with clear eligibility, stipend, city and duration filters.",
+  "A quick demo showing relevant, fresh listings I couldn't find on my usual sites, with setup handled for me.",
+  "A quick demo showing relevant India campus roles from sources I already use, with no hosting setup on my side.",
+  "A simple hosted version with clear setup help and a free trial using real Indian campus-role sources.",
+  "A hosted version with useful, verified internship listings and a quick way to organize applications.",
+  "A clear demo showing reliable campus and internship listings alongside application tracking would make me try it.",
+  "A free, no-setup version that shows strong India internship listings I can’t easily find myself.",
+  "A phone-friendly demo showing I can find a relevant internship and draft a short referral introduction in a couple of minutes, with setup handled for me.",
+  "A free hosted version with clearly included job sources and no paid AI or search credentials needed.",
+  "A working demo showing current internships with clear graduation-year and degree eligibility filters.",
+  "A ready-to-use demo with a simple setup guide and a student/alumni who can help me get it running.",
+  "A genuinely free hosted trial with clear limits and no payment details, so I can see whether the job tracking works for my placements.",
+  "A quick phone demo showing setup takes only a few minutes and the core job search and tracking work without paid credentials.",
+  "A quick demo showing solid internship coverage and project-based resume drafts that stick strictly to what I entered."
+ ],
+ "purchases_first_month_per_buyer": 1.0,
+ "price_answers": 20
+}

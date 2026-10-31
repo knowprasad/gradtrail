@@ -1,0 +1,13 @@
+{
+  "id": "P020",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I apply to enough internships that a tracker could help, but this sounds like another setup I have to maintain and configure. I would try a genuinely free self-hosted tool, but I wouldn't count myself as buying it when I still need to arrange hosting and provider credentials.",
+  "objection": "Will this actually find enough relevant Indian internships, and can I trust its resume drafts not to make my projects sound bigger than they are?",
+  "would_change_my_mind": "A quick demo showing solid internship coverage and project-based resume drafts that stick strictly to what I entered.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

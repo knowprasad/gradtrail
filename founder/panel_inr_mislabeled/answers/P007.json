@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check the placement cell, LinkedIn, Internshala, and Unstop, so I don't see enough reason to add another place to search. Having to set up hosting and provider keys makes it feel like extra work when I'm already busy preparing for placements.",
+  "objection": "I don't know whether it would actually find useful postings I can't already see, and I'm not confident I can configure the server and keys without help.",
+  "would_change_my_mind": "A quick demo showing relevant, fresh listings I couldn't find on my usual sites, with setup handled for me.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

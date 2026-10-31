@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I’m already checking the placement cell, college groups, LinkedIn and job boards, so I don’t see enough reason to set up another workspace right now. Free is appealing, but I’d have to arrange hosting and provider keys myself.",
+  "objection": "Self-hosting and API keys sound too technical, and I don’t know who would help me get it working.",
+  "would_change_my_mind": "A simple hosted version with clear setup help and a free trial using real Indian campus-role sources.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

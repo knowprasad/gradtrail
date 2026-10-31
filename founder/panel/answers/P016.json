@@ -1,0 +1,13 @@
+{
+  "id": "P016",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I would like help turning my projects into a clear resume, but setting up hosting and AI credentials feels like too much work while I am preparing for placements. I would keep using tools I can open directly on my phone or laptop.",
+  "objection": "Can I get useful project-based resume help without setting up a server and paying for provider credentials?",
+  "would_change_my_mind": "A simple hosted version with a free student tier and clear controls over what the AI writes.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

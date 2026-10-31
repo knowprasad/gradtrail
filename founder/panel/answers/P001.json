@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check my placement cell, college groups, and LinkedIn, and I mainly need relevant openings rather than another workspace to manage. Having to provide hosting and search or AI credentials sounds like setup work I would avoid during the semester.",
+  "objection": "Will it actually surface campus and off-campus internships that match my year and eligibility, and can I use it without figuring out hosting and API keys?",
+  "would_change_my_mind": "A simple phone-friendly demo showing current, eligible internship and placement posts, with setup and provider costs clearly handled.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 100,
+  "price_too_expensive": 300
+}

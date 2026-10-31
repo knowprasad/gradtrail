@@ -1,0 +1,13 @@
+{
+  "id": "P013",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I might try the search on my phone, but self-hosting and setting up search or AI credentials sounds like work I won't do between classes. For referrals, I can already message seniors directly, so this doesn't feel useful enough to change my routine.",
+  "objection": "Will this actually be quick and comfortable to use on my phone, or am I signing up to configure and maintain another tool?",
+  "would_change_my_mind": "A phone-friendly demo showing I can find a relevant internship and draft a short referral introduction in a couple of minutes, with setup handled for me.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

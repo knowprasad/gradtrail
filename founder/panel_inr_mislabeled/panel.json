@@ -1,0 +1,94 @@
+{
+ "n": 20,
+ "seed": 419470,
+ "customer": {
+  "business": "Northstar, a self-hosted job-search and application workspace for Indian college students",
+  "target": "Indian college students, roughly 18–24, pursuing internships and campus placements for technical roles",
+  "where": "India, including metro and tier-2 college towns and India-wide remote internships",
+  "age": [
+   18,
+   24
+  ],
+  "segments": [
+   {
+    "name": "Early-year student exploring internships",
+    "share": 0.3,
+    "income": [
+     0,
+     120000
+    ]
+   },
+   {
+    "name": "Pre-final-year student seeking a technical internship",
+    "share": 0.4,
+    "income": [
+     0,
+     180000
+    ]
+   },
+   {
+    "name": "Final-year student preparing for campus placement",
+    "share": 0.3,
+    "income": [
+     0,
+     240000
+    ]
+   }
+  ],
+  "behaviours": [
+   {
+    "name": "Campus-channel checker",
+    "share": 0.22,
+    "how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings."
+   },
+   {
+    "name": "Eligibility-first applicant",
+    "share": 0.2,
+    "how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying."
+   },
+   {
+    "name": "Project-led candidate",
+    "share": 0.17,
+    "how": "Uses coursework, hackathons, and personal projects to prove skills because they have little formal experience."
+   },
+   {
+    "name": "Referral seeker",
+    "share": 0.14,
+    "how": "Asks seniors, alumni, and employees for referrals and wants to send a concise, relevant introduction."
+   },
+   {
+    "name": "Scam and fee cautious",
+    "share": 0.12,
+    "how": "Checks the employer and original link and avoids openings that ask candidates to pay."
+   },
+   {
+    "name": "High-volume applicant",
+    "share": 0.09,
+    "how": "Applies to many internships and placement drives and loses track of tests, deadlines, and follow-ups."
+   },
+   {
+    "name": "Self-hosting skeptic",
+    "share": 0.06,
+    "how": "Likes privacy but is unsure they can set up a server, database, and AI/search keys without help."
+   }
+  ],
+  "objections": [
+   "I already check Internshala, Unstop, LinkedIn, and my placement cell. Why add another tool?",
+   "Will the listing say which year, branch, degree, and graduation batch can apply?",
+   "Are internships current, paid, and legitimate, and can I see the original post?",
+   "Will this include campus placement drives and off-campus internships, not just generic jobs?",
+   "I have projects but no work experience. Can it help me show what I built without inventing claims?",
+   "I do not want to pay for an AI tool while I am a student.",
+   "Self-hosting and API keys sound too technical. Who helps me set it up?",
+   "Can I use it comfortably on my phone between classes?"
+  ],
+  "habits": [
+   "You check internship posts on a phone between lectures, labs, assignments, and commute time.",
+   "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards.",
+   "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability.",
+   "You compare stipend, duration, city, remote options, graduation batch, and eligibility before applying.",
+   "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+  ]
+ },
+ "pitch": "Northstar is a self-hosted job-search workspace for Indian college students. Search supported job sources for postings in India, save opportunities, and track applications.\nSearch by role or skill, country and city, remote work, and posting date. Add terms such as “internship” or “fresher” to the search; source coverage varies.\nBuild a profile with coursework and projects, then use a configured AI provider to draft a tailored resume and cover letter for your review.\nThe software is free in this concept. You provide hosting and any paid search or AI provider credentials; no commercial price has been set."
+}
