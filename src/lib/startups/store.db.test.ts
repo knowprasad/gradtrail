@@ -56,6 +56,27 @@ vi.mock("./sources/hn", async () => {
     },
   };
 });
+vi.mock("@/lib/job-search/startup-jobs", () => ({
+  startupJobs: {
+    search: async () => ({
+      next: null,
+      postings: Array.from({ length: 50 }, (_, index) => ({
+        source: "STARTUP_JOBS",
+        externalId: `https://startup.jobs/jobs/${index}`,
+        title: `Engineer ${index}`,
+        company: `Startup Jobs Co ${index}`,
+        place: "Berlin, Germany",
+        remote: false,
+        salary: "",
+        postedAt: null,
+        url: `https://startup.jobs/jobs/${index}`,
+        via: "Startup.jobs",
+        description: "",
+        complete: false,
+      })),
+    }),
+  },
+}));
 
 const prisma = () => db.client!;
 const berlin = placeOf(profile.basics);
