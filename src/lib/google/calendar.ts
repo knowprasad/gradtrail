@@ -15,7 +15,7 @@ const eventPath = (calendarId: string, eventId?: string) =>
   `/calendars/${encodeURIComponent(calendarId)}/events${eventId ? `/${encodeURIComponent(eventId)}` : ""}`;
 
 /** The private property that ties an event GradTrail added to its application. */
-const APPLICATION_PROPERTY = "northstarApplication";
+const APPLICATION_PROPERTY = "gradtrailApplication";
 const LEGACY_APPLICATION_PROPERTY = ["north", "star", "Application"].join("");
 
 /** Busy times in the calendar between `from` and `to`. */

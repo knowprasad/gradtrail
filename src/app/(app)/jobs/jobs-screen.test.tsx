@@ -91,13 +91,13 @@ describe("the search form", () => {
   it("points to Settings while job search is off", () => {
     renderScreen({ source: null });
     expect(screen.getByRole("heading", { name: "Choose where to search" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Set up job search" })).toHaveAttribute("href", "/settings?section=jobs");
+    expect(screen.getByRole("link", { name: "Choose a job source" })).toHaveAttribute("href", "/settings?section=jobs");
     expect(screen.queryByRole("search")).not.toBeInTheDocument();
   });
 
   it("starts from the search it's given, and says which source it searches", () => {
     renderScreen();
-    expect(screen.getByText("Search JSearch for postings near you, then start an application from the one you like.")).toBeInTheDocument();
+    expect(screen.getByText("Search JSearch for internships, fresher roles and developer jobs. Check the original post and its date before you apply.")).toBeInTheDocument();
     const form = screen.getByRole("search", { name: "Search postings" });
     expect(within(form).getByLabelText("What")).toHaveValue("product designer");
     expect(within(form).getByLabelText("Where")).toHaveValue("Hamburg");
@@ -185,7 +185,7 @@ describe("the results", () => {
     const items = within(list).getAllByRole("button", { name: /^Designer/ });
     expect(items.map((item) => item.getAttribute("aria-pressed"))).toEqual(["true", "false"]);
     expect(items[0]).toHaveTextContent("Company a · Hamburg · Remote");
-    expect(items[0]).toHaveTextContent("3 days ago · via LinkedIn · EUR 70,000 a year");
+    expect(items[0]).toHaveTextContent("Posted 3 days ago · 30 Sep 2026 · via LinkedIn · EUR 70,000 a year");
     expect(screen.getByRole("heading", { level: 2, name: "Designer a" })).toBeInTheDocument();
     expect(screen.getByText("The whole posting a.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Open posting/ })).toHaveAttribute("href", "https://jobs.example/a");
@@ -283,7 +283,7 @@ describe("the results", () => {
     vi.mocked(loadFullText).mockResolvedValue({ ok: true, data: { text: null } });
     renderScreen({ search: stored([posting("a", { complete: false, description: "The start…" })]) });
     expect(await screen.findByText(/This is only the start of the posting/)).toBeInTheDocument();
-    expect(screen.getByText("The start…")).toBeInTheDocument();
+    expect(screen.getAllByText("The start…").length).toBeGreaterThan(0);
   });
 
   it("starts an application from the selected posting (E14-8)", async () => {

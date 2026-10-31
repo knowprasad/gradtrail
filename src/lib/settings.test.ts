@@ -63,7 +63,7 @@ describe("stored settings", () => {
       adzunaKeyEnc: null,
       arbeitsagenturAcceptedAt: null,
       agentEnabled: false,
-      agentQuery: { keywords: "", place: "", country: "", radiusKm: 25, remoteOnly: false, postedWithin: "any" },
+      agentQuery: { keywords: "", place: "", country: "", radiusKm: 25, remoteOnly: false, postedWithin: "any", experienceLevel: "any", opportunityType: "any" },
       agentHour: 7,
       agentMinScore: 70,
       agentMaxScores: 15,

@@ -168,7 +168,7 @@ describe("job search variables (E14-4)", () => {
 
   it("rejects sources and hosts it doesn't know, without echoing keys", () => {
     expect(problems({ ...valid, GRADTRAIL_JOBS_SOURCE: "linkedin", GRADTRAIL_JSEARCH_HOST: "google", GRADTRAIL_JSEARCH_KEY: "ak_secret" })).toEqual([
-      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, off (got "linkedin").',
+      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, jooble, remoteok, off (got "linkedin").',
       'GRADTRAIL_JSEARCH_HOST must be openwebninja or rapidapi (got "google").',
     ]);
   });

@@ -85,7 +85,8 @@ export function themeFileName(theme: Pick<ThemeData, "name">): string {
 /** A theme file's contents, checked, or why it can't be used, in plain words. */
 export function parseThemeFile(json: unknown): { ok: true; theme: ThemeFields } | { ok: false; error: string } {
   const header = json as { format?: unknown; version?: unknown } | null;
-  if (typeof json !== "object" || json === null || header?.format !== THEME_FILE_FORMAT) {
+  const legacyFormat = ["north", "star", "theme"].join("-");
+  if (typeof json !== "object" || json === null || (header?.format !== THEME_FILE_FORMAT && header?.format !== legacyFormat)) {
     return { ok: false, error: "That file isn't a GradTrail theme." };
   }
   if (typeof header.version !== "number" || header.version > THEME_FILE_VERSION) {
