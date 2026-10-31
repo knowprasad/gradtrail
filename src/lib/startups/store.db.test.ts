@@ -56,28 +56,6 @@ vi.mock("./sources/hn", async () => {
     },
   };
 });
-vi.mock("@/lib/job-search/startup-jobs", () => ({
-  startupJobs: {
-    search: async () => ({
-      next: null,
-      postings: Array.from({ length: 50 }, (_, index) => ({
-        source: "STARTUP_JOBS",
-        externalId: `https://startup.jobs/jobs/${index}`,
-        title: `Engineer ${index}`,
-        company: `Startup Jobs Co ${index}`,
-        place: "Berlin, Germany",
-        remote: false,
-        salary: "",
-        postedAt: null,
-        url: `https://startup.jobs/jobs/${index}`,
-        via: "Startup.jobs",
-        description: "",
-        complete: false,
-      })),
-    }),
-  },
-}));
-
 const prisma = () => db.client!;
 const berlin = placeOf(profile.basics);
 const filter = (change: object = {}) => startupFilterSchema.parse(change);
@@ -101,6 +79,7 @@ const address = (email: string, change: Partial<StartupEmail> = {}): StartupEmai
 const now = new Date("2026-10-23T12:00:00Z");
 
 beforeEach(async () => {
+  vi.unstubAllGlobals();
   await resetDatabase(prisma());
   web.emails = [];
   web.noApplicationsFrom = "";
@@ -245,6 +224,8 @@ describe("refreshing startups (#222)", () => {
     sources.yc = [startup({ source: "YC", externalId: "1" }), startup({ source: "YC", externalId: "2", company: "No site", website: "" })];
     sources.hnFails = true;
     web.emails = [address("jobs@acme.io")];
+    const rss = Array.from({ length: 50 }, (_, index) => `<item><title>Engineer ${index} at Startup Jobs Co ${index}</title><guid>https://startup.jobs/jobs/${index}</guid><description></description></item>`).join("");
+    vi.stubGlobal("fetch", vi.fn(async () => new Response(`<?xml version="1.0"?><rss version="2.0"><channel>${rss}</channel></rss>`, { headers: { "content-type": "application/rss+xml" } })));
     const steps: string[] = [];
     const result = await refreshStartups(async (name) => void steps.push(name), new AbortController().signal, now);
     expect(result).toEqual({
