@@ -15,7 +15,7 @@ import { SettingsSectionIntro } from "./settings-screen";
 const LINK = "font-medium text-ink underline underline-offset-2";
 
 /**
- * Settings → Claude connector (#221): northstar as a connector in Claude, off
+ * Settings → Claude connector (#221): GradTrail as a connector in Claude, off
  * until it's turned on here. Then it shows the address to add in Claude,
  * and Disconnect Claude signs every Claude out.
  */
@@ -36,7 +36,7 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
   return (
     <>
       <SettingsSectionIntro title="Claude connector">
-        Use northstar from Claude: in chats on claude.ai, in the Desktop and mobile apps, and in Claude&apos;s command-line app. Claude can search for jobs, read your
+        Use GradTrail from Claude: in chats on claude.ai, in the Desktop and mobile apps, and in Claude&apos;s command-line app. Claude can search for jobs, read your
         profile and applications, and save the applications and fit scores it writes, on your own Claude plan. It never sends or deletes anything.
       </SettingsSectionIntro>
 
@@ -45,7 +45,7 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
           label="Let Claude connect"
           description={
             on
-              ? "On. Claude connects at the address below, once you've signed in to northstar and allowed it."
+              ? "On. Claude connects at the address below, once you've signed in to GradTrail and allowed it."
               : "Off. The connector's addresses aren't open on this server."
           }
           checked={on}
@@ -72,22 +72,22 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
                 In Claude, open <strong>Settings → Connectors</strong> and choose <strong>Add custom connector</strong>.
               </li>
               <li>
-                Name it <strong>northstar</strong>, paste the address and press <strong>Add</strong>, then <strong>Connect</strong>.
+                Name it <strong>GradTrail</strong>, paste the address and press <strong>Add</strong>, then <strong>Connect</strong>.
               </li>
               <li>
-                Claude opens northstar: sign in if it asks, check what Claude may do, and press <strong>Allow</strong>.
+                Claude opens GradTrail: sign in if it asks, check what Claude may do, and press <strong>Allow</strong>.
               </li>
             </ol>
             <p className="text-meta text-muted">
-              In Claude&apos;s command-line app: <code className="font-mono text-label">claude mcp add --transport http northstar {address}</code>, then{" "}
+              In Claude&apos;s command-line app: <code className="font-mono text-label">claude mcp add --transport http GradTrail {address}</code>, then{" "}
               <code className="font-mono text-label">/mcp</code> to sign in.
             </p>
             {!publicHttps && (
               <p role="note" className="rounded-card bg-warning-surface px-4 py-3 text-meta text-warning">
                 {local ? "This is a local address. " : "This address isn't HTTPS. "}
-                Claude on the web, Desktop and mobile reaches northstar from Anthropic&apos;s servers, so they need a public HTTPS address (set{" "}
-                <code className="font-mono text-label">NORTHSTAR_PUBLIC_URL</code> if northstar is reached at another one). Claude&apos;s command-line app on the
-                computer northstar runs on can use this one.
+                Claude on the web, Desktop and mobile reaches GradTrail from Anthropic&apos;s servers, so they need a public HTTPS address (set{" "}
+                <code className="font-mono text-label">NORTHSTAR_PUBLIC_URL</code> if GradTrail is reached at another one). Claude&apos;s command-line app on the
+                computer GradTrail runs on can use this one.
               </p>
             )}
           </Card>
@@ -103,7 +103,7 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
               has the details.
             </p>
             <p className="text-muted">
-              Without an AI model of northstar&apos;s own, New application and Score in Find jobs hand the work to a new Claude chat, which saves it
+              Without an AI model of GradTrail&apos;s own, New application and Score in Find jobs hand the work to a new Claude chat, which saves it
               here through the connector.
             </p>
             <div>

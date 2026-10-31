@@ -203,7 +203,7 @@ function WorthALook({ items, quietDays }: { items: DashboardFigures["attention"]
 function Welcome({ setup }: { setup: { profileReady: boolean; sourceReady: boolean; aiReady: boolean } }) {
   return (
     <Panel>
-      <h2 className="font-serif text-section">Welcome to Northstar</h2>
+      <h2 className="font-serif text-section">Welcome to GradTrail</h2>
       <p className="text-sm text-muted">Take these steps at your own pace. You can browse and save jobs before setting up AI.</p>
       <ol className="grid w-full gap-3 pt-2 sm:grid-cols-2">
         <SetupStep done={setup.profileReady} title="Add your profile and projects" href="/profile" action="Build my profile" detail="Your projects count as experience, even when you have not had a formal role yet." />

@@ -24,5 +24,5 @@ export function deriveKey(purpose: KeyPurpose, secret?: string): Uint8Array {
 }
 
 function hkdf(secret: string, purpose: KeyPurpose): Uint8Array {
-  return new Uint8Array(hkdfSync("sha256", secret, "", `northstar ${purpose} v1`, 32));
+  return new Uint8Array(hkdfSync("sha256", secret, "", `GradTrail ${purpose} v1`, 32));
 }

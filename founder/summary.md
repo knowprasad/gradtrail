@@ -1,6 +1,6 @@
 # Executive summary
 
-Northstar is a self-hosted job-search and application workspace for Indian college students looking for technical internships and campus placements. It brings supported job search, saved opportunities, application tracking, and AI-assisted resume and cover-letter drafts into one workspace.
+GradTrail is a self-hosted job-search and application workspace for Indian college students looking for technical internships and campus placements. It brings supported job search, saved opportunities, application tracking, and AI-assisted resume and cover-letter drafts into one workspace.
 
 **Verdict: Incomplete.** There is no financial model, so unit margin, break-even, and Year 1 operating profit are unknown. A simulated 20-person buyer panel produced **0 buys and 20 passes**; this is qualitative feedback, not a forecast or real customer validation.
 

@@ -31,7 +31,7 @@ try {
     & docker compose up -d --build
     if ($LASTEXITCODE -ne 0) { throw "Docker Compose could not start the app." }
   } else {
-    Write-Host "Choose the password you'll use to sign in to Northstar. It won't be saved as plain text."
+    Write-Host "Choose the password you'll use to sign in to GradTrail. It won't be saved as plain text."
     do {
       $firstSecure = Read-Host "Sign-in password (12+ characters)" -AsSecureString
       $secondSecure = Read-Host "Enter it again" -AsSecureString

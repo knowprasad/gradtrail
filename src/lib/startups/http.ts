@@ -8,14 +8,14 @@ import { appVersion } from "@/lib/version";
 
 // Requests for Startups (#222). Everything goes out under one user agent that
 // says what it is and links to the page explaining it, so a site can tell
-// northstar apart and opt out in robots.txt ("User-agent: northstar"). In the
+// GradTrail apart and opt out in robots.txt ("User-agent: GradTrail"). In the
 // end-to-end tests every request goes to the fake server instead
 // (NORTHSTAR_JOBS_TEST_BASE_URL/startups/<host>/<path>).
 
 export const STARTUPS_INFO_URL = "https://github.com/AienTech/dossier/blob/main/PRIVACY.md#startups";
-export const STARTUPS_USER_AGENT = `Mozilla/5.0 (compatible; northstar/${appVersion}; +${STARTUPS_INFO_URL})`;
+export const STARTUPS_USER_AGENT = `Mozilla/5.0 (compatible; GradTrail/${appVersion}; +${STARTUPS_INFO_URL})`;
 /** The product token robots.txt rules name. */
-export const ROBOTS_TOKEN = "northstar";
+export const ROBOTS_TOKEN = "GradTrail";
 
 const TIMEOUT_MS = 20_000;
 const MAX_BYTES = 5 * 1024 * 1024;

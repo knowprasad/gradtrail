@@ -1,4 +1,4 @@
-# Northstar with Docker Compose (see the Dossier installation guide, https://github.com/AienTech/dossier/wiki). Save this
+# GradTrail with Docker Compose (see the Dossier installation guide, https://github.com/AienTech/dossier/wiki). Save this
 # file as compose.yml in a folder of its own, put POSTGRES_PASSWORD,
 # NORTHSTAR_PASSWORD (a hash of your password, from `docker run --rm -it
 # ghcr.io/knowprasad/northstar-india hash-password`) and NORTHSTAR_SECRET in a .env file
@@ -43,7 +43,7 @@ services:
       NORTHSTAR_AI_MODEL: ${NORTHSTAR_AI_MODEL:-}
       NORTHSTAR_AI_KEY: ${NORTHSTAR_AI_KEY:-}
       NORTHSTAR_AI_TIMEOUT_SECONDS: ${NORTHSTAR_AI_TIMEOUT_SECONDS:-}
-      # The daily usage ping: unset, northstar asks after sign-in; on or off answers in advance (see Privacy in the wiki).
+      # The daily usage ping: unset, GradTrail asks after sign-in; on or off answers in advance (see Privacy in the wiki).
       NORTHSTAR_TELEMETRY: ${NORTHSTAR_TELEMETRY:-}
       # Defaults for Settings → Job search.
       NORTHSTAR_JOBS_SOURCE: ${NORTHSTAR_JOBS_SOURCE:-}
@@ -56,7 +56,7 @@ services:
       # Gmail and Calendar: a Google OAuth client (or enter it in Settings → Google).
       NORTHSTAR_GOOGLE_CLIENT_ID: ${NORTHSTAR_GOOGLE_CLIENT_ID:-}
       NORTHSTAR_GOOGLE_CLIENT_SECRET: ${NORTHSTAR_GOOGLE_CLIENT_SECRET:-}
-      # The address northstar is reached at, for Google's redirect.
+      # The address GradTrail is reached at, for Google's redirect.
       NORTHSTAR_PUBLIC_URL: ${NORTHSTAR_PUBLIC_URL:-}
     # Only on the server itself: put a reverse proxy with HTTPS in front.
     ports:
@@ -71,7 +71,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   # A local model, with COMPOSE_PROFILES=ai in .env: `docker compose up -d`,
-  # then pull one (see "Choosing an AI provider" in the wiki). northstar reaches it at http://ollama:11434.
+  # then pull one (see "Choosing an AI provider" in the wiki). GradTrail reaches it at http://ollama:11434.
   ollama:
     profiles: [ai]
     image: ollama/ollama:0.40.10

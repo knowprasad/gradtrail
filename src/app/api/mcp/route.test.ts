@@ -33,7 +33,7 @@ async function accessToken(): Promise<string> {
 
 const call = (body: unknown, token?: string) =>
   POST(
-    new Request("https://northstar.example/api/mcp", {
+    new Request("https://gradtrail.example/api/mcp", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -67,26 +67,26 @@ describe("the Claude connector at /api/mcp (#221)", () => {
     const token = await accessToken();
     settings.connectorEnabledAt = null;
     expect((await call({ jsonrpc: "2.0", id: 1, method: "tools/list" }, token)).status).toBe(404);
-    expect((await GET(new Request("https://northstar.example/api/mcp"))).status).toBe(404);
+    expect((await GET(new Request("https://gradtrail.example/api/mcp"))).status).toBe(404);
   });
 
   it("asks Claude to sign in, and says where to find out how", async () => {
     const response = await call({ jsonrpc: "2.0", id: 1, method: "tools/list" });
     expect(response.status).toBe(401);
     expect(response.headers.get("www-authenticate")).toBe(
-      'Bearer resource_metadata="https://northstar.example/.well-known/oauth-protected-resource/api/mcp", scope="northstar"',
+      'Bearer resource_metadata="https://gradtrail.example/.well-known/oauth-protected-resource/api/mcp", scope="GradTrail"',
     );
     expect((await call({ jsonrpc: "2.0", id: 1, method: "tools/list" }, "not-a-token")).status).toBe(401);
   });
 
-  it("answers MCP with northstar's tools once signed in, and none that delete, archive or send", async () => {
+  it("answers MCP with GradTrail's tools once signed in, and none that delete, archive or send", async () => {
     const token = await accessToken();
     const init = await call(
       { jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "test", version: "1" } } },
       token,
     );
     expect(init.status).toBe(200);
-    expect(await answer(init)).toMatchObject({ result: { serverInfo: { name: "northstar" } } });
+    expect(await answer(init)).toMatchObject({ result: { serverInfo: { name: "GradTrail" } } });
 
     const { result } = await answer(await call({ jsonrpc: "2.0", id: 2, method: "tools/list" }, token));
     expect(result?.tools?.map((entry) => entry.name).sort()).toEqual([
@@ -108,7 +108,7 @@ describe("the Claude connector at /api/mcp (#221)", () => {
     const { isError, text } = await tool("get_profile", {});
     expect(isError).toBe(false);
     const profile = JSON.parse(text) as Record<string, unknown>;
-    expect(profile).toMatchObject({ name: demoProfile().basics.name, link: "https://northstar.example/profile" });
+    expect(profile).toMatchObject({ name: demoProfile().basics.name, link: "https://gradtrail.example/profile" });
     expect(text).not.toContain(demoProfile().basics.email);
     expect(text).not.toContain(demoProfile().basics.phone || "no phone");
   });
@@ -118,10 +118,10 @@ describe("the Claude connector at /api/mcp (#221)", () => {
     expect(isError).toBe(false);
     const { city } = demoProfile().basics;
     expect(searches.ran.at(-1)).toMatchObject({ keywords: "product designer", place: city, radiusKm: 25, remoteOnly: false, postedWithin: "month" });
-    expect(JSON.parse(text)).toMatchObject({ search_id: "s1", searched: `product designer in ${city}`, link: "https://northstar.example/jobs?search=s1" });
+    expect(JSON.parse(text)).toMatchObject({ search_id: "s1", searched: `product designer in ${city}`, link: "https://gradtrail.example/jobs?search=s1" });
   });
 
-  it("asks Claude to write the application itself when northstar has no AI model", async () => {
+  it("asks Claude to write the application itself when GradTrail has no AI model", async () => {
     const { isError, text } = await tool("draft_application", { posting_text: "Product designer at Acme" });
     expect(isError).toBe(true);
     expect(text).toContain("save_application");

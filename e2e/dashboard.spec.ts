@@ -57,7 +57,7 @@ test("interview dates show in Worth a look, and moving to Interview asks for one
   await page.goto("/");
   const worth = page.getByRole("region", { name: "Worth a look" });
   const first = worth.getByRole("link").first();
-  await expect(first).toContainText("Northstar Health");
+  await expect(first).toContainText("GradTrail Health");
   await expect(first).toContainText("Soon");
   await expect(first).toContainText(/Interview tomorrow at \d\d:\d\d\./);
 

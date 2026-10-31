@@ -10,7 +10,7 @@ afterEach(() => {
 
 function renderLink(initialCollapsed = false) {
   render(
-    <SidebarFrame initialCollapsed={initialCollapsed} brand={<span>northstar</span>}>
+    <SidebarFrame initialCollapsed={initialCollapsed} brand={<span>GradTrail</span>}>
       <RepositoryLink />
     </SidebarFrame>,
   );

@@ -12,7 +12,7 @@ import { SOURCE_INFO } from "./sources";
 // In this code "job" already means a background task (src/lib/jobs), so a
 // job ad is a "posting".
 
-/** The job sources northstar can search (E14-1 to E14-3, FreeHire), in the order Settings lists them; one is chosen there. */
+/** The job sources GradTrail can search (E14-1 to E14-3, FreeHire), in the order Settings lists them; one is chosen there. */
 export const JOB_SOURCES = [PostingSource.JSEARCH, PostingSource.ADZUNA, PostingSource.FREEHIRE, PostingSource.ARBEITSAGENTUR, PostingSource.JOOBLE, PostingSource.REMOTEOK] as const;
 export type JobSource = PostingSource;
 

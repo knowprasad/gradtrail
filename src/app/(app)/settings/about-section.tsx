@@ -71,7 +71,7 @@ export function AboutSection({ facts, usagePing, updates }: { facts: AboutFacts;
     : fromEnv
       ? `Set with NORTHSTAR_TELEMETRY=${usagePing.choice} on the server, which decides while it's set. Change it there.`
       : pinging
-        ? `On. Once on each day northstar is used, the server sends ${usagePing.host} ${usagePing.id ? `this install's ID (${usagePing.id})` : "this install's ID, made with the first ping,"} and the version number. Nothing else.`
+        ? `On. Once on each day GradTrail is used, the server sends ${usagePing.host} ${usagePing.id ? `this install's ID (${usagePing.id})` : "this install's ID, made with the first ping,"} and the version number. Nothing else.`
         : answered
           ? "Off. Nothing is sent, and this install's ID is forgotten."
           : "Not answered yet, so nothing is sent.";
@@ -119,8 +119,8 @@ export function AboutSection({ facts, usagePing, updates }: { facts: AboutFacts;
           label="Check for updates daily"
           description={
             daily
-              ? "Once on each day northstar is used, the server asks GitHub for the latest release, and the sidebar says when a newer one is out."
-              : "Off. northstar only checks when you press Check for updates."
+              ? "Once on each day GradTrail is used, the server asks GitHub for the latest release, and the sidebar says when a newer one is out."
+              : "Off. GradTrail only checks when you press Check for updates."
           }
           checked={daily}
           onCheckedChange={switchDaily}
@@ -151,7 +151,7 @@ export function AboutSection({ facts, usagePing, updates }: { facts: AboutFacts;
       </div>
       <p className="text-meta text-muted">Checking asks GitHub for the latest release and sends nothing about you or this install, daily or when you press it.</p>
       <p className="text-meta text-muted">
-        The usage ping only goes once you agree. It tells the northstar project&apos;s maintainer, on the project&apos;s own server, how many installs are in use and how often. The ID is random and says nothing about you, and what&apos;s kept is deleted after a year. To have the rows already kept for this install removed sooner, note its ID, switch the ping off, and send the ID to{" "}
+        The usage ping only goes once you agree. It tells the GradTrail project&apos;s maintainer, on the project&apos;s own server, how many installs are in use and how often. The ID is random and says nothing about you, and what&apos;s kept is deleted after a year. To have the rows already kept for this install removed sooner, note its ID, switch the ping off, and send the ID to{" "}
         <a href="mailto:northstar.app@pm.me" className={LINK}>
           northstar.app@pm.me
         </a>

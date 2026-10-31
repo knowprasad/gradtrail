@@ -1,4 +1,4 @@
-# Buyer panel: Northstar, a self-hosted job-search and application workspace for Indian college students
+# Buyer panel: GradTrail, a self-hosted job-search and application workspace for Indian college students
 
 **1 buy · 19 pass** (5% buy) out of 20 simulated buyers. Seed 419470, so the same cards can be dealt again.
 

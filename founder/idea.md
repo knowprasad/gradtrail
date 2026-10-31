@@ -2,11 +2,11 @@
 
 ## Working hypothesis
 
-Adapt Northstar into a self-hosted job-search workspace for Indian college students seeking internships and campus placements. It should help them discover legitimate, relevant opportunities, understand eligibility and compensation, tailor application materials from coursework and projects, and keep follow-ups organized.
+Adapt GradTrail into a self-hosted job-search workspace for Indian college students seeking internships and campus placements. It should help them discover legitimate, relevant opportunities, understand eligibility and compensation, tailor application materials from coursework and projects, and keep follow-ups organized.
 
 ## Current product reality
 
-Northstar already has profile and resume tools, job search through JSearch and Adzuna (both can return India results), FreeHire, application tracking, AI drafting, a daily agent, and optional Gmail/Calendar. Search currently centers on keywords, location/country, radius, remote, date posted, and a newly added keyword-hint seniority selector. It is a self-hosted Docker app; users bring database credentials, a long secret, and usually an AI/search provider key.
+GradTrail already has profile and resume tools, job search through JSearch and Adzuna (both can return India results), FreeHire, application tracking, AI drafting, a daily agent, and optional Gmail/Calendar. Search currently centers on keywords, location/country, radius, remote, date posted, and a newly added keyword-hint seniority selector. It is a self-hosted Docker app; users bring database credentials, a long secret, and usually an AI/search provider key.
 
 ## Product questions to resolve before implementation
 

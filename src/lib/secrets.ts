@@ -13,13 +13,13 @@ import { deriveKey, type KeyPurpose } from "@/lib/keys";
 export type SecretKind = { purpose: KeyPurpose; associatedData: string };
 
 /** The AI provider's API key (E6-2). */
-export const AI_API_KEY: SecretKind = { purpose: "api-key-encryption", associatedData: "northstar api key v1" };
+export const AI_API_KEY: SecretKind = { purpose: "api-key-encryption", associatedData: "GradTrail api key v1" };
 /** A job source's API key (E14-4). */
-export const JOB_SOURCE_KEY: SecretKind = { purpose: "job-source-key-encryption", associatedData: "northstar job source key v1" };
+export const JOB_SOURCE_KEY: SecretKind = { purpose: "job-source-key-encryption", associatedData: "GradTrail job source key v1" };
 /** The Google account's refresh token (E15-1). */
-export const GOOGLE_TOKEN: SecretKind = { purpose: "google-token-encryption", associatedData: "northstar google token v1" };
+export const GOOGLE_TOKEN: SecretKind = { purpose: "google-token-encryption", associatedData: "GradTrail google token v1" };
 /** The Google OAuth client's secret, entered in Settings → Google. */
-export const GOOGLE_CLIENT_SECRET: SecretKind = { purpose: "google-client-secret-encryption", associatedData: "northstar google client secret v1" };
+export const GOOGLE_CLIENT_SECRET: SecretKind = { purpose: "google-client-secret-encryption", associatedData: "GradTrail google client secret v1" };
 
 const VERSION = "v1";
 const IV_BYTES = 12;

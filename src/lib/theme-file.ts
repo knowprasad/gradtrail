@@ -18,7 +18,7 @@ import { THEME_STYLE_DEFAULTS, type ThemeData } from "./themes";
 // A theme as a file to share or keep (E5-7, RES-8), and the rules every saved
 // theme's look follows, from the builder or a file.
 
-export const THEME_FILE_FORMAT = "northstar-theme";
+export const THEME_FILE_FORMAT = "gradtrail-theme";
 /**
  * Bump when the file's shape changes; imports refuse versions they don't
  * know. Version 2 added the header, sidebar and date styles, 3 the photo's
@@ -26,7 +26,7 @@ export const THEME_FILE_FORMAT = "northstar-theme";
  */
 export const THEME_FILE_VERSION = 3;
 
-const font = z.enum(ThemeFont, { error: (issue) => `That theme uses a font northstar doesn't have (${String(issue.input)}).` });
+const font = z.enum(ThemeFont, { error: (issue) => `That theme uses a font GradTrail doesn't have (${String(issue.input)}).` });
 
 /** A theme's name and look, checked the same way wherever it comes from. */
 export const themeFieldsSchema = z.object({
@@ -54,7 +54,7 @@ export const themeFieldsSchema = z.object({
 export type ThemeFields = z.output<typeof themeFieldsSchema>;
 
 export const themeFileSchema = z.object({
-  format: z.literal(THEME_FILE_FORMAT),
+  format: z.union([z.literal(THEME_FILE_FORMAT), z.literal("northstar-theme")]),
   version: z.number(),
   // Version 1 files have no header, sidebar or date style, and versions 1 and 2 no photo.
   theme: themeFieldsSchema.extend({
@@ -76,20 +76,20 @@ export function themeFile(theme: ThemeData) {
   };
 }
 
-/** "Quiet green.northstar-theme.json": the name, without characters files can't have. */
+/** "Quiet green.gradtrail-theme.json": the name, without characters files can't have. */
 export function themeFileName(theme: Pick<ThemeData, "name">): string {
   const name = theme.name.replace(/[\\/:*?"<>|\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").trim() || "Theme";
-  return `${name}.northstar-theme.json`;
+  return `${name}.gradtrail-theme.json`;
 }
 
 /** A theme file's contents, checked, or why it can't be used, in plain words. */
 export function parseThemeFile(json: unknown): { ok: true; theme: ThemeFields } | { ok: false; error: string } {
   const header = json as { format?: unknown; version?: unknown } | null;
   if (typeof json !== "object" || json === null || header?.format !== THEME_FILE_FORMAT) {
-    return { ok: false, error: "That file isn't a northstar theme." };
+    return { ok: false, error: "That file isn't a GradTrail theme." };
   }
   if (typeof header.version !== "number" || header.version > THEME_FILE_VERSION) {
-    return { ok: false, error: "That theme comes from a newer version of northstar. Update this server first." };
+    return { ok: false, error: "That theme comes from a newer version of GradTrail. Update this server first." };
   }
   const parsed = themeFileSchema.safeParse(json);
   if (!parsed.success) {

@@ -63,16 +63,16 @@ describe("importExport (E10-6)", () => {
 
   it("keeps the next interview's date, and reads older files without it (E9-9)", async () => {
     const file = await asFile();
-    const at = file.applications.find((application) => application.company === "Northstar Health")!.nextInterviewAt;
+    const at = file.applications.find((application) => application.company === "GradTrail Health")!.nextInterviewAt;
     expect(at).toBeInstanceOf(Date);
     await importExport(prisma(), file);
-    expect(await prisma().application.findFirstOrThrow({ where: { company: "Northstar Health" } })).toMatchObject({ nextInterviewAt: at });
+    expect(await prisma().application.findFirstOrThrow({ where: { company: "GradTrail Health" } })).toMatchObject({ nextInterviewAt: at });
 
     const older = { ...file, applications: file.applications.map((application) => ({ ...application, nextInterviewAt: undefined })) };
     const parsed = parseExport(JSON.stringify(older));
     if (!parsed.ok) throw new Error(parsed.error);
     await importExport(prisma(), parsed.data);
-    expect(await prisma().application.findFirstOrThrow({ where: { company: "Northstar Health" } })).toMatchObject({ nextInterviewAt: null });
+    expect(await prisma().application.findFirstOrThrow({ where: { company: "GradTrail Health" } })).toMatchObject({ nextInterviewAt: null });
   });
 
   it("deletes every background job, since their inputs and results hold the data it replaces", async () => {
@@ -358,11 +358,11 @@ describe("importExport (E10-6)", () => {
 describe("parseExport (E10-6)", () => {
   it("explains what's wrong with a file", async () => {
     const good = JSON.parse(JSON.stringify(await buildExport(prisma(), { now })));
-    expect(parseExport("not json")).toEqual({ ok: false, error: "That file isn't a northstar export: it isn't JSON." });
-    expect(parseExport(JSON.stringify({ hello: "world" }))).toEqual({ ok: false, error: "That file isn't a northstar export." });
+    expect(parseExport("not json")).toEqual({ ok: false, error: "That file isn't a GradTrail export: it isn't JSON." });
+    expect(parseExport(JSON.stringify({ hello: "world" }))).toEqual({ ok: false, error: "That file isn't a GradTrail export." });
     expect(parseExport(JSON.stringify({ ...good, schemaVersion: EXPORT_SCHEMA_VERSION + 1 }))).toEqual({
       ok: false,
-      error: `That export comes from a newer version of northstar (schema ${EXPORT_SCHEMA_VERSION + 1}). Update this server first.`,
+      error: `That export comes from a newer version of GradTrail (schema ${EXPORT_SCHEMA_VERSION + 1}). Update this server first.`,
     });
     expect(parseExport(JSON.stringify({ ...good, schemaVersion: 0 }))).toMatchObject({ ok: false, error: expect.stringMatching(/isn't one this version/) });
     const damaged = { ...good, applications: [{ ...good.applications[0], status: "MAYBE" }] };

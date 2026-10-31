@@ -20,7 +20,7 @@ Other substitutes are college placement cells, alumni/senior networks, WhatsApp/
 
 ## Competitor feature baseline
 
-Buyers can already expect keyword/location search, alerts, saved jobs, resume creation, application history, and—in some products—AI matching or autofill. India-specific platforms already expose filters such as experience, job type, salary, city, mode, and internships. Northstar cannot differentiate on “has filters” alone.
+Buyers can already expect keyword/location search, alerts, saved jobs, resume creation, application history, and—in some products—AI matching or autofill. India-specific platforms already expose filters such as experience, job type, salary, city, mode, and internships. GradTrail cannot differentiate on “has filters” alone.
 
 The more promising product test is whether it can bring these together with better **eligibility clarity**, **source/freshness trust**, and **a complete student-to-first-job workflow**: projects and coursework as evidence, internships and placement stages, stipend/salary, graduation year, referral outreach, tailored applications, and reminders.
 
@@ -49,10 +49,10 @@ Axes: **opportunity discovery breadth** (niche → broad) and **application work
 - Broad discovery, limited personal application workflow: Naukri, LinkedIn.
 - Student-first opportunities and activities: Internshala, Unstop.
 - Tech/startup/referral niches: Cutshort, Wellfound, TechReferrals.
-- Strong application workflow, broad/global discovery: Simplify, Teal, current Northstar.
+- Strong application workflow, broad/global discovery: Simplify, Teal, current GradTrail.
 - Manual and trusted but fragmented: placement cells, referral groups, spreadsheets, employer sites.
 
-The map suggests a possible gap where Indian student-specific eligibility/referral discovery connects to careful resume tailoring and follow-up. This remains a hypothesis: Unstop and Internshala already cover parts of the student journey, while Northstar currently lacks a native India-focused, verified opportunity dataset and its self-hosted setup is unsuitable for many students.
+The map suggests a possible gap where Indian student-specific eligibility/referral discovery connects to careful resume tailoring and follow-up. This remains a hypothesis: Unstop and Internshala already cover parts of the student journey, while GradTrail currently lacks a native India-focused, verified opportunity dataset and its self-hosted setup is unsuitable for many students.
 
 ## Recommended gap to investigate
 
@@ -78,7 +78,7 @@ Show “not provided” rather than guessing. Flagging scam signals should not b
 
 ## Threat and strategic choice
 
-The largest threat is not one startup: incumbent job boards can add filters, AI tailoring, and tracking, while Unstop and Internshala already have student mindshare and supply. Northstar's present technical advantage is privacy and user control, but self-hosting is a major onboarding tax for the target buyer.
+The largest threat is not one startup: incumbent job boards can add filters, AI tailoring, and tracking, while Unstop and Internshala already have student mindshare and supply. GradTrail's present technical advantage is privacy and user control, but self-hosting is a major onboarding tax for the target buyer.
 
 Before building more features, choose whether the first product is a **hosted student-friendly service**, a **self-hosted tool for technical privacy-minded users**, or a hybrid. Then interview students in at least two situations (current student seeking internship/placement and fresher seeking first job) and working developers separately.
 

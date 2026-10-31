@@ -38,7 +38,7 @@ vi.mock("@/hooks/use-job", async () => {
 describe("Your data (E10-4)", () => {
   it("exports everything, the API key only when ticked", async () => {
     const user = userEvent.setup();
-    render(<DataSection jobRetentionHours={24} hasApiKey exportName="northstar-export-2026-09-28.json" backups={backups} />);
+    render(<DataSection jobRetentionHours={24} hasApiKey exportName="gradtrail-export-2026-09-28.json" backups={backups} />);
     expect(screen.getByRole("heading", { name: "Export everything" })).toBeInTheDocument();
     const exportLink = screen.getByRole("link", { name: "Export" });
     expect(exportLink).toHaveAttribute("href", "/api/export");
@@ -49,7 +49,7 @@ describe("Your data (E10-4)", () => {
   });
 
   it("doesn't offer the API key without one", () => {
-    render(<DataSection jobRetentionHours={24} hasApiKey={false} exportName="northstar-export-2026-09-28.json" backups={backups} />);
+    render(<DataSection jobRetentionHours={24} hasApiKey={false} exportName="gradtrail-export-2026-09-28.json" backups={backups} />);
     expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
   });
 });
@@ -66,10 +66,10 @@ describe("Download all PDFs (E10-5)", () => {
     expect(screen.getByRole("button", { name: "Zipping…" })).toHaveAttribute("aria-disabled", "true");
     expect(screen.getByRole("status")).toHaveTextContent("Rendered 3 of 12…");
 
-    const result = { file: "f.zip", fileName: "northstar-pdfs-2026-09-28.zip", documents: 12 };
+    const result = { file: "f.zip", fileName: "gradtrail-pdfs-2026-09-28.zip", documents: 12 };
     act(() => jobs.report?.({ id: "zip-1", type: "zip-pdfs", status: "DONE", step: null, error: null, result }));
-    expect(screen.getByRole("link", { name: "Download northstar-pdfs-2026-09-28.zip" })).toHaveAttribute("href", "/api/downloads/zip-1");
-    expect(toast).toHaveBeenLastCalledWith("northstar-pdfs-2026-09-28.zip is ready.", { action: expect.objectContaining({ label: "Download" }) });
+    expect(screen.getByRole("link", { name: "Download gradtrail-pdfs-2026-09-28.zip" })).toHaveAttribute("href", "/api/downloads/zip-1");
+    expect(toast).toHaveBeenLastCalledWith("gradtrail-pdfs-2026-09-28.zip is ready.", { action: expect.objectContaining({ label: "Download" }) });
   });
 
   it("says so when there's nothing to zip", async () => {
@@ -113,11 +113,11 @@ describe("Import (E10-6)", () => {
 
   it("shows why a file can't be imported", async () => {
     const user = userEvent.setup();
-    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ error: "That file isn't a northstar export." }, { status: 400 })));
+    vi.stubGlobal("fetch", vi.fn(async () => Response.json({ error: "That file isn't a GradTrail export." }, { status: 400 })));
     try {
       const { container } = render(<DataSection jobRetentionHours={24} hasApiKey={false} exportName="x.json" backups={backups} />);
       await user.upload(container.querySelector("input[type=file]")!, file);
-      expect(toast).toHaveBeenLastCalledWith("That file isn't a northstar export.");
+      expect(toast).toHaveBeenLastCalledWith("That file isn't a GradTrail export.");
       expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument();
     } finally {
       vi.unstubAllGlobals();

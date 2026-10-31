@@ -21,7 +21,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         <div className="flex flex-col items-start gap-2">
           <BrandMark className="size-10" />
           <div className="flex flex-col">
-            <div className="font-serif text-[30px] font-semibold tracking-[-0.04em]">Northstar</div>
+            <div className="font-serif text-[30px] font-semibold tracking-[-0.04em]">GradTrail</div>
             <div className="text-sm text-muted">Career search, with direction</div>
           </div>
         </div>

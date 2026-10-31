@@ -1,4 +1,4 @@
-# Northstar · One-page business brief
+# GradTrail · One-page business brief
 
 ## The problem
 

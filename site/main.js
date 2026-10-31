@@ -1,4 +1,4 @@
-// northstar's website: theme switch, tabs, copy buttons, scroll effects, and
+// GradTrail's website: theme switch, tabs, copy buttons, scroll effects, and
 // the star count and latest version from GitHub. The page works without it.
 
 const root = document.documentElement;

@@ -52,7 +52,7 @@ export async function googleConnection(): Promise<GoogleConnection> {
 export async function saveGoogleAccount({ email, refreshToken, scopes }: { email: string; refreshToken: string | undefined; scopes: string }) {
   const existing = await loadGoogleAccount();
   const refreshTokenEnc = refreshToken ? encryptSecret(GOOGLE_TOKEN, refreshToken) : existing?.refreshTokenEnc;
-  if (!refreshTokenEnc) throw new GoogleError("rejected", "Google didn't give northstar lasting access. Remove northstar at myaccount.google.com/permissions and connect again.");
+  if (!refreshTokenEnc) throw new GoogleError("rejected", "Google didn't give GradTrail lasting access. Remove GradTrail at myaccount.google.com/permissions and connect again.");
   // Another account replaces the old one, and its sync starts afresh.
   const sameAccount = existing?.email.toLowerCase() === email.toLowerCase();
   const merged = sameAccount ? [...new Set([...existing!.scopes.split(/\s+/), ...scopes.split(/\s+/)])].filter(Boolean).join(" ") : scopes;
@@ -86,7 +86,7 @@ export async function accessToken(group: ScopeGroup, signal?: AbortSignal): Prom
   const account = await loadGoogleAccount();
   if (!account) throw new GoogleError("not-connected", "Connect your Google account in Settings → Google first.");
   if (!hasScopes(account.scopes, group)) {
-    throw new GoogleError("scope", "northstar doesn't have that permission yet. Allow it in Settings → Google.");
+    throw new GoogleError("scope", "GradTrail doesn't have that permission yet. Allow it in Settings → Google.");
   }
   const cached = tokens.get(ACCOUNT_ID);
   if (cached && cached.expires > Date.now() + 60_000) return cached.token;
@@ -129,10 +129,10 @@ export async function googleFetch<T = unknown>(
   const path = new URL(url).pathname;
   if (response.status === 401) {
     tokens.delete(ACCOUNT_ID);
-    throw new GoogleError("revoked", "Google no longer accepts northstar's access. Connect your Google account again.", `${path}: 401`);
+    throw new GoogleError("revoked", "Google no longer accepts GradTrail's access. Connect your Google account again.", `${path}: 401`);
   }
   if (response.status === 403) throw new GoogleError("scope", "Google refused that. Check the permissions in Settings → Google.", `${path}: 403`);
-  if (response.status === 429) throw new GoogleError("quota", "Google asks northstar to slow down. Try again in a few minutes.", `${path}: 429`);
+  if (response.status === 429) throw new GoogleError("quota", "Google asks GradTrail to slow down. Try again in a few minutes.", `${path}: 429`);
   if (response.status === 404 || response.status === 410) {
     throw new GoogleError("unavailable", "Google couldn't find that. It may have been deleted.", `${path}: ${response.status}`, response.status);
   }

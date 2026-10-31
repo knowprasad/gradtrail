@@ -10,15 +10,15 @@ describe("robots.txt rules (RFC 9309, #222)", () => {
     "Allow: /private/careers",
     "",
     "User-agent: OtherBot",
-    "User-agent: northstar",
+    "User-agent: GradTrail",
     "Disallow: /team",
     "Disallow: /*.pdf$",
     "Disallow:",
     "Sitemap: https://acme.com/sitemap.xml",
   ].join("\n");
 
-  it("uses the groups naming northstar, else the ones for everyone", () => {
-    const own = parseRobots(file, "northstar");
+  it("uses the groups naming GradTrail, else the ones for everyone", () => {
+    const own = parseRobots(file, "GradTrail");
     expect(robotsAllow(own, "/team")).toBe(false);
     expect(robotsAllow(own, "/private")).toBe(true);
     const others = parseRobots(file, "somebot");
@@ -33,16 +33,16 @@ describe("robots.txt rules (RFC 9309, #222)", () => {
   });
 
   it("reads * and $ in paths", () => {
-    const rules = parseRobots(file, "northstar");
+    const rules = parseRobots(file, "GradTrail");
     expect(robotsAllow(rules, "/files/deck.pdf")).toBe(false);
     expect(robotsAllow(rules, "/files/deck.pdf?x=1")).toBe(true);
   });
 
   it("allows everything without rules, and robots.txt itself always", () => {
-    expect(robotsAllow(parseRobots("", "northstar"), "/anything")).toBe(true);
+    expect(robotsAllow(parseRobots("", "GradTrail"), "/anything")).toBe(true);
     expect(robotsAllow("all", "/x")).toBe(true);
     expect(robotsAllow("none", "/x")).toBe(false);
-    expect(robotsAllow(parseRobots("User-agent: *\nDisallow: /", "northstar"), "/robots.txt")).toBe(true);
-    expect(robotsAllow(parseRobots("User-agent: *\nDisallow: /", "northstar"), "/careers")).toBe(false);
+    expect(robotsAllow(parseRobots("User-agent: *\nDisallow: /", "GradTrail"), "/robots.txt")).toBe(true);
+    expect(robotsAllow(parseRobots("User-agent: *\nDisallow: /", "GradTrail"), "/careers")).toBe(false);
   });
 });

@@ -60,7 +60,7 @@ export const CALLBACK_MESSAGES: Record<string, string> = {
 };
 
 /**
- * Settings → Google (E15-1): connect Gmail and Calendar, choose what northstar
+ * Settings → Google (E15-1): connect Gmail and Calendar, choose what GradTrail
  * reads, and set the working hours that interview times are offered in.
  * Every field saves on its own. Nothing is ever sent without asking.
  */
@@ -113,7 +113,7 @@ export function GoogleSection({
     <>
       <SettingsSectionIntro title="Google">
         Send applications from your Gmail, see employers&apos; replies next to each application, and offer interview times from your
-        calendar. northstar always asks before it sends anything.
+        calendar. GradTrail always asks before it sends anything.
       </SettingsSectionIntro>
 
       <Card className="flex flex-col gap-4">
@@ -137,7 +137,7 @@ export function GoogleSection({
         ) : (
           <div className="flex flex-col items-start gap-3">
             <p className="text-sm text-muted">
-              You&apos;ll sign in on Google&apos;s own page and choose what northstar may do. Tokens are stored encrypted on your server and
+              You&apos;ll sign in on Google&apos;s own page and choose what GradTrail may do. Tokens are stored encrypted on your server and
               never leave it, except to talk to Google.
             </p>
             <a href="/api/google/connect" className={buttonClassName("primary", "md", "hover:text-on-primary")}>
@@ -290,7 +290,7 @@ export function GoogleSection({
         open={confirming}
         onOpenChange={setConfirming}
         title="Disconnect Google?"
-        description="northstar's access is revoked at Google. Mail already in northstar stays; nothing new comes in until you connect again."
+        description="GradTrail's access is revoked at Google. Mail already in GradTrail stays; nothing new comes in until you connect again."
         confirmLabel="Disconnect"
         onConfirm={() => void disconnect()}
       />

@@ -1,6 +1,6 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Help installing northstar
+  - name: Help installing GradTrail
     url: https://github.com/AienTech/dossier/wiki
     about: Step-by-step guides for Docker, Docker Compose, Node.js, an Ubuntu server, CapRover, Coolify and Dokploy.
   - name: Troubleshooting

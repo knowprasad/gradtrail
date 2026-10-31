@@ -179,7 +179,7 @@ describe("managing themes (E5-7)", () => {
     const createObjectURL = vi.fn(() => "blob:theme");
     Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() });
     const click = vi.spyOn(HTMLAnchorElement.prototype, "click").mockImplementation(function (this: HTMLAnchorElement) {
-      expect(this.download).toBe("Modern.northstar-theme.json");
+      expect(this.download).toBe("Modern.gradtrail-theme.json");
     });
     render(<ResumeWorkspace {...props} />);
     await user.click(screen.getByRole("button", { name: "Export Modern" }));
@@ -200,7 +200,7 @@ describe("managing themes (E5-7)", () => {
     expect(screen.getByRole("button", { name: "Shared theme, in use" })).toBeInTheDocument();
 
     await user.upload(input, new File(["{\"hello\":1}"], "other.json", { type: "application/json" }));
-    expect(toast).toHaveBeenCalledWith("That file isn't a northstar theme.");
+    expect(toast).toHaveBeenCalledWith("That file isn't a GradTrail theme.");
     expect(importTheme).toHaveBeenCalledTimes(1);
   });
 });

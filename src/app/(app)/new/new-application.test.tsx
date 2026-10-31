@@ -120,7 +120,7 @@ describe("the paste step (E7-1)", () => {
     expect(screen.getByRole("link", { name: "Choose one in Settings → AI provider" })).toHaveAttribute("href", "/settings?section=ai");
   });
 
-  it("hands the posting to a Claude chat when the connector is on and northstar has no model (#221)", async () => {
+  it("hands the posting to a Claude chat when the connector is on and GradTrail has no model (#221)", async () => {
     const tab = { closed: false, opener: {}, location: { href: "about:blank" }, close: vi.fn() };
     const open = vi.spyOn(window, "open").mockReturnValue(tab as unknown as Window);
     vi.mocked(handOffToClaude).mockResolvedValue({ ok: true, data: { url: "https://claude.ai/new?q=write" } });

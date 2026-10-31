@@ -1,7 +1,7 @@
 import { env } from "@/lib/env";
 
 /**
- * The address the browser reaches northstar at: NORTHSTAR_PUBLIC_URL, else the
+ * The address the browser reaches GradTrail at: NORTHSTAR_PUBLIC_URL, else the
  * forwarded host and protocol behind a reverse proxy, else the request's own.
  * Google's redirect and the Claude connector's addresses (#221) use it.
  */

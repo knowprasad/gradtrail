@@ -30,7 +30,7 @@ import { decryptApiKey } from "@/lib/ai/api-key";
 import { decryptSecret, JOB_SOURCE_KEY } from "@/lib/secrets";
 import { appVersion } from "@/lib/version";
 
-// Everything a user keeps in northstar as one JSON file (E10-4, SET-10): the
+// Everything a user keeps in GradTrail as one JSON file (E10-4, SET-10): the
 // profile, custom themes, settings and applications with their history,
 // documents, chat and notes, the postings kept from Find jobs (E14-9) and
 // the job agent's candidates (E16), so its dedupe survives a restore, and
@@ -39,7 +39,7 @@ import { appVersion } from "@/lib/version";
 // built-in themes, the Google account and the mail fetched from Gmail stay
 // behind: they belong to the server or the mailbox, not the user's data.
 
-export const EXPORT_FORMAT = "northstar-export";
+export const EXPORT_FORMAT = "gradtrail-export";
 /** Bump when the file's shape changes; imports refuse versions they don't know. 2 added Find jobs' postings and keys (E14-9), 3 projects (PRO-13) and the job agent (E16), 4 facts (PRO-14, APP-15), 5 publications (#218), the profile photo's theme and application options (#224) and Startups (#222), 6 the line about a role's company (#257). */
 export const EXPORT_SCHEMA_VERSION = 6;
 /** The versions imports can read. */
@@ -319,7 +319,7 @@ const postingSearch = z.object({
 
 /** An export file as read back (E10-6). */
 export const exportSchema = z.object({
-  format: z.literal(EXPORT_FORMAT),
+  format: z.union([z.literal(EXPORT_FORMAT), z.literal("northstar-export")]),
   schemaVersion: z.literal([1, 2, 3, 4, 5, 6]),
   appVersion: text,
   exportedAt: date,
@@ -354,12 +354,12 @@ export const exportSchema = z.object({
   startups: z.array(startup).default([]),
   startupBlocks: z.array(z.object({ hash: text, createdAt: date })).default([]),
 });
-export type northstarExport = z.infer<typeof exportSchema>;
+export type GradTrailExport = z.infer<typeof exportSchema>;
 
-/** "northstar-export-2026-09-28.json", dated in the server's time zone. */
+/** "gradtrail-export-2026-09-28.json", dated in the server's time zone. */
 export function exportFileName(now = new Date()): string {
   const pad = (value: number) => String(value).padStart(2, "0");
-  return `northstar-export-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.json`;
+  return `gradtrail-export-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.json`;
 }
 
 /**
@@ -372,7 +372,7 @@ export function exportFileName(now = new Date()): string {
 export async function buildExport(
   db: PrismaClient,
   { includeApiKey = false, now = new Date() }: { includeApiKey?: boolean; now?: Date } = {},
-): Promise<northstarExport> {
+): Promise<GradTrailExport> {
   return db.$transaction(async (tx) => {
     const [fields, skills, languages, experience, projects, education, publications, references, facts, themes, settings, applications, postings, searches, agentCandidates, startups, startupBlocks] = await Promise.all([
       tx.profileField.findMany({ select: { key: true, value: true }, orderBy: { key: "asc" } }),

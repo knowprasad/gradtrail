@@ -1,4 +1,4 @@
-// northstar's data model (PRD §9). After editing, run
+// GradTrail's data model (PRD §9). After editing, run
 // `docker/bin/yarn prisma migrate dev --name <name>` and `docker compose restart app`.
 //
 // Conventions:
@@ -435,7 +435,7 @@ model Application {
   /// The Gmail thread the application was sent in, when it went out through Gmail (E15-2).
   emailThreadId       String?
   /// The Google Calendar event of the next interview, and the calendar it's
-  /// in, when northstar added it: kept in step with nextInterviewAt both ways.
+  /// in, when GradTrail added it: kept in step with nextInterviewAt both ways.
   interviewEventId    String?
   interviewCalendarId String?
   /// The Find jobs posting it was started from, if any (E14-8).
@@ -817,7 +817,7 @@ model GoogleAccount {
 }
 
 enum EmailDirection {
-  /// Sent from northstar, or from Gmail in a thread northstar knows.
+  /// Sent from GradTrail, or from Gmail in a thread GradTrail knows.
   OUTGOING
   INCOMING
 }
@@ -869,7 +869,7 @@ model EmailMessage {
   /// What the draft couldn't answer from the profile (stringList).
   replyGaps       Json?
   draftedWith     String?
-  /// Answered from northstar, or marked as needing no answer.
+  /// Answered from GradTrail, or marked as needing no answer.
   handledAt       DateTime?
   /// "Not job-related": only the ids and date are kept, so the inbox check
   /// doesn't fetch it again.

@@ -1,6 +1,6 @@
-# Developing northstar
+# Developing GradTrail
 
-Next.js 16 (App Router) + Prisma 7 + PostgreSQL 18, run with Docker Compose and Yarn 4. Nothing runs on the host: every command goes through the containers. For installing and running northstar, see the [README](README.md); for how it's secured, [SECURITY.md](SECURITY.md).
+Next.js 16 (App Router) + Prisma 7 + PostgreSQL 18, run with Docker Compose and Yarn 4. Nothing runs on the host: every command goes through the containers. For installing and running GradTrail, see the [README](README.md); for how it's secured, [SECURITY.md](SECURITY.md).
 
 ## Getting started
 
@@ -123,7 +123,7 @@ Both get the session from `getSession()` in `src/lib/auth/session.ts` (see [Sign
 
 ## Sign-in
 
-northstar has one user and no accounts: you sign in with the password that `NORTHSTAR_PASSWORD` is a hash of. The session is an encrypted token (JWE, keyed from `NORTHSTAR_SECRET`) in an HttpOnly, SameSite=Lax cookie, so nothing is stored on the server. It lasts until the browser closes, but at most 24 hours; with "Keep me signed in", 30 days.
+GradTrail has one user and no accounts: you sign in with the password that `NORTHSTAR_PASSWORD` is a hash of. The session is an encrypted token (JWE, keyed from `NORTHSTAR_SECRET`) in an HttpOnly, SameSite=Lax cookie, so nothing is stored on the server. It lasts until the browser closes, but at most 24 hours; with "Keep me signed in", 30 days.
 
 The hash is argon2id with OWASP's settings (19 MiB, 2 passes, 1 lane) from Node's own `crypto.argon2`, made by `docker/bin/yarn hash-password` (`scripts/hash-password.ts`, which the image bundles as the `hash-password` command). Checking a password against it is in `src/lib/auth/password-hash.ts`, and `src/lib/env.ts` refuses anything that isn't a hash. It's written as `argon2id:m=19456,t=2,p=1:<salt>:<hash>` rather than the usual `$argon2id$v=19$…`, because Next.js and Docker Compose expand `$` in `.env` files, even inside quotes. The settings are part of each hash, so stronger ones can come later without breaking existing hashes.
 
@@ -131,11 +131,11 @@ Sign out from the sidebar ends the session in that browser. To sign out everywhe
 
 In server code, `getSession()` returns the session or null, and `verifySession()` (for pages and layouts) sends the visitor to `/login` when there is none. `action()` and `route()` already check it.
 
-Failed sign-ins are rate-limited in Postgres: after 5 failures within a minute from one IP, attempts are refused for 30 seconds, then 60, 120 and so on up to 15 minutes. The IP is the last `X-Forwarded-For` entry, which is the real client behind a reverse proxy but can be faked when the app is exposed directly, so 30 failures within 10 minutes from all IPs together also trigger the backoff. If you lock yourself out while developing, clear the counters with `docker compose exec db psql -U postgres -d northstar -c 'DELETE FROM "LoginThrottle"'`.
+Failed sign-ins are rate-limited in Postgres: after 5 failures within a minute from one IP, attempts are refused for 30 seconds, then 60, 120 and so on up to 15 minutes. The IP is the last `X-Forwarded-For` entry, which is the real client behind a reverse proxy but can be faked when the app is exposed directly, so 30 failures within 10 minutes from all IPs together also trigger the backoff. If you lock yourself out while developing, clear the counters with `docker compose exec db psql -U postgres -d GradTrail -c 'DELETE FROM "LoginThrottle"'`.
 
 ## AI provider
 
-northstar reads job postings and writes drafts with the model you choose in Settings → AI provider: a local model through Ollama or llama.cpp, LM Studio, any OpenAI-compatible server, Anthropic or Mistral. Until you save a choice there, the `NORTHSTAR_AI_*` variables decide (see `.env.example`). API keys are stored encrypted with a key derived from `NORTHSTAR_SECRET`, and never sent back to the browser.
+GradTrail reads job postings and writes drafts with the model you choose in Settings → AI provider: a local model through Ollama or llama.cpp, LM Studio, any OpenAI-compatible server, Anthropic or Mistral. Until you save a choice there, the `NORTHSTAR_AI_*` variables decide (see `.env.example`). API keys are stored encrypted with a key derived from `NORTHSTAR_SECRET`, and never sent back to the browser.
 
 Long AI tasks run as background jobs (`src/lib/jobs`): the page follows their named steps as they happen and picks them up again after a reload. A job's input and result hold personal data, so they don't last: a job that works on an application names it (`startJob(…, { applicationId })`) and is deleted with it, and finished jobs are deleted once they're older than **Keep task data for** in Settings → Your data (`src/lib/jobs/retention.ts`). Keep nothing in a job that has to outlast that; Undo on a toast and a page reattaching after a reload are fine. The prompts live in `src/lib/ai/tasks`; in strict mode ("Never invent experience", on by default) a fact guard flags names and numbers that aren't in the profile or the posting.
 
@@ -241,8 +241,8 @@ The run starts its own server on port 3100 with a separate `northstar_e2e` datab
 The `Dockerfile`'s last stage is the production image (the `dev` stage is what Compose runs here). It holds the standalone Next.js server, Playwright's Chromium for PDFs, and Prisma's CLI for migrations, runs as `node`, and starts with `docker/start.sh`: `prisma migrate deploy`, the seed (compiled with esbuild at build time), then the server. To build and try it next to the development stack:
 
 ```bash
-docker build -t northstar:local .
-NORTHSTAR_IMAGE=northstar:local NORTHSTAR_PORT=3300 docker compose -f compose.production.yml -p northstar-local up -d
+docker build -t gradtrail:local .
+NORTHSTAR_IMAGE=gradtrail:local NORTHSTAR_PORT=3300 docker compose -f compose.production.yml -p gradtrail-local up -d
 ```
 
 CI pushes an image for every commit on `main` to `ghcr.io/<owner>/<repository>:<sha>` (lower case), once the checks and the end-to-end tests pass, on `main` or in the commit's pull request. A version tag (`v1.0.0`) then tags that commit's image with the version and `latest`.

@@ -9,7 +9,7 @@ describe("theme files (E5-7)", () => {
   it("exports the look without ids, and reads it back", () => {
     const file = themeFile({ ...editorial, name: "Quiet green", accent: "#1F6F5C" });
     expect(file).toEqual({
-      format: "northstar-theme",
+      format: "gradtrail-theme",
       version: 3,
       theme: expect.not.objectContaining({ id: expect.anything() }),
     });
@@ -50,19 +50,19 @@ describe("theme files (E5-7)", () => {
 
   it("refuses other files, newer versions, unknown fonts and bad colors, in plain words", () => {
     const file = themeFile(editorial);
-    expect(parseThemeFile({ hello: "world" })).toEqual({ ok: false, error: "That file isn't a northstar theme." });
-    expect(parseThemeFile(null)).toEqual({ ok: false, error: "That file isn't a northstar theme." });
-    expect(parseThemeFile({ ...file, version: 4 })).toEqual({ ok: false, error: "That theme comes from a newer version of northstar. Update this server first." });
+    expect(parseThemeFile({ hello: "world" })).toEqual({ ok: false, error: "That file isn't a GradTrail theme." });
+    expect(parseThemeFile(null)).toEqual({ ok: false, error: "That file isn't a GradTrail theme." });
+    expect(parseThemeFile({ ...file, version: 4 })).toEqual({ ok: false, error: "That theme comes from a newer version of GradTrail. Update this server first." });
     expect(parseThemeFile({ ...file, theme: { ...file.theme, headFont: "COMIC_SANS" } })).toEqual({
       ok: false,
-      error: "That theme uses a font northstar doesn't have (COMIC_SANS).",
+      error: "That theme uses a font GradTrail doesn't have (COMIC_SANS).",
     });
     expect(parseThemeFile({ ...file, theme: { ...file.theme, accent: "green" } })).toEqual({ ok: false, error: "That theme file is damaged (theme.accent)." });
   });
 
   it("names the file after the theme, safely", () => {
-    expect(themeFileName({ name: "Quiet green" })).toBe("Quiet green.northstar-theme.json");
-    expect(themeFileName({ name: 'A/B: "best"' })).toBe("A B best.northstar-theme.json");
-    expect(themeFileName({ name: "   " })).toBe("Theme.northstar-theme.json");
+    expect(themeFileName({ name: "Quiet green" })).toBe("Quiet green.gradtrail-theme.json");
+    expect(themeFileName({ name: 'A/B: "best"' })).toBe("A B best.gradtrail-theme.json");
+    expect(themeFileName({ name: "   " })).toBe("Theme.gradtrail-theme.json");
   });
 });

@@ -30,7 +30,7 @@ afterEach(() => {
 
 function renderSidebar(initialCollapsed = false) {
   return render(
-    <SidebarFrame initialCollapsed={initialCollapsed} brand={<span>northstar</span>}>
+    <SidebarFrame initialCollapsed={initialCollapsed} brand={<span>GradTrail</span>}>
       <NavLinks />
       <ThemeToggle />
     </SidebarFrame>,

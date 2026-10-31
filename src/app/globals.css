@@ -13,7 +13,7 @@
    * meets WCAG AA (4.5:1) on every surface in both schemes.
    */
 
-  /* Northstar's dark field: near-black surfaces, bright route-green, clear type. */
+  /* GradTrail's dark field: near-black surfaces, bright route-green, clear type. */
   --color-paper: light-dark(#eef2ef, #070808); /* shell around the panel, side columns, disabled fields */
   --color-sidebar: light-dark(#edf1ee, #090b0a);
   --color-surface: light-dark(#fafcfb, #0b0d0c); /* the panel each screen sits in */

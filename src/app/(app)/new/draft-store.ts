@@ -3,7 +3,8 @@
 // job runs; closing the tab or "+ New application" clears it. Nothing goes to
 // the server until the application is created.
 
-const KEY = "northstar:new-application";
+const KEY = "GradTrail:new-application";
+const LEGACY_KEY = "northstar:new-application";
 /** Bump when the draft's shape changes, so an old one is dropped rather than misread. */
 const VERSION = 1;
 
@@ -23,7 +24,14 @@ export function createDraftStore<T>(key = KEY): DraftStore<T> {
 
   const read = (): string | null => {
     try {
-      return window.sessionStorage.getItem(key);
+      const current = window.sessionStorage.getItem(key);
+      if (current !== null || key !== KEY) return current;
+      const legacy = window.sessionStorage.getItem(LEGACY_KEY);
+      if (legacy !== null) {
+        window.sessionStorage.setItem(key, legacy);
+        window.sessionStorage.removeItem(LEGACY_KEY);
+      }
+      return legacy;
     } catch {
       // Storage blocked: the draft lives only as long as the page.
       return cache?.raw ?? null;

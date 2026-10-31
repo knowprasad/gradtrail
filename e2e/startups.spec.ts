@@ -44,7 +44,7 @@ test("finds hiring startups with the addresses they publish, and leaves alone wh
   await expect(quiet.getByRole("note")).toContainText("We do not accept unsolicited applications.");
   await expect(quiet.getByRole("link", { name: "Write to them" })).toHaveCount(0);
 
-  // Tulipworks' robots.txt keeps northstar out, and every request says what it is.
+  // Tulipworks' robots.txt keeps GradTrail out, and every request says what it is.
   const requests = await fakeStartupRequests();
   expect(requests.filter((request) => request.url.includes("tulipworks")).map((request) => request.url)).toEqual(["https://tulipworks.example/robots.txt"]);
   expect(requests.every((request) => /northstar\/[\w.-]+; \+https:\/\/github\.com\/AienTech\/northstar\/blob\/main\/PRIVACY\.md#startups/.test(request.userAgent))).toBe(true);

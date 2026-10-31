@@ -1,5 +1,5 @@
 name: Feature request
-description: An idea for something northstar could do, or do better.
+description: An idea for something GradTrail could do, or do better.
 labels: ["enhancement"]
 body:
   - type: markdown
@@ -7,7 +7,7 @@ body:
       value: |
         Thanks for the idea. Please search the [open and closed issues](https://github.com/knowprasad/northstar-india/issues?q=is%3Aissue) first. If someone has asked for it already, a thumbs-up or a comment there helps more than a new issue.
 
-        Northstar is made for one person on a small server. [Known limitations](https://github.com/knowprasad/northstar-india/blob/main/README.md#known-limitations) in the README lists what that leaves out for now.
+        GradTrail is made for one person on a small server. [Known limitations](https://github.com/knowprasad/northstar-india/blob/main/README.md#known-limitations) in the README lists what that leaves out for now.
 
   - type: textarea
     id: problem
@@ -20,7 +20,7 @@ body:
   - type: textarea
     id: idea
     attributes:
-      label: What would you like northstar to do?
+      label: What would you like GradTrail to do?
       description: How you picture it working. Sketches, and screenshots of other apps that do it well, are welcome.
     validations:
       required: true
@@ -29,7 +29,7 @@ body:
     id: today
     attributes:
       label: How do you manage without it today?
-      description: What you do instead, in northstar or outside it, if anything.
+      description: What you do instead, in GradTrail or outside it, if anything.
 
   - type: textarea
     id: more

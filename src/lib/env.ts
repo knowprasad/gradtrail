@@ -72,7 +72,7 @@ const schema = z.object({
         error: "NORTHSTAR_BACKUP_RETENTION_DAYS must be at least 1.",
       }),
     ),
-  // The daily usage ping (usage-ping.ts): unset, northstar asks after
+  // The daily usage ping (usage-ping.ts): unset, GradTrail asks after
   // sign-in and sends nothing before a yes; on or off answers for good.
   NORTHSTAR_TELEMETRY: optional(
     z
@@ -142,7 +142,7 @@ const schema = z.object({
   // Never echo the secret.
   NORTHSTAR_GOOGLE_CLIENT_ID: optional(z.string().trim()),
   NORTHSTAR_GOOGLE_CLIENT_SECRET: optional(z.string().trim()),
-  // The address northstar is reached at, e.g. https://northstar.example.com, for
+  // The address GradTrail is reached at, e.g. https://gradtrail.example.com, for
   // Google's redirect. Defaults to the address of the request that connects.
   NORTHSTAR_PUBLIC_URL: optional(
     z.url({ protocol: /^https?$/, error: "NORTHSTAR_PUBLIC_URL must be an http:// or https:// URL." }).transform((url) => url.replace(/\/+$/, "")),
@@ -220,7 +220,7 @@ export function checkEnvOnStartup(): void {
   } catch (error) {
     if (!(error instanceof EnvError)) throw error;
     for (const problem of error.problems) {
-      console.error(`northstar can't start: ${problem}`);
+      console.error(`GradTrail can't start: ${problem}`);
     }
     process.exit(1);
   }

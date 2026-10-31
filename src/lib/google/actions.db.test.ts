@@ -232,7 +232,7 @@ describe("Settings → Google (E15-1)", () => {
     expect(await disconnectGoogleAccount({})).toMatchObject({ ok: true, toast: "Disconnected from Google." });
     expect(calls.find((call) => call.url.includes("/revoke"))?.body).toBe("token=refresh");
     expect(await googleConnection()).toEqual({ status: "disconnected" });
-    // Mail already in northstar stays.
+    // Mail already in GradTrail stays.
     expect(await prisma().emailMessage.count()).toBe(3);
   });
 });

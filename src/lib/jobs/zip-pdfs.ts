@@ -24,8 +24,8 @@ export const downloadsDir = () => path.join(env.NORTHSTAR_DATA_DIR, "downloads")
 const KEEP_MS = 60 * 60 * 1000;
 
 const pad = (value: number) => String(value).padStart(2, "0");
-/** "northstar-pdfs-2026-09-28.zip" */
-export const zipFileName = (now: Date) => `northstar-pdfs-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.zip`;
+/** "gradtrail-pdfs-2026-09-28.zip" */
+export const zipFileName = (now: Date) => `gradtrail-pdfs-${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}.zip`;
 
 /** A company as a folder name: no characters a file system refuses. */
 function folderName(company: string): string {

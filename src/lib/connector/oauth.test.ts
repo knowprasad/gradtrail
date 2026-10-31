@@ -24,7 +24,7 @@ const VERIFIER = "v".repeat(50);
 
 async function signIn(redirectUri = CLAUDE) {
   const clientId = await registerClient({ name: "Claude", redirectUris: [redirectUri] });
-  const code = await issueCode({ clientId, redirectUri, codeChallenge: challengeOf(VERIFIER), resource: "https://northstar.example/api/mcp" });
+  const code = await issueCode({ clientId, redirectUri, codeChallenge: challengeOf(VERIFIER), resource: "https://gradtrail.example/api/mcp" });
   return { clientId, code };
 }
 
@@ -58,7 +58,7 @@ describe("the Claude connector's sign-in (#221)", () => {
   it("trades a code for tokens with the PKCE verifier, and refreshes them", async () => {
     const { clientId, code } = await signIn();
     const tokens = await exchangeCode({ code, clientId, redirectUri: CLAUDE, verifier: VERIFIER });
-    expect(tokens).toMatchObject({ token_type: "Bearer", expires_in: 3600, scope: "northstar" });
+    expect(tokens).toMatchObject({ token_type: "Bearer", expires_in: 3600, scope: "GradTrail" });
     expect(await verifyAccessToken(tokens.access_token)).toEqual({ clientId });
     // A refresh token isn't an access token.
     expect(await verifyAccessToken(tokens.refresh_token)).toBeNull();
@@ -104,17 +104,17 @@ describe("the Claude connector's sign-in (#221)", () => {
   });
 
   it("describes itself at the addresses Claude looks for", () => {
-    expect(authorizationServerMetadata("https://northstar.example")).toMatchObject({
-      issuer: "https://northstar.example",
-      authorization_endpoint: "https://northstar.example/oauth/authorize",
-      token_endpoint: "https://northstar.example/api/oauth/token",
-      registration_endpoint: "https://northstar.example/api/oauth/register",
+    expect(authorizationServerMetadata("https://gradtrail.example")).toMatchObject({
+      issuer: "https://gradtrail.example",
+      authorization_endpoint: "https://gradtrail.example/oauth/authorize",
+      token_endpoint: "https://gradtrail.example/api/oauth/token",
+      registration_endpoint: "https://gradtrail.example/api/oauth/register",
       code_challenge_methods_supported: ["S256"],
       token_endpoint_auth_methods_supported: ["none"],
     });
-    expect(protectedResourceMetadata("https://northstar.example")).toMatchObject({
-      resource: "https://northstar.example/api/mcp",
-      authorization_servers: ["https://northstar.example"],
+    expect(protectedResourceMetadata("https://gradtrail.example")).toMatchObject({
+      resource: "https://gradtrail.example/api/mcp",
+      authorization_servers: ["https://gradtrail.example"],
     });
   });
 });

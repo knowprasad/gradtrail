@@ -48,7 +48,7 @@ export function Sidebar({
         <>
           <BrandMark />
           <div className="flex min-w-0 flex-col group-data-collapsed/sidebar:hidden">
-            <span className="font-serif text-[22px] leading-none font-semibold tracking-[-0.04em]">Northstar</span>
+            <span className="font-serif text-[22px] leading-none font-semibold tracking-[-0.04em]">GradTrail</span>
             <span className="truncate pt-1 text-xs text-muted">Career search, with direction</span>
           </div>
         </>

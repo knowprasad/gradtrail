@@ -29,7 +29,7 @@ describe("buildExport (E10-4)", () => {
     const data = await buildExport(prisma(), { now });
     const file = exportSchema.parse(JSON.parse(JSON.stringify(data)));
 
-    expect(file).toMatchObject({ format: "northstar-export", schemaVersion: EXPORT_SCHEMA_VERSION, exportedAt: now });
+    expect(file).toMatchObject({ format: "gradtrail-export", schemaVersion: EXPORT_SCHEMA_VERSION, exportedAt: now });
     expect(file.profile.skills.length).toBe(await prisma().skill.count());
     expect(file.profile.experience.flatMap((entry) => entry.skillIds).length).toBe(await prisma().experienceSkill.count());
     // Projects with their skills (PRO-13).
@@ -99,7 +99,7 @@ describe("buildExport (E10-4)", () => {
   });
 
   it("names the file after the day", () => {
-    expect(exportFileName(new Date(2026, 8, 7, 23))).toBe("northstar-export-2026-09-07.json");
+    expect(exportFileName(new Date(2026, 8, 7, 23))).toBe("gradtrail-export-2026-09-07.json");
   });
 
   it("refuses files it doesn't know", () => {

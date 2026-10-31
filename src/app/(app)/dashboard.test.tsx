@@ -91,8 +91,8 @@ describe("the dashboard (E9-7)", () => {
 
   it("flags an interview today or tomorrow (E9-9)", () => {
     const interview = {
-      id: "northstar",
-      company: "Northstar Health",
+      id: "GradTrail",
+      company: "GradTrail Health",
       role: "Lead Product Designer",
       status: "INTERVIEW" as const,
       reason: "Interview tomorrow at 14:00. Worth re-reading your tailored letter first.",
@@ -101,7 +101,7 @@ describe("the dashboard (E9-7)", () => {
     };
     render(<Dashboard {...props} figures={{ ...figures, attention: [interview, ...figures.attention] }} />);
     const [first, second] = within(screen.getByRole("region", { name: "Worth a look" })).getAllByRole("link");
-    expect(first).toHaveTextContent("Northstar Health, Lead Product DesignerSoonInterview tomorrow at 14:00.");
+    expect(first).toHaveTextContent("GradTrail Health, Lead Product DesignerSoonInterview tomorrow at 14:00.");
     expect(second).not.toHaveTextContent("Soon");
   });
 
@@ -136,7 +136,7 @@ describe("the dashboard (E9-7)", () => {
 
   it("welcomes a new user", () => {
     render(<Dashboard {...props} empty figures={{ ...figures, sent: 0 }} />);
-    expect(screen.getByRole("heading", { name: "Welcome to northstar" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Welcome to GradTrail" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Fill in your profile" })).toHaveAttribute("href", "/profile");
     expect(screen.queryByRole("region", { name: "Your funnel" })).not.toBeInTheDocument();
   });

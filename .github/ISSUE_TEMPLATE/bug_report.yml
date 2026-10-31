@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in northstar doesn't work the way it should.
+description: Something in GradTrail doesn't work the way it should.
 labels: ["bug"]
 body:
   - type: markdown
@@ -17,7 +17,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: What you did, and what northstar did. Copy any error message word for word.
+      description: What you did, and what GradTrail did. Copy any error message word for word.
       placeholder: When I press Download PDF on an application, the page says …
     validations:
       required: true
@@ -43,7 +43,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: northstar version
+      label: GradTrail version
       description: Settings → About shows it.
       placeholder: "1.7.0"
     validations:
@@ -52,7 +52,7 @@ body:
   - type: dropdown
     id: install
     attributes:
-      label: How do you run northstar?
+      label: How do you run GradTrail?
       options:
         - Docker Compose, as in the README
         - docker run

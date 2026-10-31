@@ -42,7 +42,7 @@ describe("loadDashboard against the demo seed (E9-6)", () => {
   it("lists tomorrow's interview, the offer, the drafts and the quiet one", async () => {
     const figures = await loadDashboard({ timeZone: "Europe/Amsterdam" }, now);
     expect(figures.attention.map((item) => `${item.company}: ${item.reason}`)).toEqual([
-      "Northstar Health: Interview tomorrow at 14:00. Worth re-reading your tailored letter first.",
+      "GradTrail Health: Interview tomorrow at 14:00. Worth re-reading your tailored letter first.",
       "Oaken Studio: An offer is waiting on your decision.",
       "Brightline Transit: Still a draft, and applications close 3 Oct.",
       "Ledgerly: Still a draft, and applications close 15 Oct.",

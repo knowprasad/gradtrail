@@ -132,7 +132,7 @@ test.describe("the dashboard's calendar", () => {
 
   test("beside the cards", async ({ page }) => {
     await connectFakeGoogle(page);
-    const [northstar] = await sql<{ nextInterviewAt: Date }>(`SELECT "nextInterviewAt" FROM "Application" WHERE company = 'Northstar Health'`);
+    const [GradTrail] = await sql<{ nextInterviewAt: Date }>(`SELECT "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
     await page.goto("/");
     // The week of the demo's interview, in the browser's zone; times as ISO moments.
     const week = await page.evaluate((iso) => {
@@ -151,7 +151,7 @@ test.describe("the dashboard's calendar", () => {
     await inFakeCalendar("POST", undefined, { summary: "Weekend in Utrecht", start: { date: week.trip[0] }, end: { date: week.trip[1] } });
 
     await page.goto("/");
-    await expect(page.getByRole("region", { name: "Calendar" }).getByRole("link", { name: /Interview · Lead Product Designer · Northstar Health/ })).toBeVisible();
+    await expect(page.getByRole("region", { name: "Calendar" }).getByRole("link", { name: /Interview · Lead Product Designer · GradTrail Health/ })).toBeVisible();
     await shot(page, "calendar");
     await forgetGoogle();
   });
