@@ -2,10 +2,10 @@
 // notice (update-check.ts, the sidebar). Safe to use in the browser.
 
 export const RELEASES_REPOSITORY = "AienTech/northstar";
-/** The repository's page, for credits and support (the sidebar). */
-export const REPOSITORY_URL = `https://github.com/${RELEASES_REPOSITORY}`;
-/** How to update, in the wiki. */
-export const UPGRADE_GUIDE_URL = `${REPOSITORY_URL}/wiki/Upgrading`;
+/** This adaptation's repository, opened from the sidebar. */
+export const REPOSITORY_URL = "https://github.com/knowprasad/northstar-india";
+/** How to update the upstream Northstar distribution, in its wiki. */
+export const UPGRADE_GUIDE_URL = `https://github.com/${RELEASES_REPOSITORY}/wiki/Upgrading`;
 
 /** A published release: its version, without the "v", and its page on GitHub. */
 export type Release = { version: string; url: string };

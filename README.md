@@ -2,11 +2,13 @@
   <img src="src/app/icon.svg" alt="" width="80" height="80">
 </p>
 
-<h1 align="center">northstar</h1>
+<h1 align="center">Northstar India</h1>
 
 <p align="center">
-  Your job search, on your own server: one profile, a tailored resume and cover letter for every job, and every application tracked from draft to offer.
+  An India-focused job search workspace for students and early-career developers.
 </p>
+
+This project builds on the open-source [Northstar by AienTech](https://github.com/AienTech/northstar) codebase, licensed under AGPL-3.0. Northstar India adapts its job search and application tools for Indian students, internships and first roles. The interface's dark, dotted visual direction and vivid green accents take inspiration from [Off Grid AI](https://getoffgridai.co/) as a design reference.
 
 <p align="center">
   <a href="https://github.com/AienTech/northstar/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/AienTech/northstar?label=release"></a>

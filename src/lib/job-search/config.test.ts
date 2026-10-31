@@ -56,6 +56,7 @@ describe("resolveJobSearchConfig", () => {
       jsearchHost: "openwebninja" as const,
       adzunaAppId: "app-saved",
       adzunaKeyEnc: encryptSecret(JOB_SOURCE_KEY, "adz-saved"),
+      joobleKeyEnc: null,
       arbeitsagenturAcceptedAt: null,
     };
     const config = resolveJobSearchConfig(saved, { NORTHSTAR_JOBS_SOURCE: "jsearch", NORTHSTAR_JSEARCH_KEY: "ak_env", NORTHSTAR_JSEARCH_HOST: "rapidapi" });

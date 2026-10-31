@@ -13,53 +13,53 @@
    * meets WCAG AA (4.5:1) on every surface in both schemes.
    */
 
-  /* Surfaces: a beige shell, like the sidebar, around the screen's panel. */
-  --color-paper: light-dark(#eeebe4, #1a1917); /* shell around the panel, side columns, disabled fields */
-  --color-sidebar: light-dark(#eeebe4, #1a1917);
-  --color-surface: light-dark(#f4f2ed, #22201d); /* the panel each screen sits in */
-  --color-card: light-dark(#fbfaf7, #2a2825);
-  --color-canvas: light-dark(#e8e5de, #141311); /* behind document previews */
-  --color-input: light-dark(#ffffff, #1e1c1a); /* inputs */
+  /* Northstar's dark field: near-black surfaces, bright route-green, clear type. */
+  --color-paper: light-dark(#eef2ef, #070808); /* shell around the panel, side columns, disabled fields */
+  --color-sidebar: light-dark(#edf1ee, #090b0a);
+  --color-surface: light-dark(#fafcfb, #0b0d0c); /* the panel each screen sits in */
+  --color-card: light-dark(#ffffff, #111413);
+  --color-canvas: light-dark(#e7ece8, #070908); /* behind document previews */
+  --color-input: light-dark(#ffffff, #080a09); /* inputs */
 
   /* Text */
-  --color-ink: light-dark(#1d1c1a, #f0ede7);
-  --color-document: light-dark(#2b2a27, #e5e1d9); /* posting text, set like a document */
+  --color-ink: light-dark(#19352d, #f1f5f2);
+  --color-document: light-dark(#283b33, #e4ebe6); /* posting text, set like a document */
   /* Secondary text: hints, labels, metadata. It passes on every surface
      and on the hover tints, but not on a selected item over the shell
      (4.3:1 in the light scheme): use ink there. */
-  --color-muted: light-dark(#69655d, #aaa59c);
+  --color-muted: light-dark(#5f7068, #a3aea8);
   /* Disabled and decorative only: never for text people need to read. */
-  --color-faint: light-dark(#a29d94, #6e6961);
+  --color-faint: light-dark(#8b9992, #727d77);
 
   /* Primary actions: near-black, and near-white in the dark scheme, with
      on-primary text at 4.5:1 or more. primary-text is for text and icons
      marking a choice, e.g. a selected chip's label. */
-  --color-primary: light-dark(#222222, #ebe7df);
-  --color-primary-hover: light-dark(#3a3936, #ffffff);
-  --color-on-primary: light-dark(#fbfaf7, #1d1c1a);
-  --color-primary-text: light-dark(#1d1c1a, #f0ede7);
+  --color-primary: light-dark(#087a58, #2ce4a0);
+  --color-primary-hover: light-dark(#056447, #54f0b1);
+  --color-on-primary: light-dark(#ffffff, #05251a);
+  --color-primary-text: light-dark(#08714f, #4aefad);
   /* Focus rings: 3:1 against every surface. */
-  --color-focus: light-dark(#1d1c1a, #f0ede7);
+  --color-focus: light-dark(#087a58, #57f2b4);
 
   /* Toasts and tooltips: a dark chip, a little raised in the dark scheme. */
-  --color-inverse: light-dark(#222222, #3b3834);
-  --color-on-inverse: light-dark(#fbfaf7, #f0ede7);
+  --color-inverse: light-dark(#15372b, #243b30);
+  --color-on-inverse: light-dark(#ffffff, #f2f6f3);
 
   /* Lines */
-  --color-line: light-dark(rgb(29 28 26 / 0.08), rgb(240 237 231 / 0.07)); /* dividers */
-  --color-line-card: light-dark(rgb(29 28 26 / 0.1), rgb(240 237 231 / 0.1));
-  --color-line-field: light-dark(rgb(29 28 26 / 0.14), rgb(240 237 231 / 0.14)); /* chips and other controls named by their text */
+  --color-line: light-dark(rgb(25 53 43 / 0.09), rgb(242 246 243 / 0.1)); /* dividers */
+  --color-line-card: light-dark(rgb(25 53 43 / 0.12), rgb(242 246 243 / 0.13));
+  --color-line-field: light-dark(rgb(25 53 43 / 0.17), rgb(242 246 243 / 0.2)); /* chips and other controls named by their text */
   /* Text fields, whose border is what shows they're fields: 3:1 on every surface (E11-3, WCAG 1.4.11). */
-  --color-line-input: light-dark(rgb(29 28 26 / 0.5), rgb(240 237 231 / 0.42));
-  --color-line-control: light-dark(rgb(29 28 26 / 0.16), rgb(240 237 231 / 0.14)); /* secondary buttons */
-  --color-line-popover: light-dark(rgb(29 28 26 / 0.12), rgb(240 237 231 / 0.12)); /* menus */
-  --color-line-strong: light-dark(rgb(29 28 26 / 0.2), rgb(240 237 231 / 0.24)); /* upcoming steps */
+  --color-line-input: light-dark(rgb(25 53 43 / 0.5), rgb(242 246 243 / 0.48));
+  --color-line-control: light-dark(rgb(25 53 43 / 0.17), rgb(242 246 243 / 0.2)); /* secondary buttons */
+  --color-line-popover: light-dark(rgb(25 53 43 / 0.13), rgb(242 246 243 / 0.15)); /* menus */
+  --color-line-strong: light-dark(rgb(25 53 43 / 0.23), rgb(242 246 243 / 0.28)); /* upcoming steps */
 
   /* Tints for hover, selection and tracks */
-  --color-hover: light-dark(rgb(29 28 26 / 0.05), rgb(240 237 231 / 0.07));
-  --color-selected: light-dark(rgb(29 28 26 / 0.07), rgb(240 237 231 / 0.1));
-  --color-track: light-dark(rgb(29 28 26 / 0.06), rgb(240 237 231 / 0.08));
-  --color-toggle-off: light-dark(rgb(29 28 26 / 0.5), rgb(240 237 231 / 0.42)); /* 3:1, like text fields */
+  --color-hover: light-dark(rgb(8 122 88 / 0.06), rgb(242 246 243 / 0.07));
+  --color-selected: light-dark(rgb(8 122 88 / 0.1), rgb(44 228 160 / 0.13));
+  --color-track: light-dark(rgb(25 53 43 / 0.07), rgb(242 246 243 / 0.09));
+  --color-toggle-off: light-dark(rgb(25 53 43 / 0.5), rgb(242 246 243 / 0.48)); /* 3:1, like text fields */
 
   /* Feedback. error and danger are for text; danger-fill is behind white text. */
   --color-danger: light-dark(#9a4a3a, #f87171); /* remove / destructive text */
@@ -88,18 +88,18 @@
   --color-status-declined: light-dark(#6f6a62, #958f86);
 
   /* Radii */
-  --radius-control: 8px; /* buttons, inputs, nav items */
+  --radius-control: 10px; /* buttons, inputs, nav items */
   --radius-toast: 12px;
-  --radius-card: 12px;
-  --radius-panel: 12px; /* large cards and panels */
-  --radius-dialog: 16px;
+  --radius-card: 16px;
+  --radius-panel: 18px; /* large cards and panels */
+  --radius-dialog: 20px;
 
   /* Shadows: warm in the light scheme, deeper in the dark one, where a faint one wouldn't show. */
-  --shadow-page: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 40px light-dark(rgb(40 35 25 / 0.1), rgb(0 0 0 / 0.5));
+  --shadow-page: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 40px light-dark(rgb(20 60 47 / 0.1), rgb(0 0 0 / 0.5));
   --shadow-dialog: 0 8px 32px light-dark(rgb(40 35 25 / 0.16), rgb(0 0 0 / 0.5));
   --shadow-raised: 0 1px 2px light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5)); /* selected segment */
-  --shadow-control: 0 1px 3px light-dark(rgb(40 35 25 / 0.08), rgb(0 0 0 / 0.3)); /* fields and secondary buttons */
-  --shadow-cta: 0 1px 3px light-dark(rgb(40 35 25 / 0.14), rgb(0 0 0 / 0.4));
+  --shadow-control: 0 1px 3px light-dark(rgb(20 60 47 / 0.08), rgb(0 0 0 / 0.3)); /* fields and secondary buttons */
+  --shadow-cta: 0 1px 3px light-dark(rgb(8 78 62 / 0.2), rgb(0 0 0 / 0.4));
   --shadow-knob: 0 1px 2px rgb(0 0 0 / 0.2);
   --shadow-menu: 0 8px 32px light-dark(rgb(40 35 25 / 0.16), rgb(0 0 0 / 0.55));
   --shadow-toolbar: 0 4px 14px light-dark(rgb(0 0 0 / 0.16), rgb(0 0 0 / 0.5));
@@ -121,9 +121,9 @@
   --text-section--line-height: 1.2;
   --text-section--letter-spacing: -0.01em;
   --text-section--font-weight: 500;
-  --text-title: 40px; /* page titles (serif) */
-  --text-title--line-height: 1.1;
-  --text-title--letter-spacing: -0.015em;
+  --text-title: 48px; /* page titles */
+  --text-title--line-height: 1.02;
+  --text-title--letter-spacing: -0.045em;
   --text-title--font-weight: 400;
 
   /* Motion. Use with motion-safe: so reduced-motion users don't get it. */
@@ -159,8 +159,8 @@
 
 /* Fonts come from next/font (src/fonts), which sets the --typeface-* variables at runtime. */
 @theme inline {
-  --font-sans: var(--typeface-geist);
-  --font-serif: var(--typeface-newsreader);
+  --font-sans: var(--typeface-plex-sans);
+  --font-serif: var(--typeface-space-grotesk);
   --font-mono: var(--typeface-plex-mono);
   --font-plex-sans: var(--typeface-plex-sans);
   --font-garamond: var(--typeface-eb-garamond);
@@ -215,6 +215,33 @@
   [role="button"]:not([aria-disabled="true"]) {
     cursor: pointer;
   }
+}
+
+/* Fine-grain wayfinding dots, visible only in the breathing room around panels. */
+.wayfinder-dots {
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 20%, transparent) 0.8px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.login-field {
+  color: #f1f5f2;
+  background-color: #080c0a;
+  background-image:
+    radial-gradient(circle, rgb(44 228 160 / 0.22) 0.8px, transparent 1px),
+    radial-gradient(ellipse at 72% 24%, rgb(44 228 160 / 0.1), transparent 46%);
+  background-size: 22px 22px, auto;
+}
+
+.login-field .text-ink {
+  color: inherit;
+}
+
+.login-field .text-muted {
+  color: #a3aea8;
+}
+
+.login-field .text-primary-text {
+  color: #2ce4a0;
 }
 
 /* The height of the screen's panel, page bar included (the window less the

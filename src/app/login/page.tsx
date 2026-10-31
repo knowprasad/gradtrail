@@ -14,15 +14,15 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
   const { next } = await searchParams;
 
   return (
-    // The form on the panel's colour, a warm wash on the right.
+    // The sign-in panel and a student-focused journey preview.
     <main className="grid min-h-screen bg-surface min-[960px]:grid-cols-2">
       <div className="flex items-center justify-center px-8 py-12">
       <div className="flex w-full max-w-[400px] flex-col gap-8">
         <div className="flex flex-col items-start gap-2">
           <BrandMark className="size-10" />
           <div className="flex flex-col">
-            <div className="font-serif text-[30px] font-medium tracking-[-0.01em]">northstar</div>
-            <div className="text-sm text-muted">Your job search, on your server</div>
+            <div className="font-serif text-[30px] font-semibold tracking-[-0.04em]">Northstar</div>
+            <div className="text-sm text-muted">Career search, with direction</div>
           </div>
         </div>
         <LoginForm next={typeof next === "string" ? next : undefined} />
@@ -35,9 +35,27 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       </div>
       <div
         aria-hidden="true"
-        className="hidden bg-[linear-gradient(to_left,color-mix(in_srgb,var(--color-ink)_9%,transparent)_0%,transparent_65%)] min-[960px]:grid min-[960px]:place-items-center"
+        className="login-field relative hidden overflow-hidden border-l border-line min-[960px]:flex min-[960px]:items-center min-[960px]:justify-center"
       >
-        <BrandMark className="size-40 opacity-90 shadow-dialog rounded-[36px]" />
+        <div className="relative w-full max-w-[460px] px-12">
+          <div className="mb-8 flex items-center gap-3">
+            <BrandMark className="size-12" />
+            <p className="text-label font-semibold tracking-[0.14em] text-primary-text">A CLEARER WAY FORWARD</p>
+          </div>
+          <h1 className="max-w-[390px] font-serif text-[42px] leading-[1.08] font-medium tracking-[-0.045em] text-ink">
+            Your next role starts with one good lead.
+          </h1>
+          <p className="mt-4 max-w-[350px] text-lead text-muted">
+            Find an opening, understand the original post, and decide on your next move.
+          </p>
+          <div className="mt-10 grid grid-cols-3 gap-2 border-t border-line-strong pt-4 text-label text-muted">
+            <span>Search roles</span>
+            <span>Check the post</span>
+            <span>Make your move</span>
+          </div>
+          <div aria-hidden="true" className="absolute -right-20 -bottom-44 size-[360px] rounded-full border border-line-strong" />
+          <div aria-hidden="true" className="absolute -right-10 -bottom-34 size-[280px] rounded-full border border-line-card" />
+        </div>
       </div>
     </main>
   );

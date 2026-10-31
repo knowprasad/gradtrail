@@ -42,7 +42,9 @@ export function NavLinks({ counts }: { counts?: Record<string, number> } = {}) {
                   "flex items-center gap-1.5 rounded-control px-3 py-1.5 text-sm font-medium hover:bg-hover hover:text-ink motion-safe:transition-colors",
                   collapsed && "relative justify-center px-1.5",
                   // One or the other: cn() doesn't merge, so both would leave the CSS order to pick.
-                  active ? "bg-hover text-ink" : "text-muted",
+                  active
+                    ? "relative bg-selected text-primary-text before:absolute before:inset-y-2 before:left-0 before:w-[3px] before:rounded-full before:bg-primary"
+                    : "text-muted",
                 )}
               >
                 <Icon size={16} aria-hidden="true" className="shrink-0" />

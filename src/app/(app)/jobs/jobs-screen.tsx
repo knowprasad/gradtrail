@@ -81,7 +81,7 @@ export function JobsScreen({
     <>
       <PageHeader
         title="Find jobs"
-        description={`Search ${source ? SOURCE_INFO[source].name : "job postings"} for postings near you, then start an application from the one you like.`}
+        description={`Search ${source ? SOURCE_INFO[source].name : "job postings"} for internships, fresher roles and developer jobs. Check the original post and its date before you apply.`}
       />
       <ViewTabs view={view} counts={counts} />
     </>
