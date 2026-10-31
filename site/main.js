@@ -137,7 +137,7 @@ if (floats.length && stage) {
 }
 
 // Stars and the latest release, from GitHub's API. Left out if it doesn't answer.
-const repo = "https://api.github.com/repos/AienTech/northstar";
+const repo = "https://api.github.com/repos/knowprasad/northstar-india";
 const getJson = (url) => fetch(url, { headers: { Accept: "application/vnd.github+json" } }).then((r) => (r.ok ? r.json() : null));
 
 getJson(repo)

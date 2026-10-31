@@ -13,6 +13,7 @@ import { askForUsagePing, notePageLoad, USAGE_PING_HOST } from "@/lib/usage-ping
 import { appVersion } from "@/lib/version";
 
 import { Sidebar } from "./sidebar";
+import { MobileNav } from "./mobile-nav";
 import { UsagePingDialog } from "./usage-ping-dialog";
 
 /**
@@ -51,14 +52,15 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
         counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }}
         colorScheme={parseColorScheme(jar.get(COLOR_SCHEME_COOKIE)?.value)}
       />
+      <MobileNav counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }} />
       {/* The screen sits in a white panel inset from the shell. Each screen
           starts with its page bar (PageHeader or PageBar), which draws the
           panel's top edge and stays in view. */}
-      <div className="flex min-w-0 flex-1 flex-col bg-transparent px-2 pb-2">
+      <div className="flex min-w-0 flex-1 flex-col bg-transparent px-2 pb-0 md:pb-2">
         <main
           id="main"
           tabIndex={-1}
-          className="wayfinder-dots relative flex min-w-0 flex-1 flex-col rounded-b-panel border border-t-0 border-line-card bg-surface focus:outline-none"
+          className="wayfinder-dots relative flex min-w-0 flex-1 flex-col rounded-b-panel border border-t-0 border-line-card bg-surface pb-20 focus:outline-none md:pb-0"
         >
           {children}
         </main>

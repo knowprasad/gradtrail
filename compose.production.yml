@@ -1,7 +1,7 @@
-# northstar with Docker Compose (see the installation guide, https://github.com/AienTech/northstar/wiki). Save this
+# Northstar with Docker Compose (see the Dossier installation guide, https://github.com/AienTech/dossier/wiki). Save this
 # file as compose.yml in a folder of its own, put POSTGRES_PASSWORD,
 # NORTHSTAR_PASSWORD (a hash of your password, from `docker run --rm -it
-# ghcr.io/aientech/northstar hash-password`) and NORTHSTAR_SECRET in a .env file
+# ghcr.io/knowprasad/northstar-india hash-password`) and NORTHSTAR_SECRET in a .env file
 # next to it, then:
 #
 #   docker compose up -d
@@ -26,7 +26,7 @@ services:
       retries: 10
 
   app:
-    image: ${NORTHSTAR_IMAGE:-ghcr.io/aientech/northstar:latest}
+    image: ${NORTHSTAR_IMAGE:-ghcr.io/knowprasad/northstar-india:latest}
     restart: unless-stopped
     depends_on:
       db:

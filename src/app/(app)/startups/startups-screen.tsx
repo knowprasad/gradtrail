@@ -92,7 +92,7 @@ export function StartupsScreen({ filter, list, lastRefresh, refreshJobId, city, 
           </Button>
         }
       />
-      <div className="flex flex-col gap-6 px-10 pb-20">
+      <div className="flex flex-col gap-6 px-4 pb-20 sm:px-10">
         <RefreshStatus lastRefresh={lastRefresh} refreshing={refreshing} step={job?.step ?? null} today={today} />
         {lastRefresh && (
           <>
@@ -315,7 +315,10 @@ function StartupCard({ startup: initial, headline, aiReady, today }: { startup: 
         </ul>
       )}
       {startup.roles.length === 0 && (
-        <p role="note" className="text-meta text-muted"><span className="font-medium text-ink">Positions:</span> Role titles aren&apos;t available in this preview. Open the source post for details.</p>
+        <div role="note" className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-meta text-muted">
+          <p><span className="font-medium text-ink">No specific position identified.</span> Treat this as a company lead until you confirm an opening in the source post.</p>
+          {startup.links[0] && <a href={startup.links[0].url} target="_blank" rel="noopener noreferrer" className="font-medium text-primary-text underline underline-offset-2">Check the source post ↗</a>}
+        </div>
       )}
 
       {startup.reasons.length > 0 && <p className="text-meta text-muted">{startup.reasons.join(" · ")}</p>}

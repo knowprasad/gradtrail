@@ -24,7 +24,7 @@ describe("UsagePingDialog (#172)", () => {
     expect(dialog).toHaveTextContent("deleted after a year");
     expect(dialog).toHaveTextContent("Settings → About, or with NORTHSTAR_TELEMETRY");
     expect(screen.getByRole("link", { name: "northstar.app@pm.me" })).toHaveAttribute("href", "mailto:northstar.app@pm.me");
-    expect(screen.getByRole("link", { name: /More in Privacy/ })).toHaveAttribute("href", "https://github.com/AienTech/northstar/blob/main/PRIVACY.md#usage-ping");
+    expect(screen.getByRole("link", { name: /More in Privacy/ })).toHaveAttribute("href", "https://github.com/AienTech/dossier/blob/main/PRIVACY.md#usage-ping");
     expect(dialog).not.toHaveTextContent(/Cloudflare/);
   });
 

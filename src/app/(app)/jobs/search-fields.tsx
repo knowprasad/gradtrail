@@ -4,7 +4,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import type { Country } from "@/lib/job-search/countries";
-import { EXPERIENCE_LEVELS, OPPORTUNITY_TYPES, POSTED_WITHIN, RADII_KM, type JobSource, type RadiusKm, type SearchQuery } from "@/lib/job-search/search";
+import { COMPENSATION_HINTS, EXPERIENCE_LEVELS, GRADUATION_YEARS, INTERNSHIP_DURATIONS, OPPORTUNITY_TYPES, POSTED_WITHIN, RADII_KM, type JobSource, type RadiusKm, type SearchQuery } from "@/lib/job-search/search";
 import { SOURCE_INFO, sourceCovers } from "@/lib/job-search/sources";
 
 // A search's fields, as Find jobs asks them (E14-6) and Settings → Job agent
@@ -93,6 +93,22 @@ export function SearchFields({
           <a className="text-primary underline underline-offset-2 hover:text-ink" href="https://techreferrals.in/" target="_blank" rel="noopener noreferrer">Tech referrals ↗</a>
         </div>
       )}
+      <details className="rounded-card border border-line-card bg-paper px-4 py-3 sm:col-span-2 lg:col-span-5">
+        <summary className="cursor-pointer text-sm font-medium">Student eligibility filters <span className="ml-1 text-meta font-normal text-muted">optional</span></summary>
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <Select label="Compensation" value={value.compensation ?? "any"} onChange={(event) => onChange({ compensation: event.target.value as SearchQuery["compensation"] })}>
+            {COMPENSATION_HINTS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          </Select>
+          <Select label="Internship duration" value={value.internshipDuration ?? "any"} onChange={(event) => onChange({ internshipDuration: event.target.value as SearchQuery["internshipDuration"] })}>
+            {INTERNSHIP_DURATIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+          </Select>
+          <Select label="Graduation year" value={String(value.graduationYear ?? "any")} onChange={(event) => onChange({ graduationYear: event.target.value === "any" ? undefined : Number(event.target.value) })}>
+            <option value="any">Any year</option>
+            {GRADUATION_YEARS.map((year) => <option key={year} value={year}>{year}</option>)}
+          </Select>
+        </div>
+        <p className="mt-3 text-xs leading-relaxed text-muted">These are search-term hints; job sources can’t reliably enforce every student requirement. Check stipend, duration and batch eligibility in the original post.</p>
+      </details>
     </>
   );
 }

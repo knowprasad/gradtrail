@@ -58,6 +58,26 @@ export const OPPORTUNITY_TYPES = [
 export type OpportunityType = (typeof OPPORTUNITY_TYPES)[number]["value"];
 const OPPORTUNITY_VALUES = OPPORTUNITY_TYPES.map(({ value }) => value) as [OpportunityType, ...OpportunityType[]];
 
+/** Student-specific hints that job sources may match in their search text. */
+export const COMPENSATION_HINTS = [
+  { value: "any", label: "Any compensation", hint: "" },
+  { value: "paid", label: "Paid or stipend mentioned", hint: "paid stipend" },
+  { value: "unpaid", label: "Unpaid mentioned", hint: "unpaid" },
+] as const;
+export type CompensationHint = (typeof COMPENSATION_HINTS)[number]["value"];
+const COMPENSATION_VALUES = COMPENSATION_HINTS.map(({ value }) => value) as [CompensationHint, ...CompensationHint[]];
+
+export const INTERNSHIP_DURATIONS = [
+  { value: "any", label: "Any duration", hint: "" },
+  { value: "1-3-months", label: "1–3 months", hint: "internship 1-3 months" },
+  { value: "3-6-months", label: "3–6 months", hint: "internship 3-6 months" },
+  { value: "6-plus-months", label: "6+ months", hint: "internship 6 months" },
+] as const;
+export type InternshipDuration = (typeof INTERNSHIP_DURATIONS)[number]["value"];
+const DURATION_VALUES = INTERNSHIP_DURATIONS.map(({ value }) => value) as [InternshipDuration, ...InternshipDuration[]];
+
+export const GRADUATION_YEARS = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033] as const;
+
 /** One search, as every source gets it. */
 export const searchQuerySchema = z.object({
   keywords: z.string().trim().max(200),
@@ -76,6 +96,10 @@ export const searchQuerySchema = z.object({
   experienceLevel: z.enum(EXPERIENCE_VALUES).optional(),
   /** Keyword hint only; provider support differs and eligibility must be checked on the original post. */
   opportunityType: z.enum(OPPORTUNITY_VALUES).optional(),
+  /** Keyword hints only; sources may not support structured eligibility filters. */
+  compensation: z.enum(COMPENSATION_VALUES).optional(),
+  internshipDuration: z.enum(DURATION_VALUES).optional(),
+  graduationYear: z.coerce.number().int().min(2025).max(2033).optional(),
 });
 export type SearchQuery = z.output<typeof searchQuerySchema>;
 
@@ -165,14 +189,19 @@ export function describeSearch(query: SearchQuery, countryName: string, source?:
   const posted = POSTED_WITHIN.find((option) => option.value === query.postedWithin);
   const experience = EXPERIENCE_LEVELS.find((level) => level.value === (query.experienceLevel ?? "any"));
   const opportunity = OPPORTUNITY_TYPES.find((type) => type.value === (query.opportunityType ?? "any"));
-  return [query.keywords, where, query.remoteOnly ? "Remote only" : "", experience?.value !== "any" ? experience?.label : "", opportunity?.value !== "any" ? opportunity?.label : "", posted && posted.value !== "any" ? posted.label : ""].filter(Boolean).join(" · ");
+  const compensation = COMPENSATION_HINTS.find((option) => option.value === (query.compensation ?? "any"));
+  const duration = INTERNSHIP_DURATIONS.find((option) => option.value === (query.internshipDuration ?? "any"));
+  return [query.keywords, where, query.remoteOnly ? "Remote only" : "", experience?.value !== "any" ? experience?.label : "", opportunity?.value !== "any" ? opportunity?.label : "", compensation?.value !== "any" ? compensation?.label : "", duration?.value !== "any" ? duration?.label : "", query.graduationYear ? `Class of ${query.graduationYear}` : "", posted && posted.value !== "any" ? posted.label : ""].filter(Boolean).join(" · ");
 }
 
 /** Add a source-neutral experience hint to search terms. */
 export function searchKeywords(query: SearchQuery): string {
   const experience = EXPERIENCE_LEVELS.find((level) => level.value === (query.experienceLevel ?? "any"))?.hint;
   const opportunity = OPPORTUNITY_TYPES.find((type) => type.value === (query.opportunityType ?? "any"))?.hint;
-  return [query.keywords.trim(), experience, opportunity].filter(Boolean).join(" ");
+  const compensation = COMPENSATION_HINTS.find((option) => option.value === (query.compensation ?? "any"))?.hint;
+  const duration = INTERNSHIP_DURATIONS.find((option) => option.value === (query.internshipDuration ?? "any"))?.hint;
+  const graduationYear = query.graduationYear ? `class of ${query.graduationYear} ${query.graduationYear} batch` : "";
+  return [query.keywords.trim(), experience, opportunity, compensation, duration, graduationYear].filter(Boolean).join(" ");
 }
 
 /** Identifies a posting across searches. */
@@ -230,6 +259,9 @@ export function queryFromParams(params: Record<string, string | string[] | undef
     postedWithin: posted ?? "any",
     experienceLevel: EXPERIENCE_VALUES.find((value) => value === one(params.level)) ?? "any",
     opportunityType: OPPORTUNITY_VALUES.find((value) => value === one(params.type)) ?? "any",
+    ...(COMPENSATION_VALUES.find((value) => value === one(params.pay) && value !== "any") ? { compensation: one(params.pay) as CompensationHint } : {}),
+    ...(DURATION_VALUES.find((value) => value === one(params.duration) && value !== "any") ? { internshipDuration: one(params.duration) as InternshipDuration } : {}),
+    ...(GRADUATION_YEARS.includes(Number(one(params.gradyear)) as (typeof GRADUATION_YEARS)[number]) ? { graduationYear: Number(one(params.gradyear)) } : {}),
   };
 }
 
@@ -256,6 +288,9 @@ export function searchHref(query: SearchQuery): string {
   if (query.postedWithin !== "any") params.set("posted", query.postedWithin);
   if (query.experienceLevel && query.experienceLevel !== "any") params.set("level", query.experienceLevel);
   if (query.opportunityType && query.opportunityType !== "any") params.set("type", query.opportunityType);
+  if (query.compensation && query.compensation !== "any") params.set("pay", query.compensation);
+  if (query.internshipDuration && query.internshipDuration !== "any") params.set("duration", query.internshipDuration);
+  if (query.graduationYear) params.set("gradyear", String(query.graduationYear));
   return `/jobs?${params.toString()}`;
 }
 

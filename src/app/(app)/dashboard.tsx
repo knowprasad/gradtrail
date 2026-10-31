@@ -27,6 +27,7 @@ export function Dashboard({
   quietDays = DEFAULT_QUIET_DAYS,
   empty,
   calendar,
+  setup = { profileReady: false, sourceReady: false, aiReady: false },
 }: {
   figures: DashboardFigures;
   firstName: string;
@@ -39,6 +40,8 @@ export function Dashboard({
   empty: boolean;
   /** The calendar (E15-6), which the time filter doesn't scope. */
   calendar?: ReactNode;
+  /** A small first-run coach. Searching is possible before AI is configured. */
+  setup?: { profileReady: boolean; sourceReady: boolean; aiReady: boolean };
 }) {
   const { sent, heardBack } = figures;
   // The summary follows the time filter, so it says which period it covers.
@@ -63,7 +66,7 @@ export function Dashboard({
 
       {empty ? (
         <Columns calendar={calendar}>
-          <Welcome />
+          <Welcome setup={setup} />
         </Columns>
       ) : (
         <PeriodFilter period={range}>
@@ -87,7 +90,7 @@ export function Dashboard({
  */
 function Columns({ calendar, children }: { calendar?: ReactNode; children: ReactNode }) {
   return (
-    <div className="@container px-10 pb-[72px]">
+    <div className="@container px-4 pb-[72px] sm:px-10">
       <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-5 @min-[1240px]:grid-cols-[minmax(0,1200px)_400px]">
         {children}
         {calendar && <div className="min-w-0 @min-[780px]:max-w-[calc(50%-10px)] @min-[1240px]:max-w-none">{calendar}</div>}
@@ -197,23 +200,34 @@ function WorthALook({ items, quietDays }: { items: DashboardFigures["attention"]
 }
 
 /** Before the first application: where to begin. */
-function Welcome() {
+function Welcome({ setup }: { setup: { profileReady: boolean; sourceReady: boolean; aiReady: boolean } }) {
   return (
     <Panel>
-      <h2 className="font-serif text-section">Welcome to northstar</h2>
-      <p className="text-sm text-muted">
-        Start with your profile: your roles, skills and education are what every tailored resume and cover letter is built from.
-        Then paste a job posting, and your funnel and next steps will show up here.
-      </p>
-      <div className="flex flex-wrap items-center gap-4 pt-1">
-        <Link href="/profile" className={buttonClassName("secondary")}>
-          Fill in your profile
-        </Link>
-        <Link href="/new?fresh=1" className={buttonClassName("primary", "md", "hover:text-on-primary")}>
+      <h2 className="font-serif text-section">Welcome to Northstar</h2>
+      <p className="text-sm text-muted">Take these steps at your own pace. You can browse and save jobs before setting up AI.</p>
+      <ol className="grid w-full gap-3 pt-2 sm:grid-cols-2">
+        <SetupStep done={setup.profileReady} title="Add your profile and projects" href="/profile" action="Build my profile" detail="Your projects count as experience, even when you have not had a formal role yet." />
+        <SetupStep done={setup.sourceReady} title="Choose a job source" href="/settings?section=jobs" action="Choose a source" detail="FreeHire and Remote OK work without an API key." />
+        <SetupStep done={setup.aiReady} optional={!setup.aiReady} title="Set up AI when you want it" href="/settings?section=ai" action="Configure AI" detail="AI is optional for searching and saving. Add it later for fit scores and tailored documents." />
+        <SetupStep done={false} title="Start exploring openings" href="/jobs" action="Find student jobs" detail="Choose India, your city, internship level, and posting date." />
+      </ol>
+      <div className="flex flex-wrap items-center gap-4 pt-2">
+        <Link href="/new?fresh=1" className={buttonClassName("secondary")}>
           + New application
         </Link>
       </div>
     </Panel>
+  );
+}
+
+function SetupStep({ done, optional, title, href, action, detail }: { done: boolean; optional?: boolean; title: string; href: string; action: string; detail: string }) {
+  return (
+    <li className="flex min-w-0 flex-col gap-1 rounded-card border border-line-card bg-paper p-4">
+      <p className="text-xs font-medium text-primary-text">{done ? "READY" : optional ? "OPTIONAL" : "NEXT STEP"}</p>
+      <h3 className="text-sm font-medium">{title}</h3>
+      <p className="flex-1 text-xs leading-relaxed text-muted">{detail}</p>
+      <Link href={href} className="mt-1 text-xs font-medium text-primary-text underline underline-offset-2">{done ? "Review" : action} →</Link>
+    </li>
   );
 }
 

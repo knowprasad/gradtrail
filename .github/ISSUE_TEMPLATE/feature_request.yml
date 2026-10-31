@@ -5,9 +5,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for the idea. Please search the [open and closed issues](https://github.com/AienTech/northstar/issues?q=is%3Aissue) first. If someone has asked for it already, a thumbs-up or a comment there helps more than a new issue.
+        Thanks for the idea. Please search the [open and closed issues](https://github.com/knowprasad/northstar-india/issues?q=is%3Aissue) first. If someone has asked for it already, a thumbs-up or a comment there helps more than a new issue.
 
-        northstar is made for one person on a small server. [Known limitations](https://github.com/AienTech/northstar/blob/main/README.md#known-limitations) in the README lists what that leaves out for now.
+        Northstar is made for one person on a small server. [Known limitations](https://github.com/knowprasad/northstar-india/blob/main/README.md#known-limitations) in the README lists what that leaves out for now.
 
   - type: textarea
     id: problem

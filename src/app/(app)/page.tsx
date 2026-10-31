@@ -4,8 +4,10 @@ import { Suspense } from "react";
 import { periodFromParam } from "@/lib/dashboard";
 import { waitingByApplication } from "@/lib/google/inbox-data";
 import { loadDashboard } from "@/lib/dashboard-data";
+import { isAiConfigured } from "@/lib/ai/config";
 import { dayPeriod, hourIn } from "@/lib/greeting";
-import { loadProfileName } from "@/lib/profile-data";
+import { loadProfile, loadProfileName } from "@/lib/profile-data";
+import { loadJobSearchConfig } from "@/lib/job-search/config";
 import { loadSettings } from "@/lib/settings-data";
 import { userTimeZone } from "@/lib/time-zone";
 
@@ -30,6 +32,13 @@ export default async function DashboardPage({ searchParams }: PageProps<"/">) {
     loadDashboard({ period: range, quietDays: settings.quietDays, timeZone, replies }),
     loadProfileName(),
   ]);
+  const setup = figures.total === 0
+    ? await Promise.all([loadProfile(), loadJobSearchConfig(), isAiConfigured()]).then(([profile, jobSearch, aiReady]) => ({
+        profileReady: Boolean(name.trim() && (profile.skills.length || profile.projects.length || profile.experience.length)),
+        sourceReady: Boolean(jobSearch.source),
+        aiReady,
+      }))
+    : undefined;
   return (
     <Dashboard
       figures={figures}
@@ -38,6 +47,7 @@ export default async function DashboardPage({ searchParams }: PageProps<"/">) {
       range={range}
       quietDays={settings.quietDays}
       empty={figures.total === 0}
+      setup={setup}
       calendar={
         <Suspense fallback={<CalendarSkeleton />}>
           <DashboardCalendar date={date} now={now} />

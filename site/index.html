@@ -84,14 +84,14 @@
         <a href="#features">Features</a>
         <a href="#privacy">Privacy</a>
         <a href="#install">Install</a>
-        <a href="https://github.com/AienTech/northstar/wiki">Docs</a>
+        <a href="https://github.com/AienTech/dossier/wiki">Docs</a>
       </nav>
       <div class="nav__end">
         <button class="icon-button" type="button" data-theme-toggle aria-label="Switch to dark mode">
           <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
           <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
         </button>
-        <a class="button button--ghost button--small" href="https://github.com/AienTech/northstar">
+        <a class="button button--ghost button--small" href="https://github.com/knowprasad/northstar-india">
           <svg class="icon" aria-hidden="true"><use href="#i-github"/></svg>
           <span>GitHub</span>
           <span class="count" data-stars hidden></span>
@@ -103,7 +103,7 @@
   <main id="main">
     <section class="hero" id="top">
       <div class="wrap hero__text">
-        <a class="release" href="https://github.com/AienTech/northstar/releases/latest" data-release>
+        <a class="release" href="https://github.com/AienTech/dossier/releases/latest" data-release>
           <span class="release__dot" aria-hidden="true"></span>
           <span data-release-text>Free and open source</span>
           <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
@@ -335,7 +335,7 @@
           <p class="eyebrow">Privacy</p>
           <h2 class="display" id="privacy-title">Your profile lives with you.</h2>
           <p>northstar is for one person on a small server: one password, your data in your own PostgreSQL database, and an AI model of your choice.</p>
-          <a class="link" href="https://github.com/AienTech/northstar/wiki/Privacy">What goes where <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="link" href="https://github.com/AienTech/dossier/wiki/Privacy">What goes where <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </header>
         <div class="privacy__grid">
           <div class="point reveal">
@@ -419,7 +419,7 @@
         <header class="section__head reveal">
           <p class="eyebrow">Install</p>
           <h2 class="display" id="install-title">Running in three steps.</h2>
-          <p class="section__lede">All you need is <a href="https://docs.docker.com/desktop/">Docker Desktop</a> on macOS or Windows, or Docker Engine with its Compose plugin on Linux, and about 2 GB of free memory.</p>
+          <p class="section__lede">Install <a href="https://docs.docker.com/desktop/">Docker Desktop</a> on Windows or macOS, or Docker Engine with Compose on Linux. The guided setup creates your secrets and starts the app.</p>
         </header>
 
         <div class="install reveal" data-tabs>
@@ -431,31 +431,26 @@
           <div role="tabpanel" id="panel-local" aria-labelledby="tab-local" class="install__steps">
             <ol class="timeline">
               <li>
-                <h3>Fetch the Compose file, and make the secrets northstar needs.</h3>
+                <h3>Get the source code.</h3>
                 <div class="code" data-code>
-                  <pre><code><span class="c-mute">$</span> mkdir ~/northstar &amp;&amp; cd ~/northstar
-<span class="c-mute">$</span> curl -fsSL -o compose.yml https://raw.githubusercontent.com/AienTech/northstar/main/compose.production.yml
-<span class="c-mute">$</span> echo "POSTGRES_PASSWORD=$(openssl rand -hex 24)" &gt; .env
-<span class="c-mute">$</span> echo "NORTHSTAR_SECRET=$(openssl rand -base64 32)" &gt;&gt; .env</code></pre>
+                  <pre><code><span class="c-mute">$</span> git clone https://github.com/knowprasad/northstar-india.git
+<span class="c-mute">$</span> cd northstar-india</code></pre>
                   <button class="copy" type="button" data-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
                 </div>
-                <p class="note">On an Apple Silicon Mac, also run <code>printf 'services:\n  app:\n    platform: linux/amd64\n' &gt; compose.override.yml</code>: the image is built for Intel and AMD processors, and Docker Desktop runs it under emulation.</p>
+                <p class="note">This repository is currently private. Its owner must make it public or invite you before you can clone it.</p>
               </li>
               <li>
-                <h3>Choose your password.</h3>
+                <h3>Run the guided setup.</h3>
                 <div class="code" data-code>
-                  <pre><code><span class="c-mute">$</span> docker run --rm -it --platform linux/amd64 ghcr.io/aientech/northstar hash-password</code></pre>
+                  <pre><code><span class="c-mute">Windows:</span> .\scripts\setup.ps1
+<span class="c-mute">macOS / Linux:</span> bash ./scripts/setup.sh</code></pre>
                   <button class="copy" type="button" data-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
                 </div>
-                <p class="note">It asks for the password twice and prints a line that starts with <code>argon2id:</code>. Add it to <code>.env</code> as <code>NORTHSTAR_PASSWORD=argon2id:…</code>. northstar only keeps the hash, never the password.</p>
+                <p class="note">It prompts for your sign-in password, saves only its hash, creates random secrets, and builds the app from source. The first build can take several minutes.</p>
               </li>
               <li>
-                <h3>Start it.</h3>
-                <div class="code" data-code>
-                  <pre><code><span class="c-mute">$</span> docker compose up -d</code></pre>
-                  <button class="copy" type="button" data-copy><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
-                </div>
-                <p class="note">Open <code>http://localhost:3000</code>, sign in, and pick an AI model in <b>Settings → AI provider</b>. The first start downloads the image (about 1.7 GB). <a href="https://github.com/AienTech/northstar/wiki/Choosing-an-AI-provider">Choosing an AI provider</a></p>
+                <h3>Open Northstar.</h3>
+                <p class="note">Visit <code>http://localhost:3000</code> and sign in with the password you chose. AI is optional; you can choose a provider later in <b>Settings → AI provider</b>. <a href="https://github.com/AienTech/dossier/wiki/Choosing-an-AI-provider">Choosing an AI provider</a></p>
               </li>
             </ol>
           </div>
@@ -463,31 +458,31 @@
           <div role="tabpanel" id="panel-server" aria-labelledby="tab-server" class="install__server" hidden>
             <p class="install__intro">Put northstar on a server, on your own domain with HTTPS. Give it at least 2 vCPUs and 2 GB of memory. The installation guide walks through each way, step by step.</p>
             <div class="guides">
-              <a class="guide" href="https://github.com/AienTech/northstar/wiki/Self-host-on-an-Ubuntu-server">
+              <a class="guide" href="https://github.com/AienTech/dossier/wiki/Self-host-on-an-Ubuntu-server">
                 <b>Ubuntu server</b><span>Docker Compose with Caddy for HTTPS, or Node.js without Docker.</span>
                 <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg>
               </a>
-              <a class="guide" href="https://github.com/AienTech/northstar/wiki/Self-host-with-Coolify">
+              <a class="guide" href="https://github.com/AienTech/dossier/wiki/Self-host-with-Coolify">
                 <b>Coolify</b><span>The app and PostgreSQL in one resource, with the secrets made for you.</span>
                 <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg>
               </a>
-              <a class="guide" href="https://github.com/AienTech/northstar/wiki/Self-host-with-Dokploy">
+              <a class="guide" href="https://github.com/AienTech/dossier/wiki/Self-host-with-Dokploy">
                 <b>Dokploy</b><span>The published image and a Dokploy database. Updates take over once healthy.</span>
                 <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg>
               </a>
-              <a class="guide" href="https://github.com/AienTech/northstar/wiki/Self-host-with-CapRover">
+              <a class="guide" href="https://github.com/AienTech/dossier/wiki/Self-host-with-CapRover">
                 <b>CapRover</b><span>The published image, next to CapRover's PostgreSQL one-click app.</span>
                 <svg class="icon" aria-hidden="true"><use href="#i-out"/></svg>
               </a>
             </div>
-            <p class="install__more">On your own computer, you can also run it with <a href="https://github.com/AienTech/northstar/wiki/Run-locally-with-Docker">plain Docker</a> or <a href="https://github.com/AienTech/northstar/wiki/Run-locally-with-Node.js">Node.js</a>.</p>
+            <p class="install__more">On your own computer, you can also run it with <a href="https://github.com/AienTech/dossier/wiki/Run-locally-with-Docker">plain Docker</a> or <a href="https://github.com/AienTech/dossier/wiki/Run-locally-with-Node.js">Node.js</a>.</p>
           </div>
         </div>
 
         <div class="limits reveal">
           <h3>Good to know</h3>
           <ul>
-            <li><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span><b>Desktop only.</b> Made for a laptop or desktop browser, not for phones.</span></li>
+            <li><svg class="icon" aria-hidden="true"><use href="#i-monitor"/></svg><span><b>Mobile.</b> Navigation and job discovery work on phones; profile and document editing are more comfortable on a larger screen.</span></li>
             <li><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg><span><b>Single user.</b> One password and one profile; there are no accounts.</span></li>
             <li><svg class="icon" aria-hidden="true"><use href="#i-languages"/></svg><span><b>English interface.</b> The documents it writes can be in other languages.</span></li>
             <li><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg><span><b>One instance.</b> Run a single copy of the app per database.</span></li>
@@ -506,7 +501,7 @@
             Install northstar
             <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
-          <a class="button button--secondary" href="https://github.com/AienTech/northstar">
+          <a class="button button--secondary" href="https://github.com/knowprasad/northstar-india">
             <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
             Star on GitHub
           </a>
@@ -526,32 +521,32 @@
           <svg class="mark" width="26" height="26" aria-hidden="true"><use href="#i-mark"/></svg>
           <span>northstar</span>
         </a>
-        <p>Your job search, on your own server. Free software under the <a href="https://github.com/AienTech/northstar/blob/main/LICENSE">GNU AGPL-3.0</a>.</p>
+        <p>Your job search, on your own server. Free software under the <a href="https://github.com/AienTech/dossier/blob/main/LICENSE">GNU AGPL-3.0</a>.</p>
       </div>
       <nav aria-label="Project">
         <h2>Project</h2>
         <ul>
-          <li><a href="https://github.com/AienTech/northstar">Source code</a></li>
-          <li><a href="https://github.com/AienTech/northstar/releases">Releases</a></li>
-          <li><a href="https://github.com/AienTech/northstar/issues/new/choose">Report a bug</a></li>
+          <li><a href="https://github.com/knowprasad/northstar-india">Source code</a></li>
+          <li><a href="https://github.com/knowprasad/northstar-india/releases">Releases</a></li>
+          <li><a href="https://github.com/knowprasad/northstar-india/issues/new/choose">Report a bug</a></li>
           <li><a href="https://github.com/sponsors/AienTech">Sponsor</a></li>
         </ul>
       </nav>
       <nav aria-label="Documentation">
         <h2>Documentation</h2>
         <ul>
-          <li><a href="https://github.com/AienTech/northstar/wiki">Installation guide</a></li>
-          <li><a href="https://github.com/AienTech/northstar/wiki/Choosing-an-AI-provider">Choosing an AI provider</a></li>
-          <li><a href="https://github.com/AienTech/northstar/wiki/Upgrading">Upgrading</a></li>
-          <li><a href="https://github.com/AienTech/northstar/wiki/Troubleshooting">Troubleshooting</a></li>
+          <li><a href="https://github.com/AienTech/dossier/wiki">Installation guide</a></li>
+          <li><a href="https://github.com/AienTech/dossier/wiki/Choosing-an-AI-provider">Choosing an AI provider</a></li>
+          <li><a href="https://github.com/AienTech/dossier/wiki/Upgrading">Upgrading</a></li>
+          <li><a href="https://github.com/AienTech/dossier/wiki/Troubleshooting">Troubleshooting</a></li>
         </ul>
       </nav>
       <nav aria-label="Policies">
         <h2>Trust</h2>
         <ul>
-          <li><a href="https://github.com/AienTech/northstar/blob/main/PRIVACY.md">Privacy</a></li>
-          <li><a href="https://github.com/AienTech/northstar/blob/main/SECURITY.md">Security</a></li>
-          <li><a href="https://github.com/AienTech/northstar/blob/main/DEVELOPMENT.md">Development</a></li>
+          <li><a href="https://github.com/AienTech/dossier/blob/main/PRIVACY.md">Privacy</a></li>
+          <li><a href="https://github.com/AienTech/dossier/blob/main/SECURITY.md">Security</a></li>
+          <li><a href="https://github.com/AienTech/dossier/blob/main/DEVELOPMENT.md">Development</a></li>
         </ul>
       </nav>
     </div>

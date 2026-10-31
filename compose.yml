@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-northstar}
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     volumes:
       # Postgres 18+ keeps data in a versioned subdirectory, so mount the parent.
       - pgdata:/var/lib/postgresql
@@ -27,8 +27,11 @@ services:
     environment:
       # Overrides the localhost URL in .env, which is meant for tools run on the host.
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-northstar}
+      # Created by scripts/setup.ps1 for a guided first run.
+      NORTHSTAR_PASSWORD: ${NORTHSTAR_PASSWORD:-}
+      NORTHSTAR_SECRET: ${NORTHSTAR_SECRET:-}
     ports:
-      - "3000:3000"
+      - "127.0.0.1:${NORTHSTAR_PORT:-3000}:3000"
     volumes:
       - .:/app
       # Keep the container's own (Debian) node_modules and build cache

@@ -92,7 +92,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
   return (
     <>
       <SettingsSectionIntro title="Job search">
-        Where Find jobs looks for postings. Pick one source; you can switch any time, and each keeps its own key.
+        Choose where Find jobs looks. FreeHire and Remote OK need no API key, so you can start there; AI setup is separate and can wait until you want scoring or tailored documents. Switch sources any time.
       </SettingsSectionIntro>
 
       <RadioGroup.Root
