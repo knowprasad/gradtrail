@@ -20,6 +20,7 @@ import { regenerateUnitJob, unitJobKey } from "@/lib/jobs/regenerate-unit";
 import { findUnfinishedJobs, startJob } from "@/lib/jobs/runner";
 import { emailJobKey, writeEmailJob } from "@/lib/jobs/write-email";
 import { prisma } from "@/lib/prisma";
+import { applicationPrepPlan } from "@/lib/application-prep-plan";
 import { findOrCreateSkill } from "@/lib/profile-entries";
 import { cleanUnitText, isPublicationUnit, unitName } from "@/lib/unit-text";
 
@@ -59,22 +60,30 @@ export const addChecklistTask = action(
   },
 );
 
-/** Add the common steps only to an empty checklist; custom tasks stay untouched. */
-export const addChecklistStarter = action(z.object({ id: z.string().min(1) }), async ({ id }) => {
-  if (!(await prisma.application.count({ where: { id } }))) throw new ActionError(GONE);
-  if (await prisma.applicationTask.count({ where: { applicationId: id } })) return null;
-  await prisma.applicationTask.createMany({
-    data: [
-      "Confirm eligibility and application deadline",
-      "Tailor and review your resume",
-      "Gather documents requested by the employer",
-      "Submit the application and record the date",
-      "Follow up if you have not heard back",
-    ].map((title, position) => ({ applicationId: id, title, position })),
+/** Suggest an editable role-specific plan from the saved post; no AI or external service is used. */
+export const suggestChecklistPlan = action(z.object({ id: z.string().min(1) }), async ({ id }) => {
+  const application = await prisma.application.findUnique({
+    where: { id },
+    select: { title: true, role: true, deadline: true, postingText: true, extracted: true },
   });
-  refresh(id);
-  return null;
+  if (!application) throw new ActionError(GONE);
+  return applicationPrepPlan(application);
 });
+
+/** Save only the plan the user reviewed; existing checklist items are never overwritten. */
+export const saveChecklistPlan = action(
+  z.object({ id: z.string().min(1), tasks: z.array(z.string().trim().min(1).max(160)).min(1).max(12) }),
+  async ({ id, tasks }) => {
+    if (!(await prisma.application.count({ where: { id } }))) throw new ActionError(GONE);
+    if (await prisma.applicationTask.count({ where: { applicationId: id } })) return null;
+    const uniqueTasks = [...new Set(tasks)];
+    await prisma.applicationTask.createMany({
+      data: uniqueTasks.map((title, position) => ({ applicationId: id, title, position })),
+    });
+    refresh(id);
+    return null;
+  },
+);
 
 /** Mark a task done or reopen it, scoped to its application. */
 export const setChecklistTaskDone = action(

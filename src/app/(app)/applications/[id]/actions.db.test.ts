@@ -3,7 +3,6 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTestClient, resetDatabase } from "@/test/db";
 
 import {
-  addChecklistStarter,
   addChecklistTask,
   addMatchSkill,
   addNote,
@@ -20,6 +19,8 @@ import {
   sendMessage,
   setApplicationTheme,
   setChecklistTaskDone,
+  saveChecklistPlan,
+  suggestChecklistPlan,
   setFollowThemeLayout,
   setInterviewDate,
   setShowPhoto,
@@ -86,11 +87,15 @@ const units = async () =>
 afterAll(() => prisma().$disconnect());
 
 describe("application checklist", () => {
-  it("adds common tasks once and supports private custom tasks, completion and removal", async () => {
-    expect(await addChecklistStarter({ id: "app-1" })).toEqual({ ok: true, data: null });
-    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(5);
-    expect(await addChecklistStarter({ id: "app-1" })).toEqual({ ok: true, data: null });
-    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(5);
+  it("builds a prep plan once and supports private custom tasks, completion and removal", async () => {
+    const suggestion = await suggestChecklistPlan({ id: "app-1" });
+    expect(suggestion).toMatchObject({ ok: true, data: { tasks: expect.arrayContaining(["Tailor your resume for Designer at Ledgerly"]), roadmaps: [] } });
+    if (!suggestion.ok) throw new Error(suggestion.error);
+    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(0);
+    expect(await saveChecklistPlan({ id: "app-1", tasks: suggestion.data.tasks })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(7);
+    expect(await saveChecklistPlan({ id: "app-1", tasks: suggestion.data.tasks })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(7);
 
     const custom = await addChecklistTask({ id: "app-1", title: "Add my portfolio" });
     expect(custom).toEqual({ ok: true, data: null });

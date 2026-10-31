@@ -8,7 +8,7 @@ import { StatusDot } from "@/components/ui/status-dot";
 import type { ActivityEntry } from "@/lib/activity";
 import { statusInfo } from "@/lib/status";
 
-import { addChecklistStarter, addChecklistTask, addNote, deleteChecklistTask, deleteNote, restoreNote, setChecklistTaskDone, updateNote } from "./actions";
+import { addChecklistTask, addNote, deleteChecklistTask, deleteNote, restoreNote, saveChecklistPlan, setChecklistTaskDone, suggestChecklistPlan, updateNote } from "./actions";
 
 /**
  * The Notes tab (E8-9, APP-14): private notes, each dated, with the
@@ -26,10 +26,14 @@ export function NotesTab({
 }) {
   const [draft, setDraft] = useState("");
   const [taskDraft, setTaskDraft] = useState("");
+  const [planDraft, setPlanDraft] = useState<string[] | null>(null);
+  const [planRoadmaps, setPlanRoadmaps] = useState<{ label: string; url: string }[]>([]);
+  const [planTaskDraft, setPlanTaskDraft] = useState("");
   const [editing, setEditing] = useState<{ id: string; body: string } | null>(null);
   const [pending, startTransition] = useTransition();
   const draftId = useId();
   const taskId = useId();
+  const planTaskId = useId();
 
   const addTask = () => {
     if (!taskDraft.trim() || pending) return;
@@ -40,11 +44,22 @@ export function NotesTab({
     });
   };
 
-  const addStarter = () =>
+  const suggestPlan = () =>
     startTransition(async () => {
-      const result = await addChecklistStarter({ id: applicationId });
-      if (!result.ok) toast(result.error);
+      const result = await suggestChecklistPlan({ id: applicationId });
+      if (!result.ok) return void toast(result.error);
+      setPlanDraft(result.data.tasks);
+      setPlanRoadmaps(result.data.roadmaps);
     });
+
+  const savePlan = () => {
+    if (!planDraft?.length || planDraft.some((step) => !step.trim()) || pending) return;
+    startTransition(async () => {
+      const result = await saveChecklistPlan({ id: applicationId, tasks: planDraft });
+      if (!result.ok) return void toast(result.error);
+      setPlanDraft(null);
+    });
+  };
 
   const changeTask = (id: string, completed: boolean) =>
     startTransition(async () => {
@@ -109,12 +124,63 @@ export function NotesTab({
             )}
           </div>
           {checklistTasks.length === 0 ? (
-            <div className="rounded-card border border-dashed border-line-strong px-4 py-3">
-              <p className="text-sm text-muted">Add your own steps, or start with a short common checklist and adjust it for this role.</p>
-              <Button variant="secondary" size="sm" className="mt-3" aria-disabled={pending || undefined} onClick={addStarter}>
-                Add common steps
-              </Button>
-            </div>
+            planDraft === null ? (
+              <div className="rounded-card border border-dashed border-line-strong px-4 py-3">
+                <p className="text-sm text-muted">Build an editable plan from the saved job post. It runs locally without AI; check each suggestion against the employer’s original instructions.</p>
+                <Button variant="secondary" size="sm" className="mt-3" aria-disabled={pending || undefined} onClick={suggestPlan}>
+                  Build my prep plan
+                </Button>
+              </div>
+            ) : (
+              <div role="region" aria-label="Review your prep plan" className="flex flex-col gap-3 rounded-card border border-line-card bg-surface p-4">
+                <p className="text-sm text-muted">Review and edit these suggestions before adding them to your checklist.</p>
+                {planRoadmaps.length > 0 && (
+                  <div className="flex flex-col gap-1.5 rounded-card border border-line-card bg-card p-3">
+                    <p className="text-label">Optional learning guides from roadmap.sh</p>
+                    <p className="text-meta text-muted">Related to this role or its listed skills; these are learning resources, not requirements from the employer.</p>
+                    <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                      {planRoadmaps.map((roadmap) => (
+                        <li key={roadmap.url}><a href={roadmap.url} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">{roadmap.label}<span className="sr-only"> (opens in a new tab)</span></a></li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <ul className="flex flex-col gap-2">
+                  {planDraft.map((step, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <input
+                        aria-label={`Prep step ${index + 1}`}
+                        value={step}
+                        maxLength={160}
+                        onChange={(event) => {
+                          const value = event.currentTarget.value;
+                          setPlanDraft((current) => current?.map((item, itemIndex) => itemIndex === index ? value : item) ?? null);
+                        }}
+                        className="min-w-0 flex-1 rounded-control border border-line-input bg-input px-3 py-2 text-sm focus-visible:border-primary focus-visible:outline-offset-0"
+                      />
+                      <button type="button" className="text-meta text-muted hover:text-danger" aria-label={`Remove prep step ${index + 1}`} onClick={() => setPlanDraft((current) => current?.filter((_, itemIndex) => itemIndex !== index) ?? null)}>
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap items-end gap-2">
+                  <div className="min-w-0 flex-1">
+                    <label htmlFor={planTaskId} className="text-label text-muted">Add a step</label>
+                    <input id={planTaskId} value={planTaskDraft} maxLength={160} onChange={(event) => setPlanTaskDraft(event.currentTarget.value)} className="mt-1 w-full rounded-control border border-line-input bg-input px-3 py-2 text-sm focus-visible:border-primary focus-visible:outline-offset-0" />
+                  </div>
+                  <Button variant="secondary" size="sm" aria-disabled={!planTaskDraft.trim() || planDraft.length >= 12 || undefined} onClick={() => {
+                    if (!planTaskDraft.trim() || planDraft.length >= 12) return;
+                    setPlanDraft((current) => [...(current ?? []), planTaskDraft.trim()].slice(0, 12));
+                    setPlanTaskDraft("");
+                  }}>Add step</Button>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Button size="sm" aria-disabled={!planDraft.length || planDraft.some((step) => !step.trim()) || pending || undefined} onClick={savePlan}>Save prep plan</Button>
+                  <Button variant="text" size="sm" aria-disabled={pending || undefined} onClick={() => { setPlanDraft(null); setPlanRoadmaps([]); }}>Cancel</Button>
+                </div>
+              </div>
+            )
           ) : (
             <ul aria-label="Application checklist tasks" className="flex flex-col divide-y divide-line border-y border-line">
               {checklistTasks.map((task) => (

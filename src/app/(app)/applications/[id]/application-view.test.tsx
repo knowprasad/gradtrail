@@ -11,7 +11,6 @@ import { retry } from "@/lib/jobs/actions";
 import type { JobView } from "@/lib/jobs/runner";
 
 import {
-  addChecklistStarter,
   addChecklistTask,
   addMatchSkill,
   addNote,
@@ -28,6 +27,8 @@ import {
   sendMessage,
   setApplicationTheme,
   setChecklistTaskDone,
+  saveChecklistPlan,
+  suggestChecklistPlan,
   setFollowThemeLayout,
   setShowPhoto,
   startRegenerating,
@@ -39,7 +40,8 @@ import {
 import { ApplicationView, type ApplicationViewProps } from "./application-view";
 
 vi.mock("./actions", () => ({
-  addChecklistStarter: vi.fn(async () => ({ ok: true, data: null })),
+  suggestChecklistPlan: vi.fn(async () => ({ ok: true, data: { tasks: ["Check the deadline", "Tailor your resume"], roadmaps: [{ label: "Frontend", url: "https://roadmap.sh/frontend" }] } })),
+  saveChecklistPlan: vi.fn(async () => ({ ok: true, data: null })),
   addChecklistTask: vi.fn(async () => ({ ok: true, data: null })),
   setChecklistTaskDone: vi.fn(async () => ({ ok: true, data: null })),
   deleteChecklistTask: vi.fn(async () => ({ ok: true, data: null })),
@@ -762,7 +764,8 @@ describe("notes and activity (E8-9)", () => {
   const timeline = () => screen.getByRole("list", { name: "Notes and activity" });
 
   beforeEach(() => {
-    vi.mocked(addChecklistStarter).mockClear();
+    vi.mocked(suggestChecklistPlan).mockClear();
+    vi.mocked(saveChecklistPlan).mockClear();
     vi.mocked(addChecklistTask).mockClear();
     vi.mocked(setChecklistTaskDone).mockClear();
     vi.mocked(deleteChecklistTask).mockClear();
@@ -778,11 +781,18 @@ describe("notes and activity (E8-9)", () => {
     expect(screen.getByText("Private and never sent to the AI")).toBeInTheDocument();
   });
 
-  it("adds common steps and keeps custom checklist tasks editable", async () => {
+  it("builds a prep plan and keeps custom checklist tasks editable", async () => {
     const user = userEvent.setup();
     const first = open();
-    await user.click(screen.getByRole("button", { name: "Add common steps" }));
-    expect(addChecklistStarter).toHaveBeenCalledWith({ id: "app-1" });
+    await user.click(screen.getByRole("button", { name: "Build my prep plan" }));
+    expect(suggestChecklistPlan).toHaveBeenCalledWith({ id: "app-1" });
+    const preview = screen.getByRole("region", { name: "Review your prep plan" });
+    expect(within(preview).getByRole("textbox", { name: "Prep step 1" })).toHaveValue("Check the deadline");
+    expect(within(preview).getByRole("link", { name: "Frontend (opens in a new tab)" })).toHaveAttribute("href", "https://roadmap.sh/frontend");
+    await user.clear(within(preview).getByRole("textbox", { name: "Prep step 1" }));
+    await user.type(within(preview).getByRole("textbox", { name: "Prep step 1" }), "Confirm eligibility");
+    await user.click(within(preview).getByRole("button", { name: "Save prep plan" }));
+    expect(saveChecklistPlan).toHaveBeenCalledWith({ id: "app-1", tasks: ["Confirm eligibility", "Tailor your resume"] });
     first.unmount();
 
     render(<ApplicationView {...props} activity={[]} checklistTasks={[{ id: "task-1", title: "Add my portfolio", completed: false }]} initialTab="notes" />);
