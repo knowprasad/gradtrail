@@ -161,6 +161,7 @@ describe("job search settings (E14-4)", () => {
         arbeitsagentur: { offered: true, acceptedAt: null },
         freehire: { host: "freehire.me" },
         jooble: { keyState: "none" },
+        usajobs: { keyState: "none", email: "" },
       },
     });
     await saveJobSource({ source: "OFF" });
@@ -203,6 +204,14 @@ describe("job search settings (E14-4)", () => {
     expect((await settings()).jsearchKeyEnc).toBeNull();
     await saveJobSearchDetails({ adzunaAppId: "" });
     expect((await settings()).adzunaAppId).toBeNull();
+
+    await saveJobSource({ source: "USAJOBS" });
+    await saveJobSearchDetails({ usajobsEmail: " key-owner@example.com " });
+    const federal = await saveJobSourceKey({ source: "USAJOBS", change: { action: "set", value: " usajobs-secret " } });
+    expect(federal).toMatchObject({ ok: true, data: { usajobs: { keyState: "set", email: "key-owner@example.com" } } });
+    expect(JSON.stringify(federal)).not.toContain("usajobs-secret");
+    const federalHash = (await settings()).usajobsKeyEnc!;
+    expect(decryptSecret(JOB_SOURCE_KEY, federalHash)).toBe("usajobs-secret");
   });
 
   it("saves where the JSearch key is from", async () => {

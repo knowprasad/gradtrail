@@ -13,6 +13,8 @@ const nothingSaved = {
   adzunaAppId: null,
   adzunaKeyEnc: null,
   joobleKeyEnc: null,
+  usajobsKeyEnc: null,
+  usajobsEmail: null,
   arbeitsagenturAcceptedAt: null,
 };
 const ACCEPTED = "2026-10-23T09:00:00.000Z";
@@ -29,6 +31,7 @@ describe("resolveJobSearchConfig", () => {
       arbeitsagentur: { offered: true, acceptedAt: null },
       freehire: { host: "freehire.me" },
       jooble: { keyState: "none" },
+      usajobs: { keyState: "none", email: "" },
     });
   });
 
@@ -49,6 +52,17 @@ describe("resolveJobSearchConfig", () => {
     expect(resolveJobSearchConfig(nothingSaved, { GRADTRAIL_JOBS_SOURCE: "off" }).source).toBeNull();
   });
 
+  it("loads USAJOBS credentials from the environment and requires the registered email", () => {
+    const config = resolveJobSearchConfig(nothingSaved, {
+      GRADTRAIL_JOBS_SOURCE: "usajobs",
+      GRADTRAIL_USAJOBS_KEY: "federal-key",
+      GRADTRAIL_USAJOBS_EMAIL: "key-owner@example.com",
+    });
+    expect(config).toMatchObject({ source: "USAJOBS", usajobs: { key: "federal-key", keyState: "env", email: "key-owner@example.com" } });
+    expect(credentialsFor(config, "USAJOBS")).toEqual({ key: "federal-key", email: "key-owner@example.com" });
+    expect(() => credentialsFor({ ...config, usajobs: { ...config.usajobs, email: "" } }, "USAJOBS")).toThrow(/email registered with that key/);
+  });
+
   it("prefers what's saved, Off included, and decrypts saved keys", () => {
     const saved = {
       jobSource: "ADZUNA" as const,
@@ -57,6 +71,8 @@ describe("resolveJobSearchConfig", () => {
       adzunaAppId: "app-saved",
       adzunaKeyEnc: encryptSecret(JOB_SOURCE_KEY, "adz-saved"),
       joobleKeyEnc: null,
+      usajobsKeyEnc: null,
+      usajobsEmail: null,
       arbeitsagenturAcceptedAt: null,
     };
     const config = resolveJobSearchConfig(saved, { GRADTRAIL_JOBS_SOURCE: "jsearch", GRADTRAIL_JSEARCH_KEY: "ak_env", GRADTRAIL_JSEARCH_HOST: "rapidapi" });

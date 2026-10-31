@@ -58,6 +58,8 @@ describe("stored settings", () => {
       backupProblem: null,
       jobSource: null,
       joobleKeyEnc: null,
+      usajobsKeyEnc: null,
+      usajobsEmail: null,
       jsearchKeyEnc: null,
       jsearchHost: "openwebninja",
       adzunaAppId: null,

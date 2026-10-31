@@ -136,3 +136,28 @@ test("searches FreeHire, which needs no key and has no radius", async ({ page })
   await page.getByRole("radio", { name: "JSearch" }).click();
   await chosen("JSEARCH");
 });
+
+test("searches USAJOBS with a registered key and shows the federal posting details", async ({ page }) => {
+  await resetData();
+  await page.goto("/settings?section=jobs");
+  await page.getByRole("radio", { name: "USAJOBS" }).click();
+  await expect.poll(async () => (await sql<{ value: string }>(`SELECT value FROM "Setting" WHERE key = 'jobSource'`))[0]?.value).toBe("USAJOBS");
+  await page.getByLabel("Email registered with USAJOBS").fill("e2e-usajobs@example.com");
+  await page.getByLabel("Email registered with USAJOBS").press("Tab");
+  await expect.poll(async () => (await sql<{ value: string }>(`SELECT value FROM "Setting" WHERE key = 'usajobsEmail'`))[0]?.value).toBe("e2e-usajobs@example.com");
+  await page.getByLabel("API key").fill("e2e-usajobs-key");
+  await page.getByLabel("API key").press("Tab");
+  await expect(page.getByLabel("API key")).toHaveAttribute("placeholder", "Saved · type a new key to replace it");
+  await page.getByRole("button", { name: "Test connection" }).click();
+  await expect(page.getByText(/^Connected · USAJOBS answered in/)).toBeVisible();
+
+  await page.goto("/jobs?q=software+developer&where=Washington%2C+DC&country=us");
+  await page.getByRole("search", { name: "Search postings" }).getByRole("button", { name: "Search" }).click();
+  await expect(page.getByRole("heading", { name: "Software Engineering Intern" })).toBeVisible();
+  await expect(page.getByText(/^1 posting from USAJOBS · searched/)).toBeVisible();
+  await expect(page.getByRole("region", { name: "Posting text" })).toContainText("Students and U.S. citizens");
+  await expect(page.getByRole("link", { name: "Source: USAJOBS" })).toHaveAttribute("href", "https://www.usajobs.gov");
+
+  await page.goto("/settings?section=jobs");
+  await page.getByRole("radio", { name: "JSearch" }).click();
+});

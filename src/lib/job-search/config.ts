@@ -22,6 +22,7 @@ export type JobSearchConfig = {
   jsearch: { key: string | null; host: JSearchHost; keyState: JobKeyState };
   adzuna: { appId: string; key: string | null; keyState: JobKeyState };
   jooble: { key: string | null; keyState: JobKeyState };
+  usajobs: { key: string | null; keyState: JobKeyState; email: string };
   /**
    * The Bundesagentur für Arbeit (#223): whether this server offers it, and
    * when its note was accepted. Its searches wait until then.
@@ -31,7 +32,7 @@ export type JobSearchConfig = {
   freehire: { url: string };
 };
 
-type SavedJobSettings = Pick<SettingsData, "jobSource" | "jsearchKeyEnc" | "jsearchHost" | "adzunaAppId" | "adzunaKeyEnc" | "joobleKeyEnc" | "arbeitsagenturAcceptedAt">;
+type SavedJobSettings = Pick<SettingsData, "jobSource" | "jsearchKeyEnc" | "jsearchHost" | "adzunaAppId" | "adzunaKeyEnc" | "joobleKeyEnc" | "usajobsKeyEnc" | "usajobsEmail" | "arbeitsagenturAcceptedAt">;
 type JobEnv = Pick<
   Env,
   | "GRADTRAIL_JOBS_SOURCE"
@@ -40,6 +41,8 @@ type JobEnv = Pick<
   | "GRADTRAIL_ADZUNA_APP_ID"
   | "GRADTRAIL_ADZUNA_KEY"
   | "GRADTRAIL_JOOBLE_KEY"
+  | "GRADTRAIL_USAJOBS_KEY"
+  | "GRADTRAIL_USAJOBS_EMAIL"
   | "GRADTRAIL_FREEHIRE_URL"
   | "GRADTRAIL_JOBS_ARBEITSAGENTUR"
 >;
@@ -50,6 +53,7 @@ const FROM_ENV: Record<NonNullable<Env["GRADTRAIL_JOBS_SOURCE"]>, JobSource | nu
   arbeitsagentur: "ARBEITSAGENTUR",
   freehire: "FREEHIRE",
   jooble: "JOOBLE",
+  usajobs: "USAJOBS",
   remoteok: "REMOTEOK",
   student_feeds: "STUDENT_FEEDS",
   off: null,
@@ -86,6 +90,7 @@ export function resolveJobSearchConfig(saved: SavedJobSettings, source: JobEnv, 
       ...keyOf(saved.adzunaKeyEnc, source.GRADTRAIL_ADZUNA_KEY, secret),
     },
     jooble: keyOf(saved.joobleKeyEnc, source.GRADTRAIL_JOOBLE_KEY, secret),
+    usajobs: { ...keyOf(saved.usajobsKeyEnc, source.GRADTRAIL_USAJOBS_KEY, secret), email: saved.usajobsEmail ?? source.GRADTRAIL_USAJOBS_EMAIL ?? "" },
     arbeitsagentur: { offered, acceptedAt: saved.arbeitsagenturAcceptedAt },
     freehire: { url: source.GRADTRAIL_FREEHIRE_URL ?? FREEHIRE_URL },
   };
@@ -115,6 +120,7 @@ export function jobSearchView(config: JobSearchConfig): JobSearchSettingsView {
     arbeitsagentur: config.arbeitsagentur,
     freehire: { host: new URL(config.freehire.url).host },
     jooble: { keyState: config.jooble.keyState },
+    usajobs: { keyState: config.usajobs.keyState, email: config.usajobs.email },
   };
 }
 
@@ -165,6 +171,12 @@ export function credentialsFor<S extends JobSource>(config: JobSearchConfig, sou
       const { key, keyState } = config.jooble;
       if (!key) throw missing(keyState);
       return { key } as SourceCredentials[S];
+    }
+    case "USAJOBS": {
+      const { key, keyState, email } = config.usajobs;
+      if (!key) throw missing(keyState);
+      if (!email) throw new JobSearchError("no-key", "Add the USAJOBS API key and the email registered with that key in Settings → Job search.");
+      return { key, email } as SourceCredentials[S];
     }
     case "REMOTEOK":
       return {} as SourceCredentials[S];

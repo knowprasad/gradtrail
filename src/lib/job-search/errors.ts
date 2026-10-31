@@ -42,7 +42,9 @@ export function jobSearchError(problem: JobSearchProblem, source: JobSource, { c
   const message = {
     off: `${name} isn't offered on this server. Choose another source in Settings → Job search.`,
     "not-accepted": `Read the note about ${name} and tick “I understand” before GradTrail searches it.`,
-    "no-key": `Add your ${name} ${source === "ADZUNA" ? "app ID and key" : "key"} in Settings → Job search first.`,
+    "no-key": source === "USAJOBS"
+      ? "Add your USAJOBS API key and the email registered with it in Settings → Job search first."
+      : `Add your ${name} ${source === "ADZUNA" ? "app ID and key" : "key"} in Settings → Job search first.`,
     key: `${name} didn't accept your key. Check it in Settings → Job search.`,
     quota: source === "JOOBLE"
       ? "You've used Jooble's 500 lifetime API requests for this key. Use another source or request a higher quota from Jooble."

@@ -13,6 +13,7 @@ export type JobSearchSettingsView = {
   /** The FreeHire it searches: "freehire.me", or a self-hosted one's host (GRADTRAIL_FREEHIRE_URL). */
   freehire: { host: string };
   jooble: { keyState: JobKeyState };
+  usajobs: { keyState: JobKeyState; email: string };
 };
 
 export const JOB_KEY_UNREADABLE = "Your saved key can't be read. Please enter it again.";
@@ -104,6 +105,17 @@ export const SOURCE_INFO: Record<JobSource, SourceInfo> = {
     attribution: "Jobs by Jooble",
     attributionLink: { home: "https://in.jooble.org", local: /^in\.jooble\.org$/ },
     countries: ["in"],
+    radius: true,
+  },
+  USAJOBS: {
+    name: "USAJOBS",
+    description: "Official U.S. federal job announcements, including student and recent-graduate hiring paths, with full details and eligibility information.",
+    tag: "United States only · free API key required · student paths",
+    keyUrl: "https://developer.usajobs.gov/apirequest/",
+    quotaPeriod: null,
+    attribution: "Source: USAJOBS",
+    attributionLink: { home: "https://www.usajobs.gov", local: /^www\.usajobs\.gov$/ },
+    countries: ["us"],
     radius: true,
   },
   REMOTEOK: {

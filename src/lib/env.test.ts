@@ -27,9 +27,8 @@ describe("parseEnv", () => {
   it("accepts the required variables and fills in defaults", () => {
     expect(parseEnv(valid)).toEqual({
       ...valid,
-      GRADTRAIL_DATA_DIR: "/data",
+      GRADTRAIL_DATA_DIR: path.resolve("/data"),
       GRADTRAIL_BACKUP_RETENTION_DAYS: 14,
-      GRADTRAIL_TELEMETRY: undefined,
     });
   });
 
@@ -45,7 +44,7 @@ describe("parseEnv", () => {
   it("reads the optional variables", () => {
     const env = parseEnv({
       ...valid,
-      GRADTRAIL_DATA_DIR: "/srv/gradtrail",
+      GRADTRAIL_DATA_DIR: path.resolve("/srv/gradtrail"),
       GRADTRAIL_BACKUP_RETENTION_DAYS: "30",
       GRADTRAIL_AI_PROVIDER: "local",
       GRADTRAIL_AI_URL: "http://ollama:11434",
@@ -76,7 +75,7 @@ describe("parseEnv", () => {
   it("treats empty values as unset", () => {
     const env = parseEnv({ ...valid, GRADTRAIL_AI_KEY: "", GRADTRAIL_DATA_DIR: " " });
     expect(env.GRADTRAIL_AI_KEY).toBeUndefined();
-    expect(env.GRADTRAIL_DATA_DIR).toBe("/data");
+    expect(env.GRADTRAIL_DATA_DIR).toBe(path.resolve("/data"));
     expect(problems({ ...valid, GRADTRAIL_PASSWORD: "" })).toEqual([
       expect.stringMatching(/^GRADTRAIL_PASSWORD is not set\./),
     ]);
@@ -144,6 +143,8 @@ describe("job search variables (E14-4)", () => {
         GRADTRAIL_JSEARCH_HOST: "rapidapi",
         GRADTRAIL_ADZUNA_APP_ID: "app",
         GRADTRAIL_ADZUNA_KEY: "adz",
+        GRADTRAIL_USAJOBS_KEY: "usajobs-key",
+        GRADTRAIL_USAJOBS_EMAIL: "registered@example.com",
         GRADTRAIL_FREEHIRE_URL: "https://jobs.example/",
       }),
     ).toMatchObject({
@@ -152,6 +153,8 @@ describe("job search variables (E14-4)", () => {
       GRADTRAIL_JSEARCH_HOST: "rapidapi",
       GRADTRAIL_ADZUNA_APP_ID: "app",
       GRADTRAIL_ADZUNA_KEY: "adz",
+      GRADTRAIL_USAJOBS_KEY: "usajobs-key",
+      GRADTRAIL_USAJOBS_EMAIL: "registered@example.com",
       GRADTRAIL_FREEHIRE_URL: "https://jobs.example",
     });
     expect(parseEnv({ ...valid, GRADTRAIL_JOBS_SOURCE: "freehire" }).GRADTRAIL_JOBS_SOURCE).toBe("freehire");
@@ -168,7 +171,7 @@ describe("job search variables (E14-4)", () => {
 
   it("rejects sources and hosts it doesn't know, without echoing keys", () => {
     expect(problems({ ...valid, GRADTRAIL_JOBS_SOURCE: "linkedin", GRADTRAIL_JSEARCH_HOST: "google", GRADTRAIL_JSEARCH_KEY: "ak_secret" })).toEqual([
-      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, jooble, remoteok, student_feeds, off (got "linkedin").',
+      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, jooble, usajobs, remoteok, student_feeds, off (got "linkedin").',
       'GRADTRAIL_JSEARCH_HOST must be openwebninja or rapidapi (got "google").',
     ]);
   });

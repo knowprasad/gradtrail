@@ -11,7 +11,7 @@ const GENERATE_SECRET = "for example the output of `openssl rand -base64 32`";
 const HASH_PASSWORD = "Make one with `docker/bin/yarn hash-password`";
 
 export const AI_PROVIDERS = ["local", "openai", "anthropic", "mistral", "lmstudio"] as const;
-export const JOB_SOURCE_NAMES = ["jsearch", "adzuna", "arbeitsagentur", "freehire", "jooble", "remoteok", "student_feeds", "off"] as const;
+export const JOB_SOURCE_NAMES = ["jsearch", "adzuna", "arbeitsagentur", "freehire", "jooble", "usajobs", "remoteok", "student_feeds", "off"] as const;
 
 // An empty value (`GRADTRAIL_AI_KEY=` in .env) counts as unset.
 const unsetIfEmpty = (value: unknown) =>
@@ -123,6 +123,8 @@ const schema = z.object({
   GRADTRAIL_ADZUNA_APP_ID: optional(z.string()),
   GRADTRAIL_ADZUNA_KEY: optional(z.string()),
   GRADTRAIL_JOOBLE_KEY: optional(z.string()),
+  GRADTRAIL_USAJOBS_KEY: optional(z.string()),
+  GRADTRAIL_USAJOBS_EMAIL: optional(z.email()),
   // FreeHire origin; unset uses https://freehire.me. Point at a self-hosted
   // FreeHire, or leave unset for the public catalogue.
   GRADTRAIL_FREEHIRE_URL: optional(

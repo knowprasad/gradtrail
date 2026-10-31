@@ -22,6 +22,7 @@ const off: JobSearchSettingsView = {
   arbeitsagentur: { offered: true, acceptedAt: null },
   freehire: { host: "freehire.me" },
   jooble: { keyState: "none" },
+  usajobs: { keyState: "none", email: "" },
 };
 const ACCEPTED = "2026-10-23T09:00:00.000Z";
 const withSource = (view: Partial<JobSearchSettingsView>): JobSearchSettingsView => ({ ...off, ...view });
@@ -46,6 +47,7 @@ describe("JobSearchSection", () => {
       "FreeHire",
       "Bundesagentur für Arbeit",
       "Jooble",
+      "USAJOBS",
       "Remote OK",
       "Student and internship feeds",
       "Off",
@@ -96,6 +98,15 @@ describe("JobSearchSection", () => {
     expect(screen.getByLabelText("App key")).toHaveAttribute("type", "password");
   });
 
+  it("shows USAJOBS key and registered email setup, disclosing both are sent", async () => {
+    render(<JobSearchSection initial={off} />);
+    await userEvent.click(screen.getByRole("radio", { name: "USAJOBS" }));
+    expect(screen.getByRole("note")).toHaveTextContent("and the email registered to your USAJOBS API key go to USAJOBS");
+    expect(screen.getByRole("link", { name: "Request a USAJOBS API key" })).toHaveAttribute("href", "https://developer.usajobs.gov/apirequest/");
+    expect(screen.getByLabelText("Email registered with USAJOBS")).toHaveAttribute("type", "email");
+    expect(screen.getByText(/confirm citizenship and other eligibility rules/)).toBeInTheDocument();
+  });
+
   it("saves the Arbeitsagentur only once its note is ticked (#223)", async () => {
     vi.mocked(saveJobSource).mockResolvedValue({ ok: true, data: withSource({ source: "ARBEITSAGENTUR", arbeitsagentur: { offered: true, acceptedAt: ACCEPTED } }) });
     render(<JobSearchSection initial={off} />);
@@ -132,7 +143,7 @@ describe("JobSearchSection", () => {
 
   it("leaves the Arbeitsagentur out when the server doesn't offer it", () => {
     render(<JobSearchSection initial={withSource({ arbeitsagentur: { offered: false, acceptedAt: null } })} />);
-    expect(screen.getAllByRole("radio").map((radio) => radio.getAttribute("aria-label"))).toEqual(["JSearch", "Adzuna", "FreeHire", "Jooble", "Remote OK", "Student and internship feeds", "Off"]);
+    expect(screen.getAllByRole("radio").map((radio) => radio.getAttribute("aria-label"))).toEqual(["JSearch", "Adzuna", "FreeHire", "Jooble", "USAJOBS", "Remote OK", "Student and internship feeds", "Off"]);
   });
 
   it("says which FreeHire it searches, with no key to ask for", () => {

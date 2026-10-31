@@ -15,6 +15,7 @@ export type SourceCredentials = {
   ARBEITSAGENTUR: Record<string, never>;
   FREEHIRE: Record<string, never>;
   JOOBLE: { key: string };
+  USAJOBS: { key: string; email: string };
   REMOTEOK: Record<string, never>;
   STUDENT_FEEDS: Record<string, never>;
 };

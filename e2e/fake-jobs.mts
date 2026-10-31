@@ -124,6 +124,35 @@ createServer((request, response) => {
     return send(response, 200, { ergebnisliste: [{ referenznummer: "e2e-ba", stellenangebotsTitel: "Produktdesigner (m/w/d)", firma: "Hafenlogik GmbH" }], maxErgebnisse: 1 });
   }
 
+  if (url.pathname === "/usajobs/api/search") {
+    if (request.headers["authorization-key"] !== "e2e-usajobs-key" || request.headers["user-agent"] !== "e2e-usajobs@example.com") {
+      return send(response, 401, { error: "Invalid USAJOBS credentials" });
+    }
+    return send(response, 200, {
+      SearchResult: {
+        UserArea: { NumberOfPages: 1 },
+        SearchResultItems: [{
+          MatchedObjectId: 2026,
+          MatchedObjectDescriptor: {
+            PositionID: "E2E-US-STUDENT-2026",
+            PositionTitle: "Software Engineering Intern",
+            PositionURI: "https://www.usajobs.gov/job/e2e-us-student",
+            ApplyURI: ["https://www.usajobs.gov/job/e2e-us-student/apply"],
+            PositionLocationDisplay: "Washington, District of Columbia",
+            OrganizationName: "Example Federal Agency",
+            RemoteIndicator: false,
+            PublicationStartDate: new Date(Date.now() - 2 * 86_400_000).toISOString(),
+            ApplicationCloseDate: new Date(Date.now() + 14 * 86_400_000).toISOString(),
+            PositionOfferingType: [{ Name: "Internship" }],
+            PositionRemuneration: [{ MinimumRange: 20, MaximumRange: 25, RateIntervalCode: "PH" }],
+            PositionFormattedDescription: [{ Label: "Duties", Content: "Build software for public services." }],
+            UserArea: { Details: { WhoMayApply: { Name: "Students and U.S. citizens" } } },
+          },
+        }],
+      },
+    });
+  }
+
   if (url.pathname === "/freehire/api/v1/agent/jobs/search") {
     return send(response, 200, {
       data: [

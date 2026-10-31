@@ -40,6 +40,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
   const track = useTrackSave();
   const [view, setView] = useState(initial);
   const [appId, setAppId] = useState(initial.adzuna.appId);
+  const [usajobsEmail, setUsajobsEmail] = useState(initial.usajobs.email);
   const [connection, setConnection] = useState<Connection>({ status: "untested" });
   const source = view.source;
 
@@ -75,7 +76,13 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
     apply(toastResult(await track(saveJobSearchDetails({ adzunaAppId: appId }))));
   };
 
-  const saveKey = async (keySource: "JSEARCH" | "ADZUNA" | "JOOBLE", change: { action: "set"; value: string } | { action: "clear" }) => {
+  const saveUsajobsEmail = async () => {
+    if (usajobsEmail.trim() === view.usajobs.email) return;
+    changed();
+    apply(toastResult(await track(saveJobSearchDetails({ usajobsEmail }))));
+  };
+
+  const saveKey = async (keySource: "JSEARCH" | "ADZUNA" | "JOOBLE" | "USAJOBS", change: { action: "set"; value: string } | { action: "clear" }) => {
     changed();
     return apply(toastResult(await track(saveJobSourceKey({ source: keySource, change }))));
   };
@@ -129,7 +136,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
       {source !== "OFF" && (
         <>
           <p role="note" className="rounded-card bg-warning-surface px-4 py-3 text-meta text-warning">
-            Your searches (keywords, place and filters) go to {SOURCE_INFO[source].name}. Nothing from your profile does.
+            Your searches (keywords, place and filters){source === "USAJOBS" ? " and the email registered to your USAJOBS API key" : ""} go to {SOURCE_INFO[source].name}. Nothing from your profile does.
           </p>
 
           <Card className="flex flex-col gap-5">
@@ -186,6 +193,33 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
                 getKey={{ href: SOURCE_INFO.JOOBLE.keyUrl!, text: "Jooble India API portal" }}
                 onSave={(change) => saveKey("JOOBLE", change)}
               />
+            )}
+            {source === "USAJOBS" && (
+              <div className="flex flex-col gap-5">
+                <Input
+                  label="Email registered with USAJOBS"
+                  type="email"
+                  autoComplete="email"
+                  value={usajobsEmail}
+                  hint="USAJOBS requires this address in the User-Agent header with every search."
+                  onChange={(event) => setUsajobsEmail(event.target.value)}
+                  onBlur={() => void saveUsajobsEmail()}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      void saveUsajobsEmail();
+                    }
+                  }}
+                />
+                <KeyField
+                  label="API key"
+                  keyState={view.usajobs.keyState}
+                  envName="GRADTRAIL_USAJOBS_KEY"
+                  getKey={{ href: SOURCE_INFO.USAJOBS.keyUrl!, text: "Request a USAJOBS API key" }}
+                  onSave={(change) => saveKey("USAJOBS", change)}
+                />
+                <p className="text-sm text-muted">Searches show public federal announcements only. Student or recent-graduate hiring paths are used when you choose internship or graduate filters; confirm citizenship and other eligibility rules on the official announcement.</p>
+              </div>
             )}
             {source === "STUDENT_FEEDS" && (
               <p className="text-sm text-muted">
