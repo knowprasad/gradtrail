@@ -48,7 +48,7 @@ test("finds hiring startups with the addresses they publish, and leaves alone wh
   // Tulipworks' robots.txt keeps GradTrail out, and every request says what it is.
   const requests = await fakeStartupRequests();
   expect(requests.filter((request) => request.url.includes("tulipworks")).map((request) => request.url)).toEqual(["https://tulipworks.example/robots.txt"]);
-  expect(requests.every((request) => /gradtrail\/[\w.-]+; \+https:\/\/github\.com\/AienTech\/gradtrail\/blob\/main\/PRIVACY\.md#startups/.test(request.userAgent))).toBe(true);
+  expect(requests.every((request) => /gradtrail\/[\w.-]+; \+https:\/\/github\.com\/AienTech\/dossier\/blob\/main\/PRIVACY\.md#startups/.test(request.userAgent))).toBe(true);
   await expect(page.getByRole("article", { name: "Tulipworks" }).getByRole("list", { name: "Addresses they publish" })).toHaveCount(0);
 
   await expectAccessible(page);
