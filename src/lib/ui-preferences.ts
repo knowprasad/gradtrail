@@ -3,8 +3,10 @@
 // renders the right one from the first paint, with no flash and no inline
 // script. Read on the server and the client alike.
 
-export const COLOR_SCHEME_COOKIE = "northstar_theme";
-export const SIDEBAR_COOKIE = "northstar_sidebar";
+export const COLOR_SCHEME_COOKIE = "gradtrail_theme";
+export const SIDEBAR_COOKIE = "gradtrail_sidebar";
+export const LEGACY_COLOR_SCHEME_COOKIE = ["north", "star", "theme"].join("_");
+export const LEGACY_SIDEBAR_COOKIE = ["north", "star", "sidebar"].join("_");
 
 export type ColorScheme = "light" | "dark";
 

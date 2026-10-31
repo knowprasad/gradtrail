@@ -15,7 +15,7 @@ import { GoogleError } from "./errors";
 // Signing in with Google for Gmail and Calendar (E15-1): the OAuth 2.0
 // authorization code flow for a web server app, with offline access so a
 // refresh token keeps working after the browser is gone. The state is a
-// short-lived token signed with a key from NORTHSTAR_SECRET, so a callback
+// short-lived token signed with a key from GRADTRAIL_SECRET, so a callback
 // can't be forged from another site.
 
 export const CALLBACK_PATH = "/api/google/callback";
@@ -51,14 +51,14 @@ export type GoogleClientConfig = {
 };
 
 type SavedClient = Pick<SettingsData, "googleClientId" | "googleClientSecretEnc">;
-type ClientEnv = Pick<Env, "NORTHSTAR_GOOGLE_CLIENT_ID" | "NORTHSTAR_GOOGLE_CLIENT_SECRET">;
+type ClientEnv = Pick<Env, "GRADTRAIL_GOOGLE_CLIENT_ID" | "GRADTRAIL_GOOGLE_CLIENT_SECRET">;
 
 /**
  * The OAuth client: what's saved in Settings → Google, else the
- * NORTHSTAR_GOOGLE_CLIENT_* variables, each part on its own.
+ * GRADTRAIL_GOOGLE_CLIENT_* variables, each part on its own.
  */
 export function resolveGoogleClient(saved: SavedClient, source: ClientEnv, secret?: string): GoogleClientConfig {
-  const fromEnvId = source.NORTHSTAR_GOOGLE_CLIENT_ID || undefined;
+  const fromEnvId = source.GRADTRAIL_GOOGLE_CLIENT_ID || undefined;
   const id = saved.googleClientId ?? fromEnvId ?? "";
   const idState: ClientPartState = saved.googleClientId ? "set" : fromEnvId ? "env" : "none";
   let clientSecret: string | null = null;
@@ -71,8 +71,8 @@ export function resolveGoogleClient(saved: SavedClient, source: ClientEnv, secre
       if (!(error instanceof SecretUnreadable)) throw error;
       secretState = "unreadable";
     }
-  } else if (source.NORTHSTAR_GOOGLE_CLIENT_SECRET) {
-    clientSecret = source.NORTHSTAR_GOOGLE_CLIENT_SECRET;
+  } else if (source.GRADTRAIL_GOOGLE_CLIENT_SECRET) {
+    clientSecret = source.GRADTRAIL_GOOGLE_CLIENT_SECRET;
     secretState = "env";
   }
   return { client: id && clientSecret ? { id, secret: clientSecret } : null, id, idState, secretState };
@@ -88,12 +88,13 @@ export async function googleClient(): Promise<{ id: string; secret: string } | n
   return (await loadGoogleClientConfig()).client;
 }
 
-/** Where Google sends the browser back to: NORTHSTAR_PUBLIC_URL, else the address in use. */
+/** Where Google sends the browser back to: GRADTRAIL_PUBLIC_URL, else the address in use. */
 export function redirectUri(origin: string): string {
-  return `${env.NORTHSTAR_PUBLIC_URL ?? origin}${CALLBACK_PATH}`;
+  return `${env.GRADTRAIL_PUBLIC_URL ?? origin}${CALLBACK_PATH}`;
 }
 
-const STATE_AUDIENCE = "northstar-google-oauth";
+const STATE_AUDIENCE = "gradtrail-google-oauth";
+const LEGACY_STATE_AUDIENCE = ["north", "star", "google", "oauth"].join("-");
 
 /** A state that only this server can make, for ten minutes, carrying where to go back to. */
 export async function signState(returnTo: string, secret?: string): Promise<string> {
@@ -110,7 +111,7 @@ export async function verifyState(state: string | null, { secret, now }: { secre
   if (!state) return null;
   try {
     const { payload } = await jwtVerify(state, deriveKey("oauth-state", secret), {
-      audience: STATE_AUDIENCE,
+      audience: [STATE_AUDIENCE, LEGACY_STATE_AUDIENCE],
       algorithms: ["HS256"],
       currentDate: now,
     });

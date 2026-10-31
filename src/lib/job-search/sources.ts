@@ -10,7 +10,7 @@ export type JobSearchSettingsView = {
   adzuna: { appId: string; keyState: JobKeyState };
   /** Whether this server offers the Bundesagentur für Arbeit, and when its note was accepted (#223). */
   arbeitsagentur: { offered: boolean; acceptedAt: string | null };
-  /** The FreeHire it searches: "freehire.me", or a self-hosted one's host (NORTHSTAR_FREEHIRE_URL). */
+  /** The FreeHire it searches: "freehire.me", or a self-hosted one's host (GRADTRAIL_FREEHIRE_URL). */
   freehire: { host: string };
   jooble: { keyState: JobKeyState };
 };
@@ -119,7 +119,7 @@ export const SOURCE_INFO: Record<JobSource, SourceInfo> = {
   },
 };
 
-/** FreeHire's public catalogue; NORTHSTAR_FREEHIRE_URL can name a self-hosted one instead. */
+/** FreeHire's public catalogue; GRADTRAIL_FREEHIRE_URL can name a self-hosted one instead. */
 export const FREEHIRE_URL = "https://freehire.me";
 
 /** Whether a source lists jobs in a country ("de"). */
@@ -131,7 +131,7 @@ export function sourceCovers(source: JobSource, country: string): boolean {
 // The Bundesagentur für Arbeit (#223) has no official API: GradTrail uses the
 // access its own job search uses, without its permission. So it's the
 // user's own choice, after this note, and a server can turn it off
-// (NORTHSTAR_JOBS_ARBEITSAGENTUR=off).
+// (GRADTRAIL_JOBS_ARBEITSAGENTUR=off).
 
 /** The BA's terms of use for arbeitsagentur.de. */
 export const ARBEITSAGENTUR_TERMS_URL = "https://www.arbeitsagentur.de/datei/nutzungsbedingungen_ba036575.pdf";

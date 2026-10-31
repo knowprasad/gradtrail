@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Design tokens, taken from the prototype (design/northstar.dc.html).
+ * Design tokens, taken from the prototype (design/gradtrail.dc.html).
  * Each token below becomes a Tailwind utility, e.g. --color-muted → text-muted,
  * --radius-card → rounded-card, --text-title → text-title.
  */

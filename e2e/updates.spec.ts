@@ -56,7 +56,7 @@ test("says a newer release is out until Not now, and again for the next one", as
   await expect(page.getByRole("region", { name: "GradTrail 99.1.0 is out" })).toBeVisible();
 
   // With the sidebar collapsed, it's an icon that opens the sidebar on the notice.
-  await context.addCookies([{ name: "northstar_sidebar", value: "collapsed", url: baseURL! }]);
+  await context.addCookies([{ name: "gradtrail_sidebar", value: "collapsed", url: baseURL! }]);
   await page.goto("/");
   await expect(page.getByRole("region", { name: /is out$/ })).toBeHidden();
   await expectAccessibleSidebar(page);

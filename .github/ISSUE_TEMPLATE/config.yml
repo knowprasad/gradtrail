@@ -7,5 +7,5 @@ contact_links:
     url: https://github.com/AienTech/dossier/wiki/Troubleshooting
     about: What to do about the problems people run into most.
   - name: Report a security problem
-    url: https://github.com/knowprasad/northstar-india/security/advisories/new
+    url: https://github.com/knowprasad/gradtrail/security/advisories/new
     about: Report it privately, never in a public issue. SECURITY.md says how.

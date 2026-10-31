@@ -28,10 +28,10 @@ services:
       # Overrides the localhost URL in .env, which is meant for tools run on the host.
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-northstar}
       # Created by scripts/setup.ps1 for a guided first run.
-      NORTHSTAR_PASSWORD: ${NORTHSTAR_PASSWORD:-}
-      NORTHSTAR_SECRET: ${NORTHSTAR_SECRET:-}
+      GRADTRAIL_PASSWORD: ${GRADTRAIL_PASSWORD:-}
+      GRADTRAIL_SECRET: ${GRADTRAIL_SECRET:-}
     ports:
-      - "127.0.0.1:${NORTHSTAR_PORT:-3000}:3000"
+      - "127.0.0.1:${GRADTRAIL_PORT:-3000}:3000"
     volumes:
       - .:/app
       # Keep the container's own (Debian) node_modules and build cache

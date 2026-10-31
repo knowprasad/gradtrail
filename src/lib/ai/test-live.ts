@@ -7,7 +7,7 @@ import type { AiConfig } from "./config";
 
 /**
  * What's saved in Settings → AI provider, key included, read the way the app
- * reads it: `.env` (NORTHSTAR_SECRET decrypts the key), then the database.
+ * reads it: `.env` (GRADTRAIL_SECRET decrypts the key), then the database.
  */
 export async function savedAiConfig(): Promise<AiConfig> {
   // Keeps what's set already, such as the DATABASE_URL Compose gives the container.
@@ -16,26 +16,26 @@ export async function savedAiConfig(): Promise<AiConfig> {
   return loadAiConfig();
 }
 
-/** Anthropic's key and model: NORTHSTAR_AI_KEY (and NORTHSTAR_AI_MODEL), or what's saved in Settings with Anthropic chosen. */
+/** Anthropic's key and model: GRADTRAIL_AI_KEY (and GRADTRAIL_AI_MODEL), or what's saved in Settings with Anthropic chosen. */
 export async function liveAnthropic(): Promise<{ key: string; model: string } | null> {
   const fallbackModel = "claude-haiku-4-5";
-  if (process.env.NORTHSTAR_AI_KEY) return { key: process.env.NORTHSTAR_AI_KEY, model: process.env.NORTHSTAR_AI_MODEL ?? fallbackModel };
+  if (process.env.GRADTRAIL_AI_KEY) return { key: process.env.GRADTRAIL_AI_KEY, model: process.env.GRADTRAIL_AI_MODEL ?? fallbackModel };
   const saved = await savedAiConfig();
   return saved.provider === AiProvider.ANTHROPIC && saved.apiKey ? { key: saved.apiKey, model: saved.model ?? fallbackModel } : null;
 }
 
-/** Mistral's key and model: NORTHSTAR_AI_KEY (and NORTHSTAR_AI_MODEL), or what's saved in Settings with Mistral chosen. */
+/** Mistral's key and model: GRADTRAIL_AI_KEY (and GRADTRAIL_AI_MODEL), or what's saved in Settings with Mistral chosen. */
 export async function liveMistral(): Promise<{ key: string; model: string } | null> {
   const fallbackModel = "mistral-medium-latest";
-  if (process.env.NORTHSTAR_AI_KEY) return { key: process.env.NORTHSTAR_AI_KEY, model: process.env.NORTHSTAR_AI_MODEL ?? fallbackModel };
+  if (process.env.GRADTRAIL_AI_KEY) return { key: process.env.GRADTRAIL_AI_KEY, model: process.env.GRADTRAIL_AI_MODEL ?? fallbackModel };
   const saved = await savedAiConfig();
   return saved.provider === AiProvider.MISTRAL && saved.apiKey ? { key: saved.apiKey, model: saved.model ?? fallbackModel } : null;
 }
 
-/** LM Studio's address, token and model: NORTHSTAR_AI_MODEL (and NORTHSTAR_AI_URL, NORTHSTAR_AI_KEY), or what's saved in Settings with LM Studio chosen. */
+/** LM Studio's address, token and model: GRADTRAIL_AI_MODEL (and GRADTRAIL_AI_URL, GRADTRAIL_AI_KEY), or what's saved in Settings with LM Studio chosen. */
 export async function liveLmStudio(): Promise<{ url: string; key: string | null; model: string } | null> {
-  const { NORTHSTAR_AI_URL, NORTHSTAR_AI_KEY, NORTHSTAR_AI_MODEL } = process.env;
-  if (NORTHSTAR_AI_MODEL) return { url: NORTHSTAR_AI_URL ?? "http://host.docker.internal:1234", key: NORTHSTAR_AI_KEY ?? null, model: NORTHSTAR_AI_MODEL };
+  const { GRADTRAIL_AI_URL, GRADTRAIL_AI_KEY, GRADTRAIL_AI_MODEL } = process.env;
+  if (GRADTRAIL_AI_MODEL) return { url: GRADTRAIL_AI_URL ?? "http://host.docker.internal:1234", key: GRADTRAIL_AI_KEY ?? null, model: GRADTRAIL_AI_MODEL };
   const saved = await savedAiConfig();
   return saved.provider === AiProvider.LMSTUDIO && saved.model ? { url: saved.baseUrl, key: saved.apiKey, model: saved.model } : null;
 }

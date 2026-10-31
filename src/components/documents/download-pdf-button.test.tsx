@@ -55,7 +55,7 @@ describe("DownloadPdfButton", () => {
       "fetch",
       vi.fn(async () =>
         new Response(new Blob(["{}"]), {
-          headers: { "content-disposition": "attachment; filename*=UTF-8''Jane%20%E2%80%93%20northstar.json" },
+          headers: { "content-disposition": "attachment; filename*=UTF-8''Jane%20%E2%80%93%20gradtrail.json" },
         }),
       ),
     );
@@ -66,7 +66,7 @@ describe("DownloadPdfButton", () => {
     );
     await userEvent.click(screen.getByRole("link", { name: "Export" }));
     expect(fetch).toHaveBeenCalledWith("/api/export", undefined);
-    expect(click).toHaveBeenCalledWith("Jane – northstar.json", expect.stringMatching(/^blob:/));
+    expect(click).toHaveBeenCalledWith("Jane – gradtrail.json", expect.stringMatching(/^blob:/));
   });
 
   it("keeps the file while a Save dialog is open, however long, and frees it on the next download", async () => {

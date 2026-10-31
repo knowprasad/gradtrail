@@ -1,7 +1,7 @@
 # GradTrail with Docker Compose (see the Dossier installation guide, https://github.com/AienTech/dossier/wiki). Save this
 # file as compose.yml in a folder of its own, put POSTGRES_PASSWORD,
-# NORTHSTAR_PASSWORD (a hash of your password, from `docker run --rm -it
-# ghcr.io/knowprasad/northstar-india hash-password`) and NORTHSTAR_SECRET in a .env file
+# GRADTRAIL_PASSWORD (a hash of your password, from `docker run --rm -it
+# ghcr.io/knowprasad/gradtrail hash-password`) and GRADTRAIL_SECRET in a .env file
 # next to it, then:
 #
 #   docker compose up -d
@@ -26,41 +26,41 @@ services:
       retries: 10
 
   app:
-    image: ${NORTHSTAR_IMAGE:-ghcr.io/knowprasad/northstar-india:latest}
+    image: ${GRADTRAIL_IMAGE:-ghcr.io/knowprasad/gradtrail:latest}
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     environment:
       DATABASE_URL: postgresql://northstar:${POSTGRES_PASSWORD}@db:5432/northstar
-      NORTHSTAR_PASSWORD: ${NORTHSTAR_PASSWORD:?Set NORTHSTAR_PASSWORD in .env to a hash from hash-password}
-      NORTHSTAR_SECRET: ${NORTHSTAR_SECRET:?Set NORTHSTAR_SECRET in .env}
-      NORTHSTAR_BACKUP_RETENTION_DAYS: ${NORTHSTAR_BACKUP_RETENTION_DAYS:-}
+      GRADTRAIL_PASSWORD: ${GRADTRAIL_PASSWORD:?Set GRADTRAIL_PASSWORD in .env to a hash from hash-password}
+      GRADTRAIL_SECRET: ${GRADTRAIL_SECRET:?Set GRADTRAIL_SECRET in .env}
+      GRADTRAIL_BACKUP_RETENTION_DAYS: ${GRADTRAIL_BACKUP_RETENTION_DAYS:-}
       # Your time zone, e.g. Europe/Berlin: nightly backups run at 03:00 in it.
       TZ: ${TZ:-UTC}
-      NORTHSTAR_AI_PROVIDER: ${NORTHSTAR_AI_PROVIDER:-}
-      NORTHSTAR_AI_URL: ${NORTHSTAR_AI_URL:-}
-      NORTHSTAR_AI_MODEL: ${NORTHSTAR_AI_MODEL:-}
-      NORTHSTAR_AI_KEY: ${NORTHSTAR_AI_KEY:-}
-      NORTHSTAR_AI_TIMEOUT_SECONDS: ${NORTHSTAR_AI_TIMEOUT_SECONDS:-}
+      GRADTRAIL_AI_PROVIDER: ${GRADTRAIL_AI_PROVIDER:-}
+      GRADTRAIL_AI_URL: ${GRADTRAIL_AI_URL:-}
+      GRADTRAIL_AI_MODEL: ${GRADTRAIL_AI_MODEL:-}
+      GRADTRAIL_AI_KEY: ${GRADTRAIL_AI_KEY:-}
+      GRADTRAIL_AI_TIMEOUT_SECONDS: ${GRADTRAIL_AI_TIMEOUT_SECONDS:-}
       # The daily usage ping: unset, GradTrail asks after sign-in; on or off answers in advance (see Privacy in the wiki).
-      NORTHSTAR_TELEMETRY: ${NORTHSTAR_TELEMETRY:-}
+      GRADTRAIL_TELEMETRY: ${GRADTRAIL_TELEMETRY:-}
       # Defaults for Settings → Job search.
-      NORTHSTAR_JOBS_SOURCE: ${NORTHSTAR_JOBS_SOURCE:-}
-      NORTHSTAR_JSEARCH_KEY: ${NORTHSTAR_JSEARCH_KEY:-}
-      NORTHSTAR_JSEARCH_HOST: ${NORTHSTAR_JSEARCH_HOST:-}
-      NORTHSTAR_ADZUNA_APP_ID: ${NORTHSTAR_ADZUNA_APP_ID:-}
-      NORTHSTAR_ADZUNA_KEY: ${NORTHSTAR_ADZUNA_KEY:-}
-      NORTHSTAR_FREEHIRE_URL: ${NORTHSTAR_FREEHIRE_URL:-}
-      NORTHSTAR_JOBS_ARBEITSAGENTUR: ${NORTHSTAR_JOBS_ARBEITSAGENTUR:-}
+      GRADTRAIL_JOBS_SOURCE: ${GRADTRAIL_JOBS_SOURCE:-}
+      GRADTRAIL_JSEARCH_KEY: ${GRADTRAIL_JSEARCH_KEY:-}
+      GRADTRAIL_JSEARCH_HOST: ${GRADTRAIL_JSEARCH_HOST:-}
+      GRADTRAIL_ADZUNA_APP_ID: ${GRADTRAIL_ADZUNA_APP_ID:-}
+      GRADTRAIL_ADZUNA_KEY: ${GRADTRAIL_ADZUNA_KEY:-}
+      GRADTRAIL_FREEHIRE_URL: ${GRADTRAIL_FREEHIRE_URL:-}
+      GRADTRAIL_JOBS_ARBEITSAGENTUR: ${GRADTRAIL_JOBS_ARBEITSAGENTUR:-}
       # Gmail and Calendar: a Google OAuth client (or enter it in Settings → Google).
-      NORTHSTAR_GOOGLE_CLIENT_ID: ${NORTHSTAR_GOOGLE_CLIENT_ID:-}
-      NORTHSTAR_GOOGLE_CLIENT_SECRET: ${NORTHSTAR_GOOGLE_CLIENT_SECRET:-}
+      GRADTRAIL_GOOGLE_CLIENT_ID: ${GRADTRAIL_GOOGLE_CLIENT_ID:-}
+      GRADTRAIL_GOOGLE_CLIENT_SECRET: ${GRADTRAIL_GOOGLE_CLIENT_SECRET:-}
       # The address GradTrail is reached at, for Google's redirect.
-      NORTHSTAR_PUBLIC_URL: ${NORTHSTAR_PUBLIC_URL:-}
+      GRADTRAIL_PUBLIC_URL: ${GRADTRAIL_PUBLIC_URL:-}
     # Only on the server itself: put a reverse proxy with HTTPS in front.
     ports:
-      - "127.0.0.1:${NORTHSTAR_PORT:-3000}:3000"
+      - "127.0.0.1:${GRADTRAIL_PORT:-3000}:3000"
     volumes:
       - data:/data
     # Room for Chromium, which prints the PDFs.

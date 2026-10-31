@@ -22,7 +22,7 @@ describe("UsagePingDialog (#172)", () => {
     expect(dialog).toHaveTextContent("Nothing else: no profile, documents, applications, settings or server address.");
     expect(dialog).toHaveTextContent("It goes to the GradTrail project's maintainer, on the project's own server in Germany.");
     expect(dialog).toHaveTextContent("deleted after a year");
-    expect(dialog).toHaveTextContent("Settings → About, or with NORTHSTAR_TELEMETRY");
+    expect(dialog).toHaveTextContent("Settings → About, or with GRADTRAIL_TELEMETRY");
     expect(screen.getByRole("link", { name: "northstar.app@pm.me" })).toHaveAttribute("href", "mailto:northstar.app@pm.me");
     expect(screen.getByRole("link", { name: /More in Privacy/ })).toHaveAttribute("href", "https://github.com/AienTech/dossier/blob/main/PRIVACY.md#usage-ping");
     expect(dialog).not.toHaveTextContent(/Cloudflare/);

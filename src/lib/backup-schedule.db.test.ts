@@ -17,7 +17,7 @@ vi.mock("@/lib/prisma", async () => {
 });
 const dataDir = vi.hoisted(() => ({ path: "" }));
 vi.mock("@/lib/env", () => ({
-  env: { get NORTHSTAR_DATA_DIR() { return dataDir.path; }, NORTHSTAR_BACKUP_RETENTION_DAYS: 14, NORTHSTAR_SECRET: "s".repeat(32) },
+  env: { get GRADTRAIL_DATA_DIR() { return dataDir.path; }, GRADTRAIL_BACKUP_RETENTION_DAYS: 14, GRADTRAIL_SECRET: "s".repeat(32) },
 }));
 vi.mock("@/lib/log", () => ({ logServerError: vi.fn() }));
 
@@ -25,7 +25,7 @@ const prisma = () => db.client!;
 const backups = () => readdir(path.join(dataDir.path, "backups")).catch(() => [] as string[]);
 
 beforeEach(async () => {
-  dataDir.path = await mkdtemp(path.join(tmpdir(), "northstar-backups-"));
+  dataDir.path = await mkdtemp(path.join(tmpdir(), "gradtrail-backups-"));
   await resetDatabase(prisma());
   await prisma().application.create({ data: { company: "Ledgerly" } });
 });
@@ -57,7 +57,7 @@ describe("nightly backups (E10-7)", () => {
   it("remove backups past the retention", async () => {
     const dir = path.join(dataDir.path, "backups");
     await runNightlyBackup(new Date(2026, 8, 28, 3));
-    const old = path.join(dir, "northstar-backup-nightly-2026-09-01-030000.json");
+    const old = path.join(dir, "gradtrail-backup-nightly-2026-09-01-030000.json");
     await writeFile(old, "{}");
     const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     await utimes(old, monthAgo, monthAgo);

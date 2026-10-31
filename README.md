@@ -11,7 +11,7 @@
 This project is an India-focused adaptation of [Dossier by AienTech](https://github.com/AienTech/dossier), an open-source job search and application tracker licensed under AGPL-3.0. The interface's dark, dotted visual direction and vivid green accents take design inspiration from [Off Grid AI](https://getoffgridai.co/).
 
 <p align="center">
-  <a href="https://github.com/knowprasad/northstar-india/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/knowprasad/northstar-india/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/knowprasad/gradtrail/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/knowprasad/gradtrail/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License: AGPL-3.0" src="https://img.shields.io/badge/license-AGPL--3.0-blue"></a>
   <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs">
   <img alt="PostgreSQL 18" src="https://img.shields.io/badge/PostgreSQL-18-4169E1?logo=postgresql&logoColor=white">
@@ -91,7 +91,7 @@ The first build downloads dependencies and can take several minutes. Your profil
 
 ## Self-hosting
 
-To put this fork on a server, publish a version-tagged image with the repository's Release workflow, then use [`compose.production.yml`](compose.production.yml) and its `NORTHSTAR_*` settings. The [Dossier server guide](https://github.com/AienTech/dossier/wiki#self-host-on-a-server) has general guidance for HTTPS and reverse proxies. Give the server at least 2 vCPUs and 2 GB of memory (see [Performance and sizing](#performance-and-sizing)).
+To put this fork on a server, publish a version-tagged image with the repository's Release workflow, then use [`compose.production.yml`](compose.production.yml) and its `GRADTRAIL_*` settings. The [Dossier server guide](https://github.com/AienTech/dossier/wiki#self-host-on-a-server) has general guidance for HTTPS and reverse proxies. Give the server at least 2 vCPUs and 2 GB of memory (see [Performance and sizing](#performance-and-sizing)).
 
 ## Documentation
 

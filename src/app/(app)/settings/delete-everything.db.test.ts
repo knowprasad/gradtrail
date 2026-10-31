@@ -34,16 +34,16 @@ vi.mock("next/navigation", () => ({
   },
 }));
 const dataDir = vi.hoisted(() => ({ path: "" }));
-vi.mock("@/lib/env", () => ({ env: { get NORTHSTAR_DATA_DIR() { return dataDir.path; }, NORTHSTAR_SECRET: "s".repeat(32) } }));
+vi.mock("@/lib/env", () => ({ env: { get GRADTRAIL_DATA_DIR() { return dataDir.path; }, GRADTRAIL_SECRET: "s".repeat(32) } }));
 
 const prisma = () => db.client!;
 const now = new Date(2026, 8, 28, 12);
 const snapshot = async () => JSON.stringify({ ...(await buildExport(prisma(), { now })), exportedAt: null });
 
 beforeEach(async () => {
-  dataDir.path = await mkdtemp(path.join(tmpdir(), "northstar-delete-"));
+  dataDir.path = await mkdtemp(path.join(tmpdir(), "gradtrail-delete-"));
   await mkdir(path.join(dataDir.path, "backups"));
-  await writeFile(path.join(dataDir.path, "backups", "northstar-backup-nightly-2026-09-27-030000.json"), "{}");
+  await writeFile(path.join(dataDir.path, "backups", "gradtrail-backup-nightly-2026-09-27-030000.json"), "{}");
   redirected.to = "";
   await resetDatabase(prisma());
   await seedBuiltIns(prisma());

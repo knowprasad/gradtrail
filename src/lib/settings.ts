@@ -101,11 +101,11 @@ export const AGENT_RUNS_KEPT = 10;
 
 export const settingsSchema = z.object({
   // AI provider (SET-1). Null means "not set in the app": fall back to the
-  // NORTHSTAR_AI_* environment variables, then to the built-in defaults.
+  // GRADTRAIL_AI_* environment variables, then to the built-in defaults.
   provider: z.enum(AiProvider).nullable().catch(null),
   baseUrl: z.string().nullable().catch(null),
   model: z.string().nullable().catch(null),
-  /** Encrypted with a key derived from NORTHSTAR_SECRET (E6-2); never sent to the client. */
+  /** Encrypted with a key derived from GRADTRAIL_SECRET (E6-2); never sent to the client. */
   apiKeyEnc: z.string().nullable().catch(null),
   creativity: z.enum(Creativity).catch(Creativity.BALANCED),
   /** "Never invent experience" (SET-4). */
@@ -144,7 +144,7 @@ export const settingsSchema = z.object({
   educationOrder: z.enum(["date", "manual"]).catch("date"),
   /** Why the last nightly backup failed; null once one works again (E10-7). */
   backupProblem: z.string().nullable().catch(null),
-  // Job search (E14-4). Null means "not set in the app": NORTHSTAR_JOBS_SOURCE
+  // Job search (E14-4). Null means "not set in the app": GRADTRAIL_JOBS_SOURCE
   // decides. "OFF" is a choice. Each source keeps its own key, encrypted
   // like the AI key, so switching back and forth loses nothing.
   jobSource: z.enum([...JOB_SOURCES, "OFF"]).nullable().catch(null),
@@ -188,7 +188,7 @@ export const settingsSchema = z.object({
   updateDismissed: z.string().nullable().catch(null),
   // Gmail and Calendar (E15). Off until the Google account is connected.
   // The OAuth client, entered in Settings → Google. Null means "not set in the
-  // app": NORTHSTAR_GOOGLE_CLIENT_ID and NORTHSTAR_GOOGLE_CLIENT_SECRET decide.
+  // app": GRADTRAIL_GOOGLE_CLIENT_ID and GRADTRAIL_GOOGLE_CLIENT_SECRET decide.
   googleClientId: z.string().nullable().catch(null),
   /** Encrypted like the API keys (GOOGLE_CLIENT_SECRET); never sent to the client. */
   googleClientSecretEnc: z.string().nullable().catch(null),

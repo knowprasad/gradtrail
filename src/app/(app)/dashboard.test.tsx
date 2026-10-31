@@ -43,7 +43,7 @@ describe("the dashboard (E9-7)", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Good morning, Jane" })).toBeInTheDocument();
     expect(screen.getByText("You've sent 7 applications and heard back from 5. That's a solid run. Keep it going.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "+ New application" })).toHaveAttribute("href", "/new?fresh=1");
-    expect(document.cookie).toMatch(/northstar-tz=/);
+    expect(document.cookie).toMatch(/gradtrail-tz=/);
   });
 
   it("encourages before anything was sent", () => {

@@ -32,7 +32,7 @@ describe("Settings → Claude connector (#221)", () => {
     await user.click(toggle);
     expect(setConnector).toHaveBeenCalledWith({ on: true });
     expect(screen.getByText(ADDRESS)).toBeInTheDocument();
-    expect(screen.getByText(/claude mcp add --transport http GradTrail https:\/\/northstar\.example\/api\/mcp/)).toBeInTheDocument();
+    expect(screen.getByText(/claude mcp add --transport http GradTrail https:\/\/gradtrail\.example\/api\/mcp/)).toBeInTheDocument();
     // A public HTTPS address needs no warning.
     expect(screen.queryByRole("note")).not.toBeInTheDocument();
 

@@ -1,6 +1,6 @@
 // A stand-in for the job sources (E14-9), started by playwright.config.ts.
 // The app sends each source's requests to http://localhost:<port>/<source>
-// (NORTHSTAR_JOBS_TEST_BASE_URL), and this answers in that source's own shape,
+// (GRADTRAIL_JOBS_TEST_BASE_URL), and this answers in that source's own shape,
 // so the adapters' real request and response handling runs end to end.
 
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -84,7 +84,7 @@ function startups(path: string, request: IncomingMessage, response: ServerRespon
 
 /** How many JSearch searches were asked for, so a spec can tell a kept search came from the database. */
 let searches = 0;
-/** The usage pings the app sent here (NORTHSTAR_USAGE_PING_TEST_URL), so a spec can tell whether one went (#172). */
+/** The usage pings the app sent here (GRADTRAIL_USAGE_PING_TEST_URL), so a spec can tell whether one went (#172). */
 const pings: unknown[] = [];
 
 createServer((request, response) => {
@@ -103,7 +103,7 @@ createServer((request, response) => {
     });
     return;
   }
-  // The update check (NORTHSTAR_UPDATES_TEST_BASE_URL): no release is out, so
+  // The update check (GRADTRAIL_UPDATES_TEST_BASE_URL): no release is out, so
   // what a test stores as the latest release stays as it is.
   if (url.pathname === "/github/repos/AienTech/dossier/releases/latest") return send(response, 404, { message: "Not Found" });
 

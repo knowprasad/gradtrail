@@ -16,7 +16,7 @@ vi.mock("@/lib/prisma", async () => {
   return { prisma: db.client };
 });
 const dataDir = vi.hoisted(() => ({ path: "" }));
-vi.mock("@/lib/env", () => ({ env: { get NORTHSTAR_DATA_DIR() { return dataDir.path; }, NORTHSTAR_SECRET: "s".repeat(32) } }));
+vi.mock("@/lib/env", () => ({ env: { get GRADTRAIL_DATA_DIR() { return dataDir.path; }, GRADTRAIL_SECRET: "s".repeat(32) } }));
 
 const prisma = () => db.client!;
 const now = new Date("2026-10-18T12:00:00Z");
@@ -24,7 +24,7 @@ const hoursAgo = (hours: number) => new Date(now.getTime() - hours * 60 * 60 * 1
 const left = async () => (await prisma().job.findMany({ select: { id: true }, orderBy: { id: "asc" } })).map((job) => job.id);
 
 beforeEach(async () => {
-  dataDir.path = await mkdtemp(path.join(tmpdir(), "northstar-sweep-"));
+  dataDir.path = await mkdtemp(path.join(tmpdir(), "gradtrail-sweep-"));
   await resetDatabase(prisma());
   await prisma().job.createMany({
     data: [

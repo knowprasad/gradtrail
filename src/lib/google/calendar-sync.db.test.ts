@@ -12,7 +12,7 @@ vi.mock("@/lib/prisma", async () => {
   return { prisma: db.client };
 });
 vi.mock("@/lib/env", () => ({
-  env: { NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_GOOGLE_CLIENT_ID: "client", NORTHSTAR_GOOGLE_CLIENT_SECRET: "secret", NORTHSTAR_DATA_DIR: "/tmp" },
+  env: { GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_GOOGLE_CLIENT_ID: "client", GRADTRAIL_GOOGLE_CLIENT_SECRET: "secret", GRADTRAIL_DATA_DIR: "/tmp" },
 }));
 vi.mock("@/lib/time-zone", () => ({ userTimeZone: async () => "Europe/Berlin", lastKnownTimeZone: async () => "Europe/Berlin" }));
 
@@ -84,7 +84,7 @@ describe("GradTrail to Google", () => {
     expect(await scheduleInterview("nw", new Date("2026-10-22T11:00:00Z"))).toEqual({ inCalendar: true, eventLink: "https://calendar.google.com/event?eid=ev1" });
     expect(await application()).toMatchObject({ interviewEventId: "ev1", interviewCalendarId: "primary" });
     const added = events.get("ev1")!;
-    expect(added).toMatchObject({ summary: "Interview · Product Designer · Northwind", extendedProperties: { private: { northstarApplication: "nw" } } });
+    expect(added).toMatchObject({ summary: "Interview · Product Designer · Northwind", extendedProperties: { private: { gradtrailApplication: "nw" } } });
     expect(added.start).toEqual({ dateTime: "2026-10-22T11:00:00.000Z", timeZone: "Europe/Berlin" });
     expect(added.end.dateTime).toBe("2026-10-22T11:45:00.000Z");
 

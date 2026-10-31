@@ -11,7 +11,7 @@ import { GET as connect } from "./connect/route";
 // Connecting Google (E15-1): the redirect to Google's consent page and the
 // way back, with Google's token endpoint mocked.
 
-const env = vi.hoisted(() => ({ NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_GOOGLE_CLIENT_ID: "client" as string | undefined, NORTHSTAR_GOOGLE_CLIENT_SECRET: "secret" }));
+const env = vi.hoisted(() => ({ GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_GOOGLE_CLIENT_ID: "client" as string | undefined, GRADTRAIL_GOOGLE_CLIENT_SECRET: "secret" }));
 vi.mock("@/lib/env", () => ({ env }));
 // Nothing saved in Settings → Google: the client comes from the environment.
 vi.mock("@/lib/settings-data", () => ({ loadSettings: async () => ({ googleClientId: null, googleClientSecretEnc: null }) }));
@@ -24,7 +24,7 @@ const request = (path: string) => new NextRequest(`${origin}${path}`, { headers:
 const idToken = (email: string) => `h.${Buffer.from(JSON.stringify({ email })).toString("base64url")}.s`;
 
 beforeEach(() => {
-  env.NORTHSTAR_GOOGLE_CLIENT_ID = "client";
+  env.GRADTRAIL_GOOGLE_CLIENT_ID = "client";
   vi.mocked(getSession).mockResolvedValue({ persistent: false, issuedAt: new Date(), expiresAt: new Date() });
   vi.mocked(loadGoogleAccount).mockResolvedValue(null);
   vi.mocked(saveGoogleAccount).mockReset().mockResolvedValue();
@@ -44,7 +44,7 @@ describe("GET /api/google/connect", () => {
   });
 
   it("goes back to Settings when Google isn't set up", async () => {
-    env.NORTHSTAR_GOOGLE_CLIENT_ID = undefined;
+    env.GRADTRAIL_GOOGLE_CLIENT_ID = undefined;
     const response = await connect(request("/api/google/connect"), undefined);
     expect(response.headers.get("location")).toBe(`${origin}/settings?section=google&google=not-configured`);
   });

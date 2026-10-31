@@ -83,14 +83,14 @@ describe("Download all PDFs (E10-5)", () => {
 
 describe("Import (E10-6)", () => {
   const summary = { applications: 8, roles: 3, skills: 12, themes: 1, notes: 0 };
-  const file = new File(["{}"], "northstar-export-2026-09-27.json", { type: "application/json" });
+  const file = new File(["{}"], "gradtrail-export-2026-09-27.json", { type: "application/json" });
 
   it("says what the file replaces, then backs up and imports", async () => {
     const user = userEvent.setup();
     const fetch = vi.fn(async (url: string) =>
       url.endsWith("?preview=1")
         ? Response.json({ incoming: summary, current: { ...summary, applications: 10, themes: 0 }, exportedAt: "2026-09-27T10:00:00Z" })
-        : Response.json({ incoming: summary, backup: "northstar-backup-before-import-2026-09-28-120000.json" }),
+        : Response.json({ incoming: summary, backup: "gradtrail-backup-before-import-2026-09-28-120000.json" }),
     );
     vi.stubGlobal("fetch", fetch);
     try {
@@ -104,7 +104,7 @@ describe("Import (E10-6)", () => {
       );
       await user.click(screen.getByRole("button", { name: "Import and replace" }));
       expect(fetch).toHaveBeenLastCalledWith("/api/import", expect.objectContaining({ method: "POST", body: file }));
-      expect(toast).toHaveBeenLastCalledWith("Imported. Your previous data is backed up as northstar-backup-before-import-2026-09-28-120000.json.");
+      expect(toast).toHaveBeenLastCalledWith("Imported. Your previous data is backed up as gradtrail-backup-before-import-2026-09-28-120000.json.");
       expect(router.refresh).toHaveBeenCalled();
     } finally {
       vi.unstubAllGlobals();

@@ -13,7 +13,7 @@ vi.mock("@/lib/prisma", async () => {
   return { prisma: db.client };
 });
 vi.mock("@/lib/env", () => ({
-  env: { NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_GOOGLE_CLIENT_ID: "client", NORTHSTAR_GOOGLE_CLIENT_SECRET: "secret", NORTHSTAR_DATA_DIR: "/tmp" },
+  env: { GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_GOOGLE_CLIENT_ID: "client", GRADTRAIL_GOOGLE_CLIENT_SECRET: "secret", GRADTRAIL_DATA_DIR: "/tmp" },
 }));
 const provider = vi.hoisted(() => ({ current: undefined as unknown }));
 vi.mock("@/lib/ai", () => ({ getAiProvider: async () => provider.current }));

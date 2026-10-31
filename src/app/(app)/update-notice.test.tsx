@@ -63,7 +63,7 @@ describe("UpdateNotice", () => {
     expect(screen.getByRole("button", { name: "Collapse sidebar" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "GradTrail 1.6.0 is out" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "What's new (opens in a new tab)" })).toHaveFocus();
-    expect(document.cookie).toContain("northstar_sidebar=expanded");
-    document.cookie = "northstar_sidebar=; max-age=0; path=/";
+    expect(document.cookie).toContain("gradtrail_sidebar=expanded");
+    document.cookie = "gradtrail_sidebar=; max-age=0; path=/";
   });
 });

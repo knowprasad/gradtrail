@@ -10,7 +10,7 @@ import { seedDemo } from "../../prisma/seed/demo";
 import { buildExport, EXPORT_SCHEMA_VERSION, exportSchema } from "./data-export";
 import { currentSummary, importExport, parseExport } from "./data-import";
 
-vi.mock("@/lib/env", () => ({ env: { NORTHSTAR_SECRET: "s".repeat(32) } }));
+vi.mock("@/lib/env", () => ({ env: { GRADTRAIL_SECRET: "s".repeat(32) } }));
 
 const client = createTestClient();
 const prisma = () => client;

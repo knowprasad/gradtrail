@@ -17,7 +17,7 @@ vi.mock("@/lib/auth/session", () => ({
 }));
 vi.mock("next/cache", () => ({ revalidatePath: () => {} }));
 vi.mock("@/lib/env", () => ({
-  env: { NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_GOOGLE_CLIENT_ID: "client", NORTHSTAR_GOOGLE_CLIENT_SECRET: "secret", NORTHSTAR_DATA_DIR: "/tmp" },
+  env: { GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_GOOGLE_CLIENT_ID: "client", GRADTRAIL_GOOGLE_CLIENT_SECRET: "secret", GRADTRAIL_DATA_DIR: "/tmp" },
 }));
 const ai = vi.hoisted(() => ({ provider: undefined as unknown, ready: true }));
 vi.mock("@/lib/ai", () => ({ getAiProvider: async () => ai.provider }));

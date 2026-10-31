@@ -1,6 +1,6 @@
-// Prints a hash of a password, for NORTHSTAR_PASSWORD. In the image:
+// Prints a hash of a password, for GRADTRAIL_PASSWORD. In the image:
 //
-//   docker run --rm -it ghcr.io/knowprasad/northstar-india hash-password
+//   docker run --rm -it ghcr.io/knowprasad/gradtrail hash-password
 //
 // and in development `docker/bin/yarn hash-password`. It asks for the
 // password twice without showing it. When stdin isn't a terminal, it reads
@@ -67,7 +67,7 @@ async function readPassword(): Promise<string> {
 async function main() {
   try {
     const hash = await hashPassword(await readPassword());
-    process.stderr.write("Set NORTHSTAR_PASSWORD to this, then restart GradTrail:\n");
+    process.stderr.write("Set GRADTRAIL_PASSWORD to this, then restart GradTrail:\n");
     process.stdout.write(`${hash}\n`);
   } catch (error) {
     if (!(error instanceof Cancelled)) process.stderr.write(`${(error as Error).message}\n`);

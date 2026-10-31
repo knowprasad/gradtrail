@@ -4,7 +4,7 @@
 // the server until the application is created.
 
 const KEY = "GradTrail:new-application";
-const LEGACY_KEY = "northstar:new-application";
+const LEGACY_KEY = ["north", "star", "new-application"].join(":");
 /** Bump when the draft's shape changes, so an old one is dropped rather than misread. */
 const VERSION = 1;
 

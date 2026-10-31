@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@/lib/env", () => ({ env: { NORTHSTAR_SECRET: "x".repeat(40), NORTHSTAR_PUBLIC_URL: undefined } }));
+vi.mock("@/lib/env", () => ({ env: { GRADTRAIL_SECRET: "x".repeat(40), GRADTRAIL_PUBLIC_URL: undefined } }));
 
 import { encryptSecret, GOOGLE_CLIENT_SECRET } from "@/lib/secrets";
 
@@ -49,8 +49,8 @@ describe("the consent page", () => {
 
 describe("the OAuth client", () => {
   const none = { googleClientId: null, googleClientSecretEnc: null };
-  const noEnv = { NORTHSTAR_GOOGLE_CLIENT_ID: undefined, NORTHSTAR_GOOGLE_CLIENT_SECRET: undefined };
-  const env = { NORTHSTAR_GOOGLE_CLIENT_ID: "env-id", NORTHSTAR_GOOGLE_CLIENT_SECRET: "env-secret" };
+  const noEnv = { GRADTRAIL_GOOGLE_CLIENT_ID: undefined, GRADTRAIL_GOOGLE_CLIENT_SECRET: undefined };
+  const env = { GRADTRAIL_GOOGLE_CLIENT_ID: "env-id", GRADTRAIL_GOOGLE_CLIENT_SECRET: "env-secret" };
 
   it("isn't set up without both parts", () => {
     expect(resolveGoogleClient(none, noEnv, secret)).toEqual({ client: null, id: "", idState: "none", secretState: "none" });

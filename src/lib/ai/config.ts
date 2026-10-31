@@ -8,14 +8,14 @@ import { API_KEY_UNREADABLE, ApiKeyUnreadable, apiKeyState, decryptApiKey } from
 import type { AiSettingsView, KeyState } from "./provider-options";
 
 // Which provider to use and how to reach it (E6-1): what's saved in Settings,
-// or else the NORTHSTAR_AI_* variables, or else the defaults below.
+// or else the GRADTRAIL_AI_* variables, or else the defaults below.
 
 export type AiConfig = {
   provider: AiProvider;
   baseUrl: string;
   model: string | null;
   apiKey: string | null;
-  /** Why the saved key can't be used, e.g. NORTHSTAR_SECRET changed. */
+  /** Why the saved key can't be used, e.g. GRADTRAIL_SECRET changed. */
   apiKeyProblem: string | null;
   timeoutMs: number;
 };
@@ -30,7 +30,7 @@ export const PROVIDER_DEFAULTS: Record<AiProvider, { baseUrl: string; model: str
   [AiProvider.LMSTUDIO]: { baseUrl: "http://host.docker.internal:1234", model: null, timeoutSeconds: 300 },
 };
 
-const FROM_ENV: Record<NonNullable<Env["NORTHSTAR_AI_PROVIDER"]>, AiProvider> = {
+const FROM_ENV: Record<NonNullable<Env["GRADTRAIL_AI_PROVIDER"]>, AiProvider> = {
   local: AiProvider.LOCAL,
   openai: AiProvider.OPENAI,
   anthropic: AiProvider.ANTHROPIC,
@@ -47,7 +47,7 @@ type SavedSettings = {
 
 type AiEnv = Pick<
   Env,
-  "NORTHSTAR_AI_PROVIDER" | "NORTHSTAR_AI_URL" | "NORTHSTAR_AI_MODEL" | "NORTHSTAR_AI_KEY" | "NORTHSTAR_AI_TIMEOUT_SECONDS"
+  "GRADTRAIL_AI_PROVIDER" | "GRADTRAIL_AI_URL" | "GRADTRAIL_AI_MODEL" | "GRADTRAIL_AI_KEY" | "GRADTRAIL_AI_TIMEOUT_SECONDS"
 >;
 
 /**
@@ -56,7 +56,7 @@ type AiEnv = Pick<
  * saved provider of the same kind that has no key of its own.
  */
 export function resolveAiConfig(saved: SavedSettings | null, source: AiEnv, secret?: string): AiConfig {
-  const envProvider = source.NORTHSTAR_AI_PROVIDER ? FROM_ENV[source.NORTHSTAR_AI_PROVIDER] : null;
+  const envProvider = source.GRADTRAIL_AI_PROVIDER ? FROM_ENV[source.GRADTRAIL_AI_PROVIDER] : null;
   const useSaved = Boolean(saved?.provider);
   const provider = (useSaved ? saved!.provider : envProvider) ?? AiProvider.LOCAL;
   const defaults = PROVIDER_DEFAULTS[provider];
@@ -71,16 +71,16 @@ export function resolveAiConfig(saved: SavedSettings | null, source: AiEnv, secr
       apiKeyProblem = API_KEY_UNREADABLE;
     }
   } else if (!useSaved || envProvider === provider) {
-    apiKey = source.NORTHSTAR_AI_KEY ?? null;
+    apiKey = source.GRADTRAIL_AI_KEY ?? null;
   }
 
   return {
     provider,
-    baseUrl: (useSaved ? saved!.baseUrl : source.NORTHSTAR_AI_URL) || defaults.baseUrl,
-    model: (useSaved ? saved!.model : source.NORTHSTAR_AI_MODEL) || defaults.model,
+    baseUrl: (useSaved ? saved!.baseUrl : source.GRADTRAIL_AI_URL) || defaults.baseUrl,
+    model: (useSaved ? saved!.model : source.GRADTRAIL_AI_MODEL) || defaults.model,
     apiKey,
     apiKeyProblem,
-    timeoutMs: (source.NORTHSTAR_AI_TIMEOUT_SECONDS ?? defaults.timeoutSeconds) * 1000,
+    timeoutMs: (source.GRADTRAIL_AI_TIMEOUT_SECONDS ?? defaults.timeoutSeconds) * 1000,
   };
 }
 
@@ -91,7 +91,7 @@ export async function loadAiConfig(): Promise<AiConfig> {
 
 /**
  * The AI settings as the settings screen shows them: what's in effect,
- * whether it comes from Settings or NORTHSTAR_AI_*, and never the key.
+ * whether it comes from Settings or GRADTRAIL_AI_*, and never the key.
  */
 export async function loadAiSettingsView(): Promise<AiSettingsView> {
   const saved = await loadSettings();
@@ -110,9 +110,9 @@ export function keyStateOf(saved: { provider: AiProvider | null; apiKeyEnc: stri
   return config.apiKey ? "env" : "none";
 }
 
-/** Whether an AI provider has been chosen, in Settings or with NORTHSTAR_AI_PROVIDER. */
+/** Whether an AI provider has been chosen, in Settings or with GRADTRAIL_AI_PROVIDER. */
 export async function isAiConfigured(): Promise<boolean> {
-  if (env.NORTHSTAR_AI_PROVIDER) return true;
+  if (env.GRADTRAIL_AI_PROVIDER) return true;
   return Boolean((await loadSettings()).provider);
 }
 

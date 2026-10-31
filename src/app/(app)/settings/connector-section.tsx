@@ -86,7 +86,7 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
               <p role="note" className="rounded-card bg-warning-surface px-4 py-3 text-meta text-warning">
                 {local ? "This is a local address. " : "This address isn't HTTPS. "}
                 Claude on the web, Desktop and mobile reaches GradTrail from Anthropic&apos;s servers, so they need a public HTTPS address (set{" "}
-                <code className="font-mono text-label">NORTHSTAR_PUBLIC_URL</code> if GradTrail is reached at another one). Claude&apos;s command-line app on the
+                <code className="font-mono text-label">GRADTRAIL_PUBLIC_URL</code> if GradTrail is reached at another one). Claude&apos;s command-line app on the
                 computer GradTrail runs on can use this one.
               </p>
             )}
@@ -113,7 +113,7 @@ export function ConnectorSection({ initial, address }: { initial: { on: boolean 
               >
                 Disconnect Claude
               </Button>
-              <p className="mt-2 text-meta text-muted">Signs every Claude out. Changing your password or NORTHSTAR_SECRET does too.</p>
+              <p className="mt-2 text-meta text-muted">Signs every Claude out. Changing your password or GRADTRAIL_SECRET does too.</p>
             </div>
           </Card>
         </>

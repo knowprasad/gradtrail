@@ -76,9 +76,9 @@ try {
     $secret = [Convert]::ToBase64String($secretBytes)
     $lines = @(
       "POSTGRES_PASSWORD='$postgresPassword'",
-      "NORTHSTAR_PASSWORD='$passwordHash'",
-      "NORTHSTAR_SECRET='$secret'",
-      "NORTHSTAR_PORT=3000",
+      "GRADTRAIL_PASSWORD='$passwordHash'",
+      "GRADTRAIL_SECRET='$secret'",
+      "GRADTRAIL_PORT=3000",
       "POSTGRES_PORT=5433"
     )
     [IO.File]::WriteAllLines($envPath, $lines, [Text.UTF8Encoding]::new($false))

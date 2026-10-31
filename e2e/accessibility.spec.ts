@@ -70,8 +70,8 @@ for (const path of SCREENS) {
 test.describe("dark, with the sidebar collapsed", () => {
   test.beforeEach(async ({ context, baseURL }) => {
     await context.addCookies([
-      { name: "northstar_theme", value: "dark", url: baseURL! },
-      { name: "northstar_sidebar", value: "collapsed", url: baseURL! },
+      { name: "gradtrail_theme", value: "dark", url: baseURL! },
+      { name: "gradtrail_sidebar", value: "collapsed", url: baseURL! },
     ]);
   });
 
@@ -97,8 +97,8 @@ test.describe("dark, with the sidebar collapsed", () => {
     await page.goto(application);
     await page.getByRole("button", { name: "More actions" }).click();
     await expectAccessible(page);
-    await context.clearCookies({ name: "northstar_session" });
-    await context.addCookies([{ name: "northstar_theme", value: "dark", url: baseURL! }]);
+    await context.clearCookies({ name: "gradtrail_session" });
+    await context.addCookies([{ name: "gradtrail_theme", value: "dark", url: baseURL! }]);
     await page.goto("/login");
     await expectAccessible(page);
   });
@@ -153,7 +153,7 @@ test("axe: the dashboard for the last 30 days, with the charts' numbers showing"
 
 test("axe: an interview's date, being set", async ({ page }) => {
   const [GradTrail] = await sql<{ id: string }>(`SELECT id FROM "Application" WHERE company = 'GradTrail Health'`);
-  await page.goto(`/applications/${northstar.id}`);
+  await page.goto(`/applications/${gradtrail.id}`);
   await page.getByRole("button", { name: /^Next interview:/ }).click();
   await expect(page.getByRole("dialog", { name: "Next interview" })).toBeVisible();
   await expectAccessible(page);

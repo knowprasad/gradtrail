@@ -29,7 +29,7 @@ export type UsagePingView = {
   host: string;
   /** Whether it's wanted; null until someone answers. */
   choice: "on" | "off" | null;
-  /** Who decided: NORTHSTAR_TELEMETRY, or an answer in the app. */
+  /** Who decided: GRADTRAIL_TELEMETRY, or an answer in the app. */
   source: "env" | "app" | null;
   /** The install ID it sends, once the first ping has made one. */
   id: string | null;
@@ -69,7 +69,7 @@ export function AboutSection({ facts, usagePing, updates }: { facts: AboutFacts;
   const pingDescription = !usagePing.production
     ? "Development servers never send it."
     : fromEnv
-      ? `Set with NORTHSTAR_TELEMETRY=${usagePing.choice} on the server, which decides while it's set. Change it there.`
+      ? `Set with GRADTRAIL_TELEMETRY=${usagePing.choice} on the server, which decides while it's set. Change it there.`
       : pinging
         ? `On. Once on each day GradTrail is used, the server sends ${usagePing.host} ${usagePing.id ? `this install's ID (${usagePing.id})` : "this install's ID, made with the first ping,"} and the version number. Nothing else.`
         : answered

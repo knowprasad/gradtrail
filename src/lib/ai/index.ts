@@ -33,7 +33,7 @@ export function createProvider(config: AiConfig): AIProvider {
   }
 }
 
-/** The provider configured in Settings, or by the NORTHSTAR_AI_* variables. */
+/** The provider configured in Settings, or by the GRADTRAIL_AI_* variables. */
 export async function getAiProvider(): Promise<AIProvider> {
   return createProvider(await loadAiConfig());
 }

@@ -54,12 +54,12 @@ describe("About (E10-9)", () => {
     expect(screen.getByRole("switch", { name: "Send the daily usage ping" })).toHaveAccessibleDescription("Not answered yet, so nothing is sent.");
   });
 
-  it("leaves the switch to NORTHSTAR_TELEMETRY while it's set, and off in development", () => {
+  it("leaves the switch to GRADTRAIL_TELEMETRY while it's set, and off in development", () => {
     const { unmount } = render(<AboutSection facts={facts} usagePing={{ ...ping, choice: "off", source: "env", id: null }} updates={updates} />);
     const toggle = screen.getByRole("switch", { name: "Send the daily usage ping" });
     expect(toggle).toBeDisabled();
     expect(toggle).toHaveAttribute("aria-checked", "false");
-    expect(toggle).toHaveAccessibleDescription("Set with NORTHSTAR_TELEMETRY=off on the server, which decides while it's set. Change it there.");
+    expect(toggle).toHaveAccessibleDescription("Set with GRADTRAIL_TELEMETRY=off on the server, which decides while it's set. Change it there.");
     unmount();
     render(<AboutSection facts={facts} usagePing={{ ...ping, production: false }} updates={updates} />);
     expect(screen.getByRole("switch", { name: "Send the daily usage ping" })).toBeDisabled();

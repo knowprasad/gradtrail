@@ -139,7 +139,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
                 <KeyField
                   label="API key"
                   keyState={view.jsearch.keyState}
-                  envName="NORTHSTAR_JSEARCH_KEY"
+                  envName="GRADTRAIL_JSEARCH_KEY"
                   getKey={{ href: JSEARCH_KEY_URLS[view.jsearch.host], text: view.jsearch.host === "rapidapi" ? "JSearch on RapidAPI" : "OpenWeb Ninja" }}
                   onSave={(change) => saveKey("JSEARCH", change)}
                 />
@@ -159,7 +159,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
                 <KeyField
                   label="App key"
                   keyState={view.adzuna.keyState}
-                  envName="NORTHSTAR_ADZUNA_KEY"
+                  envName="GRADTRAIL_ADZUNA_KEY"
                   getKey={{ href: SOURCE_INFO.ADZUNA.keyUrl!, text: "Adzuna's developer site" }}
                   onSave={(change) => saveKey("ADZUNA", change)}
                 />
@@ -182,7 +182,7 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
               <KeyField
                 label="API key"
                 keyState={view.jooble.keyState}
-                envName="NORTHSTAR_JOOBLE_KEY"
+                envName="GRADTRAIL_JOOBLE_KEY"
                 getKey={{ href: SOURCE_INFO.JOOBLE.keyUrl!, text: "Jooble India API portal" }}
                 onSave={(change) => saveKey("JOOBLE", change)}
               />

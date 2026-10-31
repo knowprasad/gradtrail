@@ -5,7 +5,7 @@ import { RepositoryLink } from "./repository-link";
 import { SidebarFrame } from "./sidebar-frame";
 
 afterEach(() => {
-  document.cookie = "northstar_sidebar=; max-age=0; path=/";
+  document.cookie = "gradtrail_sidebar=; max-age=0; path=/";
 });
 
 function renderLink(initialCollapsed = false) {
@@ -20,7 +20,7 @@ function renderLink(initialCollapsed = false) {
 describe("RepositoryLink", () => {
   it("opens the repository in a new tab", () => {
     const link = renderLink();
-    expect(link).toHaveAttribute("href", "https://github.com/knowprasad/northstar-india");
+    expect(link).toHaveAttribute("href", "https://github.com/knowprasad/gradtrail");
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
     expect(link).not.toHaveAttribute("title");

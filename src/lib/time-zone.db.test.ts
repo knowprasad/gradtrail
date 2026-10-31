@@ -14,7 +14,7 @@ const request = vi.hoisted(() => ({ cookie: undefined as string | undefined, inR
 vi.mock("next/headers", () => ({
   cookies: async () => {
     if (!request.inRequest) throw new Error("`cookies` was called outside a request scope.");
-    return { get: (name: string) => (name === "northstar-tz" && request.cookie ? { value: request.cookie } : undefined) };
+    return { get: (name: string) => (name === "gradtrail-tz" && request.cookie ? { value: request.cookie } : undefined) };
   },
 }));
 

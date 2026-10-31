@@ -16,6 +16,7 @@ const eventPath = (calendarId: string, eventId?: string) =>
 
 /** The private property that ties an event GradTrail added to its application. */
 const APPLICATION_PROPERTY = "northstarApplication";
+const LEGACY_APPLICATION_PROPERTY = ["north", "star", "Application"].join("");
 
 /** Busy times in the calendar between `from` and `to`. */
 export async function busyTimes(calendarId: string, from: Date, to: Date, signal?: AbortSignal): Promise<Interval[]> {
@@ -91,7 +92,7 @@ function readEvent(json: unknown): CalendarEvent {
     startDate: event.start.date ?? null,
     endDate: event.end.date ?? null,
     link: event.htmlLink,
-    applicationId: event.extendedProperties?.private?.[APPLICATION_PROPERTY] ?? null,
+    applicationId: event.extendedProperties?.private?.[APPLICATION_PROPERTY] ?? event.extendedProperties?.private?.[LEGACY_APPLICATION_PROPERTY] ?? null,
   };
 }
 

@@ -6,7 +6,7 @@ import { verifySession } from "@/lib/auth/session";
 import { inboxCount } from "@/lib/google/inbox-data";
 import { loadProfileName } from "@/lib/profile-data";
 import { loadSettings } from "@/lib/settings-data";
-import { COLOR_SCHEME_COOKIE, parseColorScheme, parseSidebarCollapsed, SIDEBAR_COOKIE } from "@/lib/ui-preferences";
+import { COLOR_SCHEME_COOKIE, LEGACY_COLOR_SCHEME_COOKIE, LEGACY_SIDEBAR_COOKIE, parseColorScheme, parseSidebarCollapsed, SIDEBAR_COOKIE } from "@/lib/ui-preferences";
 import { rememberBrowserTimeZone, userTimeZone } from "@/lib/time-zone";
 import { checkForUpdatesDaily, updateNotice } from "@/lib/update-check";
 import { askForUsagePing, notePageLoad, USAGE_PING_HOST } from "@/lib/usage-ping";
@@ -48,9 +48,9 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
         userName={userName}
         update={updateNotice(settings)}
         currentVersion={appVersion}
-        collapsed={parseSidebarCollapsed(jar.get(SIDEBAR_COOKIE)?.value)}
+        collapsed={parseSidebarCollapsed(jar.get(SIDEBAR_COOKIE)?.value ?? jar.get(LEGACY_SIDEBAR_COOKIE)?.value)}
         counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }}
-        colorScheme={parseColorScheme(jar.get(COLOR_SCHEME_COOKIE)?.value)}
+        colorScheme={parseColorScheme(jar.get(COLOR_SCHEME_COOKIE)?.value ?? jar.get(LEGACY_COLOR_SCHEME_COOKIE)?.value)}
       />
       <MobileNav counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }} />
       {/* The screen sits in a white panel inset from the shell. Each screen

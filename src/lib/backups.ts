@@ -7,12 +7,12 @@ import { buildExport } from "@/lib/data-export";
 import { env } from "@/lib/env";
 import { prisma } from "@/lib/prisma";
 
-// Backups (E10-6, E10-7): exports written to NORTHSTAR_DATA_DIR/backups. They
+// Backups (E10-6, E10-7): exports written to GRADTRAIL_DATA_DIR/backups. They
 // never hold the API key in plain text.
 
 export type BackupReason = "before-import" | "nightly";
 
-export const backupsDir = () => path.join(env.NORTHSTAR_DATA_DIR, "backups");
+export const backupsDir = () => path.join(env.GRADTRAIL_DATA_DIR, "backups");
 
 const pad = (value: number) => String(value).padStart(2, "0");
 

@@ -1,4 +1,4 @@
-const BASE = "http://northstar.invalid";
+const BASE = "http://gradtrail.invalid";
 
 /**
  * Where to go after signing in: `next` when it's a page of this app (other

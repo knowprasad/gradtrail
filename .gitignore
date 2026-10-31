@@ -27,7 +27,7 @@
 # The website, built by site/build.sh
 /_site/
 
-# NORTHSTAR_DATA_DIR in development (backups, temporary downloads)
+# GRADTRAIL_DATA_DIR in development (backups, temporary downloads)
 /data/
 
 # debug
@@ -49,7 +49,7 @@ next-env.d.ts
 
 /src/generated/prisma
 
-# NORTHSTAR_DATA_DIR in development
+# GRADTRAIL_DATA_DIR in development
 /data
 
 # end-to-end test runs

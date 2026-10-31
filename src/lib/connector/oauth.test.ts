@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const env = vi.hoisted(() => ({ NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_PASSWORD: "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA" }));
+const env = vi.hoisted(() => ({ GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_PASSWORD: "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA" }));
 vi.mock("@/lib/env", () => ({ env }));
 const settings = vi.hoisted(() => ({ connectorEnabledAt: "2026-10-23T09:00:00.000Z" as string | null }));
 vi.mock("@/lib/settings-data", () => ({ loadSettings: async () => settings }));
@@ -30,7 +30,7 @@ async function signIn(redirectUri = CLAUDE) {
 
 beforeEach(() => {
   settings.connectorEnabledAt = "2026-10-23T09:00:00.000Z";
-  env.NORTHSTAR_PASSWORD = "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA";
+  env.GRADTRAIL_PASSWORD = "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA";
 });
 
 describe("the Claude connector's sign-in (#221)", () => {
@@ -99,7 +99,7 @@ describe("the Claude connector's sign-in (#221)", () => {
     settings.connectorEnabledAt = "2026-10-23T11:00:00.000Z";
     const again = await signIn();
     const againTokens = await exchangeCode({ code: again.code, clientId: again.clientId, redirectUri: CLAUDE, verifier: VERIFIER });
-    env.NORTHSTAR_PASSWORD = "argon2id:m=19456,t=2,p=1:c2FsdA:bmV3";
+    env.GRADTRAIL_PASSWORD = "argon2id:m=19456,t=2,p=1:c2FsdA:bmV3";
     expect(await verifyAccessToken(againTokens.access_token)).toBeNull();
   });
 

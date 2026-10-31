@@ -94,14 +94,14 @@ export default async function SettingsPage({ searchParams }: PageProps<"/setting
           />
         </>
       ) : section === "claude" ? (
-        <ConnectorSection initial={{ on: settings.connectorEnabledAt !== null }} address={mcpUrl(env.NORTHSTAR_PUBLIC_URL ?? (await requestOrigin()))} />
+        <ConnectorSection initial={{ on: settings.connectorEnabledAt !== null }} address={mcpUrl(env.GRADTRAIL_PUBLIC_URL ?? (await requestOrigin()))} />
       ) : section === "data" ? (
         <DataSection
           hasApiKey={[settings.apiKeyEnc, settings.jsearchKeyEnc, settings.adzunaKeyEnc, settings.joobleKeyEnc].some((key) => key !== null)}
           exportName={exportFileName()}
           backups={{
             on: settings.nightlyBackup,
-            retentionDays: env.NORTHSTAR_BACKUP_RETENTION_DAYS,
+            retentionDays: env.GRADTRAIL_BACKUP_RETENTION_DAYS,
             dir: backupsDir(),
             lastRun: whenRan(await lastNightlyBackup()),
             problem: settings.backupProblem,
@@ -206,7 +206,7 @@ async function aboutFacts(): Promise<AboutFacts> {
     { label: "Version", value: appVersion },
     { label: "Server", value: host },
     { label: "Database", value: `PostgreSQL · ${formatBytes(Number(database.size))}` },
-    { label: "Sign-in", value: "set via NORTHSTAR_PASSWORD" },
+    { label: "Sign-in", value: "set via GRADTRAIL_PASSWORD" },
     { label: "AI", value: [providerOption(ai.provider).name, ai.model].filter(Boolean).join(" · ") },
     { label: "Applications", value: String(applications) },
   ];

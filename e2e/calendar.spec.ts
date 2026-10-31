@@ -25,40 +25,40 @@ const dayLabel = (day: string) => new Intl.DateTimeFormat("en-GB", { timeZone: "
 test("shows interviews and Google's events, and keeps interviews in step both ways", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   const [GradTrail] = await sql<{ id: string; nextInterviewAt: Date }>(`SELECT id, "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
-  const interview = () => sql<{ nextInterviewAt: Date | null; interviewEventId: string | null }>(`SELECT "nextInterviewAt", "interviewEventId" FROM "Application" WHERE id = $1`, [northstar.id]).then(([row]) => row);
+  const interview = () => sql<{ nextInterviewAt: Date | null; interviewEventId: string | null }>(`SELECT "nextInterviewAt", "interviewEventId" FROM "Application" WHERE id = $1`, [gradtrail.id]).then(([row]) => row);
   // The day of the demo's interview, in the browser's zone, which the app uses too.
   await page.goto("/");
-  const day = await page.evaluate((iso) => new Date(iso).toLocaleDateString("en-CA"), northstar.nextInterviewAt.toISOString());
+  const day = await page.evaluate((iso) => new Date(iso).toLocaleDateString("en-CA"), gradtrail.nextInterviewAt.toISOString());
   const onDay = `/?date=${day}`;
   const calendar = page.getByRole("region", { name: "Calendar" });
 
   // Without Google: the interview on its day, linked to its application, and how to see the rest.
   await page.goto(onDay);
   await expect(calendar.getByRole("button", { name: `${dayLabel(day)}, 1 interview` })).toHaveAttribute("aria-pressed", "true");
-  await expect(calendar.getByRole("link", { name: /Interview · Lead Product Designer · GradTrail Health/ })).toHaveAttribute("href", `/applications/${northstar.id}`);
+  await expect(calendar.getByRole("link", { name: /Interview · Lead Product Designer · GradTrail Health/ })).toHaveAttribute("href", `/applications/${gradtrail.id}`);
   await expect(calendar.getByText(/Connect Google Calendar in Settings → Google/)).toBeVisible();
   await expectAccessible(page);
   // Another month loads in place.
   await calendar.getByRole("link", { name: "Next month" }).click();
   await expect(page).toHaveURL(/\/\?date=\d{4}-\d{2}-01$/);
-  await expect(calendar.getByRole("link", { name: /Northstar Health/ })).toHaveCount(0);
+  await expect(calendar.getByRole("link", { name: /GradTrail Health/ })).toHaveCount(0);
   // The old Calendar screen's links open the dashboard on their day.
   await page.goto(`/calendar?view=week&date=${day}`);
   await expect(page).toHaveURL(new RegExp(`/\\?view=week&date=${day}$`));
-  await expect(calendar.getByRole("link", { name: /Northstar Health/ })).toBeVisible();
+  await expect(calendar.getByRole("link", { name: /GradTrail Health/ })).toBeVisible();
 
   // Connected, with an event of its own in Google that day.
   await connectFakeGoogle(page);
   const dentist = await inFakeCalendar("POST", undefined, { summary: "Dentist", start: { dateTime: `${day}T11:00:00Z` }, end: { dateTime: `${day}T11:30:00Z` } });
 
   // Setting the interview's time in GradTrail adds it to Google.
-  await page.goto(`/applications/${northstar.id}`);
+  await page.goto(`/applications/${gradtrail.id}`);
   await page.getByRole("button", { name: /^Next interview: .*\. Change$/ }).click();
   await page.getByRole("dialog").getByLabel("Date and time").fill(`${day}T14:00`);
   await page.getByRole("dialog").getByRole("button", { name: "Save" }).click();
   await expect(page.getByText("Interview date saved, in your calendar too.")).toBeVisible();
   await expect.poll(async () => (await interview()).interviewEventId).not.toBeNull();
-  const added = (await fakeGoogle()).events.find((event) => event.extendedProperties?.private?.northstarApplication === northstar.id)!;
+  const added = (await fakeGoogle()).events.find((event) => event.extendedProperties?.private?.gradtrailApplication === gradtrail.id)!;
   expect(added.summary).toBe("Interview · Lead Product Designer · GradTrail Health");
   expect(new Date(added.start.dateTime!).getTime()).toBe((await interview()).nextInterviewAt!.getTime());
 
@@ -66,7 +66,7 @@ test("shows interviews and Google's events, and keeps interviews in step both wa
   await page.goto(onDay);
   await expect(calendar.getByRole("button", { name: `${dayLabel(day)}, 1 interview, 1 event` })).toBeVisible();
   await expect(calendar.getByRole("link", { name: /Dentist/ })).toHaveAttribute("href", dentist.htmlLink);
-  await expect(calendar.getByRole("link", { name: /^14:00–\d\d:\d\d Interview · Lead Product Designer · GradTrail Health$/ })).toHaveAttribute("href", `/applications/${northstar.id}`);
+  await expect(calendar.getByRole("link", { name: /^14:00–\d\d:\d\d Interview · Lead Product Designer · GradTrail Health$/ })).toHaveAttribute("href", `/applications/${gradtrail.id}`);
   await expectAccessible(page);
 
   // Moved in Google: GradTrail follows when the dashboard opens.
@@ -75,7 +75,7 @@ test("shows interviews and Google's events, and keeps interviews in step both wa
   await expect.poll(async () => (await interview()).nextInterviewAt?.toISOString()).toBe(new Date(`${day}T15:00:00Z`).toISOString());
 
   // Removing the date in GradTrail deletes the event.
-  await page.goto(`/applications/${northstar.id}`);
+  await page.goto(`/applications/${gradtrail.id}`);
   await page.getByRole("button", { name: /^Next interview: .*\. Change$/ }).click();
   await page.getByRole("dialog").getByRole("button", { name: "Remove" }).click();
   await expect(page.getByText("Interview date removed, from your calendar too.")).toBeVisible();

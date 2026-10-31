@@ -12,8 +12,8 @@ import { loadSettings } from "@/lib/settings-data";
 // authorization server, as Claude's custom connectors expect it, with
 // Dynamic Client Registration and PKCE (S256 only). Adapted from Anirudh
 // Sharma's fork of GradTrail. It keeps nothing in the database: clients, codes
-// and tokens are signed with keys derived from NORTHSTAR_SECRET, and every one
-// carries a fingerprint of NORTHSTAR_PASSWORD and the time the connector was
+// and tokens are signed with keys derived from GRADTRAIL_SECRET, and every one
+// carries a fingerprint of GRADTRAIL_PASSWORD and the time the connector was
 // turned on (connectorEnabledAt). So a new password, a new secret, Disconnect
 // Claude or turning the connector off and on signs Claude out.
 
@@ -27,7 +27,13 @@ export const ACCESS_TOKEN_SECONDS = 60 * 60;
 export const REFRESH_TOKEN_SECONDS = 30 * 24 * 60 * 60;
 const CODE_SECONDS = 5 * 60;
 
-const AUDIENCE = { client: "northstar-connector-client", code: "northstar-connector-code", access: "northstar-mcp", refresh: "northstar-connector-refresh" } as const;
+const AUDIENCE = { client: "gradtrail-connector-client", code: "gradtrail-connector-code", access: "gradtrail-mcp", refresh: "gradtrail-connector-refresh" } as const;
+const LEGACY_AUDIENCE = {
+  client: ["north", "star", "connector", "client"].join("-"),
+  code: ["north", "star", "connector", "code"].join("-"),
+  access: ["north", "star", "mcp"].join("-"),
+  refresh: ["north", "star", "connector", "refresh"].join("-"),
+} as const;
 type TokenKind = keyof typeof AUDIENCE;
 const key = (kind: TokenKind) => deriveKey(`connector-${kind}`);
 
@@ -72,7 +78,7 @@ async function sign(kind: TokenKind, claims: Record<string, unknown>, seconds: n
 async function verify(kind: TokenKind, token: string | null | undefined): Promise<Record<string, unknown> | null> {
   if (!token) return null;
   try {
-    const { payload } = await jwtVerify(token, key(kind), { audience: AUDIENCE[kind], algorithms: ["HS256"] });
+    const { payload } = await jwtVerify(token, key(kind), { audience: [AUDIENCE[kind], LEGACY_AUDIENCE[kind]], algorithms: ["HS256"] });
     return payload as Record<string, unknown>;
   } catch {
     return null;

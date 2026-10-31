@@ -24,8 +24,8 @@ beforeEach(() => {
 afterEach(() => {
   vi.unstubAllGlobals();
   delete document.documentElement.dataset.theme;
-  document.cookie = "northstar_theme=; max-age=0; path=/";
-  document.cookie = "northstar_sidebar=; max-age=0; path=/";
+  document.cookie = "gradtrail_theme=; max-age=0; path=/";
+  document.cookie = "gradtrail_sidebar=; max-age=0; path=/";
 });
 
 function renderSidebar(initialCollapsed = false) {
@@ -45,11 +45,11 @@ describe("SidebarFrame", () => {
     expect(screen.getByRole("complementary")).toHaveAttribute("data-collapsed", "true");
     // The labels are only visually hidden, so links keep their names.
     expect(screen.getByRole("link", { name: "Applications" })).toHaveAttribute("title", "Applications");
-    expect(document.cookie).toContain("northstar_sidebar=collapsed");
+    expect(document.cookie).toContain("gradtrail_sidebar=collapsed");
 
     await userEvent.click(screen.getByRole("button", { name: "Expand sidebar" }));
     expect(screen.getByRole("complementary")).not.toHaveAttribute("data-collapsed");
-    expect(document.cookie).toContain("northstar_sidebar=expanded");
+    expect(document.cookie).toContain("gradtrail_sidebar=expanded");
   });
 
   it("starts collapsed when it was left that way", () => {
@@ -64,7 +64,7 @@ describe("ThemeToggle", () => {
     await userEvent.click(screen.getByRole("button", { name: "Dark mode" }));
 
     expect(document.documentElement.dataset.theme).toBe("dark");
-    expect(document.cookie).toContain("northstar_theme=dark");
+    expect(document.cookie).toContain("gradtrail_theme=dark");
     await userEvent.click(screen.getByRole("button", { name: "Light mode" }));
     expect(document.documentElement.dataset.theme).toBe("light");
   });

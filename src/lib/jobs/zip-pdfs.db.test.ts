@@ -17,7 +17,7 @@ vi.mock("@/lib/prisma", async () => {
   return { prisma: db.client };
 });
 const dataDir = vi.hoisted(() => ({ path: "" }));
-vi.mock("@/lib/env", () => ({ env: { get NORTHSTAR_DATA_DIR() { return dataDir.path; } } }));
+vi.mock("@/lib/env", () => ({ env: { get GRADTRAIL_DATA_DIR() { return dataDir.path; } } }));
 vi.mock("@/lib/pdf/render", () => ({ renderPdf: vi.fn(async (page: string) => new TextEncoder().encode(`%PDF ${page}`)) }));
 vi.mock("@/lib/profile-data", () => ({ loadProfileName: async () => "Jane Doe" }));
 vi.mock("./runner", () => ({ defineJob: <T,>(definition: T) => definition }));
@@ -27,7 +27,7 @@ const steps: string[] = [];
 const context = { id: "test-job", step: async (name: string) => void steps.push(name), signal: new AbortController().signal };
 
 beforeEach(async () => {
-  dataDir.path = await mkdtemp(path.join(tmpdir(), "northstar-zip-"));
+  dataDir.path = await mkdtemp(path.join(tmpdir(), "gradtrail-zip-"));
   steps.length = 0;
   vi.mocked(renderPdf).mockClear();
   await resetDatabase(prisma());

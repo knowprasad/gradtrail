@@ -11,13 +11,13 @@ import type { JobSource, JSearchHost } from "./search";
 import { ARBEITSAGENTUR_NOTE, FREEHIRE_URL, SOURCE_INFO, type JobKeyState, type JobSearchSettingsView } from "./sources";
 
 // Which job source to search, and with which key (E14-4): what's saved in
-// Settings, or else the NORTHSTAR_JOBS_* variables. Each source keeps its own
+// Settings, or else the GRADTRAIL_JOBS_* variables. Each source keeps its own
 // key, so a key only ever goes to the source it's for.
 
 export type JobSearchConfig = {
   /** The source in effect; null while job search is off. */
   source: JobSource | null;
-  /** Whether the choice is saved in Settings, rather than coming from NORTHSTAR_JOBS_SOURCE. */
+  /** Whether the choice is saved in Settings, rather than coming from GRADTRAIL_JOBS_SOURCE. */
   saved: boolean;
   jsearch: { key: string | null; host: JSearchHost; keyState: JobKeyState };
   adzuna: { appId: string; key: string | null; keyState: JobKeyState };
@@ -27,24 +27,24 @@ export type JobSearchConfig = {
    * when its note was accepted. Its searches wait until then.
    */
   arbeitsagentur: { offered: boolean; acceptedAt: string | null };
-  /** The FreeHire to search: freehire.me, or a self-hosted one (NORTHSTAR_FREEHIRE_URL). */
+  /** The FreeHire to search: freehire.me, or a self-hosted one (GRADTRAIL_FREEHIRE_URL). */
   freehire: { url: string };
 };
 
 type SavedJobSettings = Pick<SettingsData, "jobSource" | "jsearchKeyEnc" | "jsearchHost" | "adzunaAppId" | "adzunaKeyEnc" | "joobleKeyEnc" | "arbeitsagenturAcceptedAt">;
 type JobEnv = Pick<
   Env,
-  | "NORTHSTAR_JOBS_SOURCE"
-  | "NORTHSTAR_JSEARCH_KEY"
-  | "NORTHSTAR_JSEARCH_HOST"
-  | "NORTHSTAR_ADZUNA_APP_ID"
-  | "NORTHSTAR_ADZUNA_KEY"
-  | "NORTHSTAR_JOOBLE_KEY"
-  | "NORTHSTAR_FREEHIRE_URL"
-  | "NORTHSTAR_JOBS_ARBEITSAGENTUR"
+  | "GRADTRAIL_JOBS_SOURCE"
+  | "GRADTRAIL_JSEARCH_KEY"
+  | "GRADTRAIL_JSEARCH_HOST"
+  | "GRADTRAIL_ADZUNA_APP_ID"
+  | "GRADTRAIL_ADZUNA_KEY"
+  | "GRADTRAIL_JOOBLE_KEY"
+  | "GRADTRAIL_FREEHIRE_URL"
+  | "GRADTRAIL_JOBS_ARBEITSAGENTUR"
 >;
 
-const FROM_ENV: Record<NonNullable<Env["NORTHSTAR_JOBS_SOURCE"]>, JobSource | null> = {
+const FROM_ENV: Record<NonNullable<Env["GRADTRAIL_JOBS_SOURCE"]>, JobSource | null> = {
   jsearch: "JSEARCH",
   adzuna: "ADZUNA",
   arbeitsagentur: "ARBEITSAGENTUR",
@@ -68,9 +68,9 @@ function keyOf(stored: string | null, fromEnv: string | undefined, secret?: stri
 }
 
 export function resolveJobSearchConfig(saved: SavedJobSettings, source: JobEnv, secret?: string): JobSearchConfig {
-  const jsearchKey = keyOf(saved.jsearchKeyEnc, source.NORTHSTAR_JSEARCH_KEY, secret);
-  const offered = source.NORTHSTAR_JOBS_ARBEITSAGENTUR !== "off";
-  const chosen = saved.jobSource ? (saved.jobSource === "OFF" ? null : saved.jobSource) : source.NORTHSTAR_JOBS_SOURCE ? FROM_ENV[source.NORTHSTAR_JOBS_SOURCE] : null;
+  const jsearchKey = keyOf(saved.jsearchKeyEnc, source.GRADTRAIL_JSEARCH_KEY, secret);
+  const offered = source.GRADTRAIL_JOBS_ARBEITSAGENTUR !== "off";
+  const chosen = saved.jobSource ? (saved.jobSource === "OFF" ? null : saved.jobSource) : source.GRADTRAIL_JOBS_SOURCE ? FROM_ENV[source.GRADTRAIL_JOBS_SOURCE] : null;
   return {
     // A BA choice saved before the server turned it off counts as Off.
     source: chosen === "ARBEITSAGENTUR" && !offered ? null : chosen,
@@ -78,15 +78,15 @@ export function resolveJobSearchConfig(saved: SavedJobSettings, source: JobEnv, 
     jsearch: {
       ...jsearchKey,
       // An environment key goes with the environment's host, when it names one.
-      host: jsearchKey.keyState === "env" && source.NORTHSTAR_JSEARCH_HOST ? source.NORTHSTAR_JSEARCH_HOST : saved.jsearchHost,
+      host: jsearchKey.keyState === "env" && source.GRADTRAIL_JSEARCH_HOST ? source.GRADTRAIL_JSEARCH_HOST : saved.jsearchHost,
     },
     adzuna: {
-      appId: saved.adzunaAppId ?? source.NORTHSTAR_ADZUNA_APP_ID ?? "",
-      ...keyOf(saved.adzunaKeyEnc, source.NORTHSTAR_ADZUNA_KEY, secret),
+      appId: saved.adzunaAppId ?? source.GRADTRAIL_ADZUNA_APP_ID ?? "",
+      ...keyOf(saved.adzunaKeyEnc, source.GRADTRAIL_ADZUNA_KEY, secret),
     },
-    jooble: keyOf(saved.joobleKeyEnc, source.NORTHSTAR_JOOBLE_KEY, secret),
+    jooble: keyOf(saved.joobleKeyEnc, source.GRADTRAIL_JOOBLE_KEY, secret),
     arbeitsagentur: { offered, acceptedAt: saved.arbeitsagenturAcceptedAt },
-    freehire: { url: source.NORTHSTAR_FREEHIRE_URL ?? FREEHIRE_URL },
+    freehire: { url: source.GRADTRAIL_FREEHIRE_URL ?? FREEHIRE_URL },
   };
 }
 
@@ -97,12 +97,12 @@ export async function loadJobSearchConfig(): Promise<JobSearchConfig> {
 
 /**
  * For the server log at start (#223): the Bundesagentur für Arbeit's note,
- * when NORTHSTAR_JOBS_SOURCE chooses it rather than Settings; null otherwise.
+ * when GRADTRAIL_JOBS_SOURCE chooses it rather than Settings; null otherwise.
  */
 export function arbeitsagenturStartupNotice(config: JobSearchConfig): string | null {
   if (config.source !== "ARBEITSAGENTUR" || config.saved) return null;
   const waiting = config.arbeitsagentur.acceptedAt ? "" : " It isn't searched until you tick “I understand” in Settings → Job search.";
-  return `Job search: NORTHSTAR_JOBS_SOURCE chooses the Bundesagentur für Arbeit. ${ARBEITSAGENTUR_NOTE}${waiting}`;
+  return `Job search: GRADTRAIL_JOBS_SOURCE chooses the Bundesagentur für Arbeit. ${ARBEITSAGENTUR_NOTE}${waiting}`;
 }
 
 /** What Settings → Job search shows: the source and the keys' states, never the keys. */
@@ -119,13 +119,13 @@ export function jobSearchView(config: JobSearchConfig): JobSearchSettingsView {
 
 /**
  * Where a source's requests go: its own address, unless the end-to-end
- * tests point every source at their fake one (NORTHSTAR_JOBS_TEST_BASE_URL),
- * or FreeHire is pointed at a self-hosted origin (NORTHSTAR_FREEHIRE_URL).
+ * tests point every source at their fake one (GRADTRAIL_JOBS_TEST_BASE_URL),
+ * or FreeHire is pointed at a self-hosted origin (GRADTRAIL_FREEHIRE_URL).
  */
 export function requestContext(
   source: JobSource,
-  base = env.NORTHSTAR_JOBS_TEST_BASE_URL,
-  freehireUrl = env.NORTHSTAR_FREEHIRE_URL,
+  base = env.GRADTRAIL_JOBS_TEST_BASE_URL,
+  freehireUrl = env.GRADTRAIL_FREEHIRE_URL,
 ): RequestContext {
   if (base) return { baseUrl: `${base.replace(/\/+$/, "")}/${source.toLowerCase()}` };
   if (source === "FREEHIRE" && freehireUrl) return { baseUrl: freehireUrl };

@@ -3,7 +3,7 @@
 
 export const RELEASES_REPOSITORY = "AienTech/dossier";
 /** This fork's repository, opened from the sidebar's GitHub star link. */
-export const REPOSITORY_URL = "https://github.com/knowprasad/northstar-india";
+export const REPOSITORY_URL = "https://github.com/knowprasad/gradtrail";
 /** How to update Dossier, in its wiki. */
 export const UPGRADE_GUIDE_URL = `https://github.com/${RELEASES_REPOSITORY}/wiki/Upgrading`;
 

@@ -14,13 +14,13 @@ vi.mock("@/lib/auth/session", () => ({ getSession: vi.fn() }));
 vi.mock("@/lib/prisma", () => ({ prisma: {} }));
 vi.mock("@/lib/jobs/runner", () => ({ getJob: vi.fn(), defineJob: <T,>(definition: T) => definition }));
 const dataDir = vi.hoisted(() => ({ path: "" }));
-vi.mock("@/lib/env", () => ({ env: { get NORTHSTAR_DATA_DIR() { return dataDir.path; } } }));
+vi.mock("@/lib/env", () => ({ env: { get GRADTRAIL_DATA_DIR() { return dataDir.path; } } }));
 
 const get = (id: string) => GET(new NextRequest(`http://localhost:3000/api/downloads/${id}`), { params: Promise.resolve({ id }) });
 const done = { id: "job-1", type: "zip-pdfs", status: "DONE", step: null, error: null, result: { file: "abc-123.zip", fileName: "gradtrail-pdfs-2026-09-28.zip", documents: 2 } } as const;
 
 beforeEach(async () => {
-  dataDir.path = await mkdtemp(path.join(tmpdir(), "northstar-downloads-"));
+  dataDir.path = await mkdtemp(path.join(tmpdir(), "gradtrail-downloads-"));
   await mkdir(path.join(dataDir.path, "downloads"));
   await writeFile(path.join(dataDir.path, "downloads", "abc-123.zip"), "PK zip");
   vi.mocked(getSession).mockResolvedValue({ persistent: false, issuedAt: new Date(), expiresAt: new Date() });

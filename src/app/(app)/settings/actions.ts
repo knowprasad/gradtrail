@@ -73,7 +73,7 @@ export const saveApiKey = action(
     const current = await loadSettings();
     await saveSettings({
       apiKeyEnc: applyApiKeyChange(current.apiKeyEnc, change),
-      // Until now the provider came from NORTHSTAR_AI_*; the key makes it a saved choice.
+      // Until now the provider came from GRADTRAIL_AI_*; the key makes it a saved choice.
       ...(current.provider ? {} : { provider }),
     });
     return { keyState: await currentKeyState() };

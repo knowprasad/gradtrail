@@ -11,7 +11,7 @@ import { PRINT_TOKEN_HEADER, signPrintToken } from "@/lib/pdf/print-token";
 import { config, proxy } from "./proxy";
 
 vi.mock("@/lib/env", () => ({
-  env: { NORTHSTAR_SECRET: "a".repeat(32), NORTHSTAR_PASSWORD: "correct horse" },
+  env: { GRADTRAIL_SECRET: "a".repeat(32), GRADTRAIL_PASSWORD: "correct horse" },
 }));
 
 const key = deriveKey("session", "a".repeat(32));

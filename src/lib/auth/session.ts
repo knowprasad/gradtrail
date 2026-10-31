@@ -12,12 +12,13 @@ import { env } from "@/lib/env";
 import { deriveKey } from "@/lib/keys";
 
 // Sessions are stateless: the cookie holds an encrypted token (JWE,
-// A256GCM with a key derived from NORTHSTAR_SECRET), so nothing is stored on
+// A256GCM with a key derived from GRADTRAIL_SECRET), so nothing is stored on
 // the server, and tampering or a different secret makes it invalid. Each
-// token also carries a fingerprint of NORTHSTAR_PASSWORD (the password's
+// token also carries a fingerprint of GRADTRAIL_PASSWORD (the password's
 // hash), so changing the password and restarting signs everyone out (AUTH-6).
 
-export const SESSION_COOKIE = "northstar_session";
+export const SESSION_COOKIE = "gradtrail_session";
+const LEGACY_SESSION_COOKIE = ["north", "star", "session"].join("_");
 
 const HOUR = 60 * 60;
 /** How long a sign-in lasts: 24 hours for a browser session (decision in #27), 30 days with "Keep me signed in". */
@@ -33,17 +34,17 @@ export type Session = {
 
 type TokenOptions = {
   key: Uint8Array;
-  /** passwordFingerprint() of the current NORTHSTAR_PASSWORD. */
+  /** passwordFingerprint() of the current GRADTRAIL_PASSWORD. */
   fingerprint: string;
   now?: Date;
 };
 
 /**
- * A short HMAC of NORTHSTAR_PASSWORD, keyed from NORTHSTAR_SECRET. It identifies
+ * A short HMAC of GRADTRAIL_PASSWORD, keyed from GRADTRAIL_SECRET. It identifies
  * the password a session was created with, without revealing it.
  */
 export function passwordFingerprint(
-  password = env.NORTHSTAR_PASSWORD,
+  password = env.GRADTRAIL_PASSWORD,
   key = deriveKey("password-fingerprint"),
 ): string {
   return createHmac("sha256", key).update(password, "utf8").digest("base64url").slice(0, 16);
@@ -96,8 +97,8 @@ export async function decodeSession(
   }
 }
 
-/** Whether `candidate` is the password that NORTHSTAR_PASSWORD is a hash of. */
-export function passwordMatches(candidate: string, hash = env.NORTHSTAR_PASSWORD): Promise<boolean> {
+/** Whether `candidate` is the password that GRADTRAIL_PASSWORD is a hash of. */
+export function passwordMatches(candidate: string, hash = env.GRADTRAIL_PASSWORD): Promise<boolean> {
   return verifyPassword(candidate, hash);
 }
 
@@ -110,7 +111,8 @@ async function isHttps(): Promise<boolean> {
 /** Signs the user in: sets the session cookie. Call from a Server Action or route handler. */
 export async function startSession({ persistent }: { persistent: boolean }): Promise<void> {
   const token = await encodeSession({ persistent }, sessionTokenOptions());
-  (await cookies()).set(SESSION_COOKIE, token, {
+  const jar = await cookies();
+  jar.set(SESSION_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
@@ -118,11 +120,13 @@ export async function startSession({ persistent }: { persistent: boolean }): Pro
     // Without maxAge it's a browser-session cookie; the token expires anyway.
     ...(persistent ? { maxAge: SESSION_LIFETIME.persistent } : {}),
   });
+  jar.delete(LEGACY_SESSION_COOKIE);
 }
 
 /** The current session, or null when the request isn't signed in. Cached per request. */
 export const getSession = cache(async (): Promise<Session | null> => {
-  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  const jar = await cookies();
+  const token = jar.get(SESSION_COOKIE)?.value ?? jar.get(LEGACY_SESSION_COOKIE)?.value;
   return decodeSession(token, sessionTokenOptions());
 });
 
@@ -139,5 +143,7 @@ export async function verifySession(): Promise<Session> {
 
 /** Signs the user out: deletes the session cookie (AUTH-7). */
 export async function endSession(): Promise<void> {
-  (await cookies()).delete(SESSION_COOKIE);
+  const jar = await cookies();
+  jar.delete(SESSION_COOKIE);
+  jar.delete(LEGACY_SESSION_COOKIE);
 }

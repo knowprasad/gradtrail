@@ -18,7 +18,7 @@ vi.mock("@/lib/prisma", async () => {
   db.client = createTestClient();
   return { prisma: db.client };
 });
-vi.mock("@/lib/env", () => ({ env: { NORTHSTAR_SECRET: "s".repeat(40), NORTHSTAR_PASSWORD: "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA" } }));
+vi.mock("@/lib/env", () => ({ env: { GRADTRAIL_SECRET: "s".repeat(40), GRADTRAIL_PASSWORD: "argon2id:m=19456,t=2,p=1:c2FsdA:aGFzaA" } }));
 const fake = vi.hoisted(() => ({ aiUsable: false, fetched: { ok: true, text: "Fetched posting text", url: "https://jobs.example/fetched" } as Record<string, unknown> }));
 vi.mock("@/lib/ai/config", () => ({ isAiUsable: async () => fake.aiUsable }));
 vi.mock("@/lib/posting-fetch", () => ({ fetchPosting: vi.fn(async () => fake.fetched) }));
@@ -101,7 +101,7 @@ describe("the Claude connector's tools (#221)", () => {
   it("lists the applications, newest first, by status, and reads one without notes, sender or signature", async () => {
     const all = await tool("list_applications");
     expect(all.json.length).toBeGreaterThan(3);
-    expect(all.json[0]).toMatchObject({ status: expect.any(String), link: expect.stringMatching(/^https:\/\/northstar\.example\/applications\//) });
+    expect(all.json[0]).toMatchObject({ status: expect.any(String), link: expect.stringMatching(/^https:\/\/gradtrail\.example\/applications\//) });
     const drafts = await tool("list_applications", { status: "DRAFT", limit: 2 });
     expect(drafts.json.every((row) => (row as { status: string }).status === "Draft")).toBe(true);
 

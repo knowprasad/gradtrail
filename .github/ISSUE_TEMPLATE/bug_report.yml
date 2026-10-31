@@ -8,8 +8,8 @@ body:
         Thanks for taking the time to report this. Before you do:
 
         - Look in [Troubleshooting](https://github.com/AienTech/dossier/wiki/Troubleshooting): the fix may already be there.
-        - Search the [open and closed issues](https://github.com/knowprasad/northstar-india/issues?q=is%3Aissue), in case someone has reported it.
-        - Found a security problem? Don't report it here: [report it privately](https://github.com/knowprasad/northstar-india/security/advisories/new) instead.
+        - Search the [open and closed issues](https://github.com/knowprasad/gradtrail/issues?q=is%3Aissue), in case someone has reported it.
+        - Found a security problem? Don't report it here: [report it privately](https://github.com/knowprasad/gradtrail/security/advisories/new) instead.
 
         Everything you write here is public. Leave out passwords, API keys, values from your `.env`, and anything from your profile or applications you'd rather keep to yourself.
 

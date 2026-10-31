@@ -141,7 +141,7 @@ test.describe("the dashboard's calendar", () => {
       const at = (day: number, hour: number, minute = 0) => new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + day, hour, minute).toISOString();
       const date = (day: number) => new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + day).toLocaleDateString("en-CA");
       return { at: [0, 1, 2, 3, 4].map((day) => [at(day, 9, 30), at(day, 9, 45)]), lunch: [at(2, 12, 30), at(2, 13, 30)], gym: [1, 3].map((day) => [at(day, 18), at(day, 19)]), dentist: [at(4, 15), at(4, 15, 45)], review: [at(0, 14), at(0, 15)], trip: [date(5), date(7)] };
-    }, northstar.nextInterviewAt.toISOString());
+    }, gradtrail.nextInterviewAt.toISOString());
     const add = (summary: string, [start, end]: string[]) => inFakeCalendar("POST", undefined, { summary, start: { dateTime: start }, end: { dateTime: end } });
     for (const slot of week.at) await add("Stand-up", slot);
     for (const slot of week.gym) await add("Gym", slot);

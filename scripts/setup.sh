@@ -44,9 +44,9 @@ fi
 umask 077
 {
   printf "POSTGRES_PASSWORD='%s'\n" "$(openssl rand -hex 32)"
-  printf "NORTHSTAR_PASSWORD='%s'\n" "$password_hash"
-  printf "NORTHSTAR_SECRET='%s'\n" "$(openssl rand -base64 32 | tr -d '\n')"
-  printf 'NORTHSTAR_PORT=3000\nPOSTGRES_PORT=5433\n'
+  printf "GRADTRAIL_PASSWORD='%s'\n" "$password_hash"
+  printf "GRADTRAIL_SECRET='%s'\n" "$(openssl rand -base64 32 | tr -d '\n')"
+  printf 'GRADTRAIL_PORT=3000\nPOSTGRES_PORT=5433\n'
 } > .env
 docker compose up -d
 echo "Setup is complete. Open http://localhost:3000 and sign in with the password you chose."

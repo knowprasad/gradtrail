@@ -7,7 +7,7 @@ import { getJson, getSitePage, getText, STARTUPS_USER_AGENT, testAddress } from 
 const state = vi.hoisted(() => ({ base: undefined as string | undefined }));
 vi.mock("@/lib/env", () => ({
   env: {
-    get NORTHSTAR_JOBS_TEST_BASE_URL() {
+    get GRADTRAIL_JOBS_TEST_BASE_URL() {
       return state.base;
     },
   },
@@ -23,7 +23,7 @@ afterEach(() => {
 
 describe("Startups' requests (#222)", () => {
   it("say what they are, and link to the page explaining them", () => {
-    expect(STARTUPS_USER_AGENT).toMatch(/^Mozilla\/5\.0 \(compatible; GradTrail\/[\w.-]+; \+https:\/\/github\.com\/AienTech\/northstar\/blob\/main\/PRIVACY\.md#startups\)$/);
+    expect(STARTUPS_USER_AGENT).toMatch(/^Mozilla\/5\.0 \(compatible; GradTrail\/[\w.-]+; \+https:\/\/github\.com\/AienTech\/gradtrail\/blob\/main\/PRIVACY\.md#startups\)$/);
   });
 
   it("go to the fake server in the end-to-end tests", () => {

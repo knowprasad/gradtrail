@@ -24,11 +24,11 @@ export const rememberQuietDays = action(z.object({ days: z.number().int().min(1)
 /**
  * The answer to the usage ping question (#172), from the dialog after
  * sign-in or the switch in Settings → About. Closing the dialog is a no.
- * While NORTHSTAR_TELEMETRY is set, it decides, and this changes nothing.
+ * While GRADTRAIL_TELEMETRY is set, it decides, and this changes nothing.
  */
 export const chooseUsagePing = action(z.object({ send: z.boolean() }), async ({ send }) => {
-  if (env.NORTHSTAR_TELEMETRY) {
-    throw new ActionError(`NORTHSTAR_TELEMETRY=${env.NORTHSTAR_TELEMETRY} is set on the server, so it decides. Change it there.`);
+  if (env.GRADTRAIL_TELEMETRY) {
+    throw new ActionError(`GRADTRAIL_TELEMETRY=${env.GRADTRAIL_TELEMETRY} is set on the server, so it decides. Change it there.`);
   }
   await saveUsagePingChoice(send ? "on" : "off");
   revalidatePath("/", "layout");

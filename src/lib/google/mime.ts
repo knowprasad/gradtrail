@@ -47,7 +47,7 @@ function fileNameParameter(name: string): string {
 }
 
 /** The whole message, ready for Gmail's `raw` field after base64url. */
-export function buildMessage(mail: OutgoingMail, { boundary = `northstar-${randomBytes(12).toString("hex")}`, date = new Date() } = {}): string {
+export function buildMessage(mail: OutgoingMail, { boundary = `gradtrail-${randomBytes(12).toString("hex")}`, date = new Date() } = {}): string {
   const headers = [
     `From: ${encodeAddress(mail.from)}`,
     `To: ${mail.to.split(/[,;]/).map(encodeAddress).filter(Boolean).join(", ")}`,

@@ -60,7 +60,7 @@ export function UsagePingDialog({ host }: { host: string }) {
                 <li>What it keeps is deleted after a year.</li>
               </ul>
               <p>
-                Nothing is sent unless you choose Send usage ping. You can change your mind in Settings → About, or with NORTHSTAR_TELEMETRY on the
+                Nothing is sent unless you choose Send usage ping. You can change your mind in Settings → About, or with GRADTRAIL_TELEMETRY on the
                 server. To have what was kept deleted, send the install ID to{" "}
                 <a href="mailto:northstar.app@pm.me" className={LINK}>
                   northstar.app@pm.me
