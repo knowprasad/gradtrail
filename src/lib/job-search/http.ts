@@ -16,6 +16,20 @@ export async function requestJson(
   url: URL,
   { headers = {}, signal, timeoutMs = REQUEST_TIMEOUT_MS, method = "GET", body, safePath }: { headers?: Record<string, string>; signal?: AbortSignal; timeoutMs?: number; method?: "GET" | "POST"; body?: unknown; safePath?: string } = {},
 ): Promise<unknown> {
+  const text = await requestText(source, url, { headers, signal, timeoutMs, method, body, safePath });
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    throw jobSearchError("changed", source, { detail: `${safePath ?? url.pathname}: not JSON` });
+  }
+}
+
+/** Requests a bounded text feed from a source with the same timeout and error handling as JSON. */
+export async function requestText(
+  source: JobSource,
+  url: URL,
+  { headers = {}, signal, timeoutMs = REQUEST_TIMEOUT_MS, method = "GET", body, safePath }: { headers?: Record<string, string>; signal?: AbortSignal; timeoutMs?: number; method?: "GET" | "POST"; body?: unknown; safePath?: string } = {},
+): Promise<string> {
   const timeout = AbortSignal.timeout(timeoutMs);
   const requestHeaders = {
     accept: "application/json",
@@ -43,11 +57,7 @@ export async function requestJson(
 
   const text = await readLimited(response, MAX_BYTES);
   if (text === null) throw jobSearchError("changed", source, { detail: `${safePath ?? url.pathname}: answer over ${MAX_BYTES} bytes` });
-  try {
-    return JSON.parse(text) as unknown;
-  } catch {
-    throw jobSearchError("changed", source, { detail: `${safePath ?? url.pathname}: not JSON` });
-  }
+  return text;
 }
 
 /** The body as text, or null when it's bigger than `limit` bytes. */

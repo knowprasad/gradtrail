@@ -1,0 +1,13 @@
+{
+  "id": "P010",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "values",
+  "reason": "I would try it because it is free and I like keeping my application data on my own computer; the Hacker News startup posts could surface roles outside the usual boards. I would still rely on alumni and developer communities for referrals, and I might give up if Docker setup takes too long.",
+  "objection": "Does the search help me find people and referral paths, or only openings? I also need to know which sources work without keys and whether the listings are fresh.",
+  "would_change_my_mind": "A sample/demo search that shows source names, dates, and original posts before I spend time configuring it.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

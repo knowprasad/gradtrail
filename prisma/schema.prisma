@@ -410,6 +410,8 @@ model Application {
   followUpNote        String            @default("")
   /// Saved, not fetched (NEW-1).
   postingUrl          String            @default("")
+  /// Hash of the canonical posting URL, used to match job search results without scanning every application.
+  postingLinkHash     String?           @db.Char(64)
   postingText         String            @default("")
   /// What the AI read from the posting (extractedSchema).
   extracted           Json?
@@ -454,6 +456,7 @@ model Application {
   messages            ChatMessage[]
   notes               Note[]
   checklistTasks      ApplicationTask[]
+  interviewPrepItems  InterviewPrepItem[]
   /// What the user tells the AI for this application; "Anything I should know?" (NEW-6) becomes the first.
   facts               Fact[]
   /// Its background jobs, deleted with it (their inputs and results hold the posting and the documents).
@@ -463,6 +466,7 @@ model Application {
 
   @@index([status])
   @@index([updatedAt])
+  @@index([postingLinkHash])
 }
 
 /// One status change. Keeps the application's furthestStage and sentAt from
@@ -592,6 +596,19 @@ model ApplicationTask {
   @@index([applicationId, position, createdAt])
 }
 
+/// An editable interview practice prompt and the user's private answer notes.
+model InterviewPrepItem {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  prompt        String      @db.VarChar(240)
+  notes         String      @default("") @db.Text
+  position      Int         @default(0)
+  updatedAt     DateTime    @default(now()) @updatedAt
+
+  @@index([applicationId, position])
+}
+
 // ─── Job search (E14) ────────────────────────────────────────────────────────
 
 /// The job sources Find jobs can search (E14-1 to E14-3).
@@ -604,6 +621,7 @@ enum PostingSource {
   USAJOBS
   REMOTEOK
   STUDENT_FEEDS
+  STARTUP_JOBS
 }
 
 /// A posting from Find jobs that the user kept (E14-5): saved, dismissed, or
@@ -725,8 +743,14 @@ model PostingScore {
 /// (E14-10), so going back to it costs no searches from the source's plan.
 model PostingSearch {
   id        String        @id @default(cuid())
-  /// A saved query runs again when the user asks; refreshes are kept here for new-post comparison.
+  /// A saved query appears in Saved searches.
   saved     Boolean       @default(false)
+  /// Opt-in daily check. Disabled by default because sources may have request quotas.
+  autoRefresh Boolean     @default(false)
+  /// Last time the daily check claimed this search; avoids repeated checks after restarts.
+  lastAutoRefreshAt DateTime?
+  /// New postings kept until the user marks them seen.
+  newPostings Json        @default("[]")
   /// Posting keys present at the previous refresh, as JSON strings source:id.
   seen      Json          @default("[]")
   source    PostingSource

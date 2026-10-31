@@ -204,6 +204,11 @@ export function PostingResults(props: PostingResultsProps) {
             </button>
           )}
         </p>
+        {props.mode === "search" && postings.length > 0 && (
+          <p role="note" className="text-xs leading-relaxed text-muted">
+            Dates and eligibility come from the selected source and may be missing or out of date. Check the employer’s original post before applying.
+          </p>
+        )}
 
         {visible.length === 0 ? (
           <div className="rounded-panel border border-line-card bg-card px-5 py-9 text-center text-sm text-muted">{empty}</div>

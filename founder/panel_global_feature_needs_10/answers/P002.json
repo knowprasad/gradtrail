@@ -1,0 +1,13 @@
+{
+  "id": "P002",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "values",
+  "reason": "Keeping my application history on my own machine is appealing, and the features cover the scattered tracking I do now. I would try it once, but Docker setup could make me quit before I get to the useful parts.",
+  "objection": "I need to know exactly what information AI sees and whether it can stick to my real projects instead of making up claims.",
+  "would_change_my_mind": "A quick demo mode plus a clear explanation of which data stays local and which data goes to an optional AI provider.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

@@ -270,10 +270,10 @@ export async function sweepStartups(now = new Date()): Promise<{ removed: number
  */
 export function startupPostingText(startup: StartupView): string {
   const lines = [
-    startup.source === "YC" ? startup.summary : "",
+    startup.source === "YC" || startup.source === "STARTUP_JOBS" ? startup.summary : "",
     startup.details || startup.summary,
     startup.location && `Location: ${startup.location}`,
-    startup.roles.length > 0 && startup.source === "YC" ? `Role: ${startup.roles.join(", ")}` : "",
+    startup.roles.length > 0 && startup.source !== "HN" ? `Role: ${startup.roles.join(", ")}` : "",
   ];
   return withoutAddresses(lines.filter(Boolean).join("\n\n")).trim();
 }

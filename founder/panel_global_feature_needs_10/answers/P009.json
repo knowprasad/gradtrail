@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "The role filters and interview prompts sound useful, but installing Docker and configuring providers feels like another project when I am trying to apply. I would stick to my current job-search setup until I could see a quick demo that proves the drafts use my actual projects accurately.",
+  "objection": "I do not know how much setup is involved or whether the tailored material will stay faithful to my projects instead of making things up.",
+  "would_change_my_mind": "A no-key demo with a sample profile, a setup walkthrough that takes under ten minutes, and clear evidence that drafts only use facts I approve.",
+  "price_too_cheap": 0,
+  "price_cheap": 3,
+  "price_expensive": 8,
+  "price_too_expensive": 15
+}

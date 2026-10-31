@@ -140,7 +140,7 @@ export function NotesTab({
                     <p className="text-meta text-muted">Related to this role or its listed skills; these are learning resources, not requirements from the employer.</p>
                     <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
                       {planRoadmaps.map((roadmap) => (
-                        <li key={roadmap.url}><a href={roadmap.url} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">{roadmap.label}<span className="sr-only"> (opens in a new tab)</span></a></li>
+                        <li key={roadmap.url}><a href={roadmap.url} target="_blank" rel="noopener noreferrer" className="text-primary underline underline-offset-2">{roadmap.label}{" "}<span className="sr-only">(opens in a new tab)</span></a></li>
                       ))}
                     </ul>
                   </div>

@@ -63,6 +63,7 @@ import { PostingTab, type PostingData } from "./posting-tab";
 import { RefinePanel, type ChatEntry } from "./refine-panel";
 import { StatusControl } from "./status-control";
 import { FollowUpReminder } from "./follow-up-reminder";
+import { InterviewPrep, type InterviewPrepData } from "./interview-prep";
 import { ThemeMenu } from "./theme-menu";
 import { byPageLimit, TrimmedNotice } from "./trimmed-notice";
 
@@ -101,6 +102,7 @@ export type ApplicationViewProps = {
   application: {
     id: string;
     title: string;
+    role: string;
     company: string;
     location: string;
     status: ApplicationStatus;
@@ -131,6 +133,7 @@ export type ApplicationViewProps = {
   /** Notes and status changes, newest first (E8-9). */
   activity: ActivityEntry[];
   checklistTasks?: { id: string; title: string; completed: boolean }[];
+  interviewPrepItems?: InterviewPrepData[];
   meta: string[];
   resume: DocumentData | null;
   letter: DocumentData | null;
@@ -181,6 +184,7 @@ export function ApplicationView({
   facts: factsAtLoad,
   activity,
   checklistTasks = [],
+  interviewPrepItems = [],
   resume,
   letter,
   themes,
@@ -659,6 +663,7 @@ export function ApplicationView({
             </TabsTrigger>
           )}
           <TabsTrigger value="posting">{score ? `Job posting · ${score.hit}/${score.total} match` : "Job posting"}</TabsTrigger>
+          <TabsTrigger value="interview-prep">Interview prep</TabsTrigger>
           <TabsTrigger value="notes">{notes > 0 ? `Notes · ${notes}` : "Notes"}</TabsTrigger>
         </TabsList>
       </ApplicationHeader>
@@ -766,6 +771,10 @@ export function ApplicationView({
 
         <TabsContent value="notes" className="flex min-h-0 min-w-0 flex-[999_1_480px]">
           <NotesTab applicationId={application.id} activity={activity} checklistTasks={checklistTasks} />
+        </TabsContent>
+
+        <TabsContent value="interview-prep" className="flex min-h-0 min-w-0 flex-[999_1_480px]">
+          <InterviewPrep applicationId={application.id} role={application.role || application.title} company={application.company} initialItems={interviewPrepItems} />
         </TabsContent>
 
         <VersionHistory

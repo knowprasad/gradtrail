@@ -1,0 +1,13 @@
+{
+  "id": "P008",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check LinkedIn and company career pages, and Docker setup feels like another thing to maintain after work. I would stick with what I know unless this gets me fresher relevant listings without much setup.",
+  "objection": "I don't know if the listings will actually be fresher or more useful than the sources I already check, and I don't want a second workflow to babysit.",
+  "would_change_my_mind": "A short demo showing recent, verified roles I would otherwise miss, plus an easy install I can remove if I don't like it.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

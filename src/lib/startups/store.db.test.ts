@@ -228,14 +228,15 @@ describe("refreshing startups (#222)", () => {
     const result = await refreshStartups(async (name) => void steps.push(name), new AbortController().signal, now);
     expect(result).toEqual({
       at: now.toISOString(),
-      added: 2,
+      added: 52,
       sources: [
         { source: "YC", found: 2, error: null },
         { source: "HN", found: 0, error: "Hacker News took too long to answer" },
+        { source: "STARTUP_JOBS", found: 50, error: null },
       ],
       emailsFound: 1,
     });
-    expect(steps).toEqual(["Asking Y Combinator and Hacker News", "Scoring 2 startups against your profile", "Looking for application addresses on their own sites"]);
+    expect(steps).toEqual(["Asking Y Combinator, Hacker News, and Startup.jobs", "Scoring 52 startups against your profile", "Looking for application addresses on their own sites"]);
     expect(web.looked).toEqual(["https://acme.io"]);
     expect((await loadSettings()).startupsLastRefresh).toEqual(result);
 

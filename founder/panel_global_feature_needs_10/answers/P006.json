@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I would try it if it were already running, but I don't want to spend a weekend figuring out Docker when I can keep checking the boards I already know.",
+  "objection": "Self-hosting sounds like a technical setup project, and I need to know my resume stays private once I start using it.",
+  "would_change_my_mind": "A one-click local setup with a sample account that proves my data stays on my computer.",
+  "price_too_cheap": 1,
+  "price_cheap": 3,
+  "price_expensive": 8,
+  "price_too_expensive": 15
+}

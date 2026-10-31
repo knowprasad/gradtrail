@@ -38,7 +38,7 @@ const list = (items: string[]) => (items.length <= 1 ? (items[0] ?? "") : `${ite
 
 /** Where a startup says it hires: its location, and the title or the post's first line. */
 export const whereText = (startup: Pick<FoundStartup, "source" | "location" | "summary" | "details">) =>
-  [startup.location, startup.source === "YC" ? startup.summary : headerParts(startup.details).join(" | ")].join(" | ");
+  [startup.location, startup.source === "YC" || startup.source === "STARTUP_JOBS" ? startup.summary : headerParts(startup.details).join(" | ")].join(" | ");
 
 export type StartupFit = { score: number; reasons: string[] };
 

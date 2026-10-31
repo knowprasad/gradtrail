@@ -4,6 +4,7 @@ import { after } from "next/server";
 import { countAgentQueue } from "@/lib/agent/view";
 import { verifySession } from "@/lib/auth/session";
 import { inboxCount } from "@/lib/google/inbox-data";
+import { countUnseenSavedSearchPostings } from "@/lib/posting-searches";
 import { loadProfileName } from "@/lib/profile-data";
 import { loadSettings } from "@/lib/settings-data";
 import { COLOR_SCHEME_COOKIE, LEGACY_COLOR_SCHEME_COOKIE, LEGACY_SIDEBAR_COOKIE, parseColorScheme, parseSidebarCollapsed, SIDEBAR_COOKIE } from "@/lib/ui-preferences";
@@ -34,7 +35,8 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
   const [name, settings, jar] = await Promise.all([loadProfileName(), loadSettings(), cookies()]);
   const userName = name.trim() || "New user";
   // Replies waiting for an answer or a link, on the Inbox item; the job agent's finds and drafts on its own (E16-6).
-  const [waiting, agent] = await Promise.all([inboxCount().catch(() => 0), countAgentQueue().catch(() => 0)]);
+  const [waiting, agent, newJobs] = await Promise.all([inboxCount().catch(() => 0), countAgentQueue().catch(() => 0), countUnseenSavedSearchPostings().catch(() => 0)]);
+  const navCounts = { ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}), ...(newJobs > 0 ? { "/jobs": newJobs } : {}) };
 
   return (
     <div className="wayfinder-dots flex min-h-screen">
@@ -49,10 +51,10 @@ export default async function AppLayout({ children }: LayoutProps<"/">) {
         update={updateNotice(settings)}
         currentVersion={appVersion}
         collapsed={parseSidebarCollapsed(jar.get(SIDEBAR_COOKIE)?.value ?? jar.get(LEGACY_SIDEBAR_COOKIE)?.value)}
-        counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }}
+        counts={navCounts}
         colorScheme={parseColorScheme(jar.get(COLOR_SCHEME_COOKIE)?.value ?? jar.get(LEGACY_COLOR_SCHEME_COOKIE)?.value)}
       />
-      <MobileNav counts={{ ...(waiting > 0 ? { "/inbox": waiting } : {}), ...(agent > 0 ? { "/agent": agent } : {}) }} />
+      <MobileNav counts={navCounts} />
       {/* The screen sits in a white panel inset from the shell. Each screen
           starts with its page bar (PageHeader or PageBar), which draws the
           panel's top edge and stays in view. */}

@@ -31,6 +31,7 @@ const SUBTITLES: Record<Tab, string> = {
   email: "Ask for changes to your email. I'll only use what's in your profile.",
   conversation: "Answers to employers are drafted right in the conversation.",
   posting: "Switch to the resume, cover letter or email to make changes.",
+  "interview-prep": "Practice prompts are for your preparation; they aren't sent to an AI provider.",
   notes: "Switch to the resume, cover letter or email to make changes.",
 };
 

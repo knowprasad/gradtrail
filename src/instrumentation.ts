@@ -26,6 +26,10 @@ export async function register() {
     const { startAgentSchedule } = await import("@/lib/agent/schedule");
     startAgentSchedule();
 
+    // Daily new-post checks for saved searches the user explicitly opted into.
+    const { startSavedSearchSchedule } = await import("@/lib/posting-search-schedule");
+    startSavedSearchSchedule();
+
     // Startups' daily refresh, once it was refreshed by hand and while the screen is in use (#222).
     const { startStartupsSchedule } = await import("@/lib/startups/schedule");
     startStartupsSchedule();

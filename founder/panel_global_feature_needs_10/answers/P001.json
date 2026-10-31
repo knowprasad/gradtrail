@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I would not set this up right now. I already have a spreadsheet, and Docker plus source keys sounds like more work than it saves unless I can see a useful search working quickly.",
+  "objection": "I can't tell which job sources work out of the box and whether the listings stay current enough to replace checking boards myself.",
+  "would_change_my_mind": "A guided demo that runs without API keys and shows fresh roles for my country before I install or configure anything.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

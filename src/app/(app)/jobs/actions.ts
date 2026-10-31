@@ -10,7 +10,7 @@ import { fullText } from "@/lib/job-search/find";
 import { foundPostingSchema, JOB_SOURCES, searchQuerySchema } from "@/lib/job-search/search";
 import { findUnfinishedJobs, startJob } from "@/lib/jobs/runner";
 import { scoreJobKey, scorePostingJob } from "@/lib/jobs/score-posting";
-import { refreshSavedSearch as refreshSearch, removeSearch, runSearch, setSearchSaved, showMoreFor } from "@/lib/posting-searches";
+import { markSavedSearchAlertsSeen, refreshSavedSearch as refreshSearch, removeSearch, runSearch, setSearchAutoRefresh as setAutoRefresh, setSearchSaved, showMoreFor } from "@/lib/posting-searches";
 import { dismissPosting, savePosting, storePosting, unmarkPosting } from "@/lib/postings";
 import { saveSettings } from "@/lib/settings-data";
 
@@ -46,6 +46,26 @@ export const refreshSavedJobSearch = action(z.object({ id: searchId }), async ({
   const result = await refreshSearch(id);
   if (!result.ok) throw new ActionError(result.message);
   return { id: result.id, added: result.added };
+});
+
+/** Opt a saved search into one daily source check (at most five searches). */
+export const setSavedJobSearchAutoRefresh = action(z.object({ id: searchId, enabled: z.boolean() }), async ({ id, enabled }) => {
+  const result = await setAutoRefresh(id, enabled);
+  if (!result.ok) {
+    const message = result.reason === "limit"
+      ? "You can enable daily checks for up to five saved searches."
+      : result.reason === "quota"
+        ? "Jooble's key has a lifetime request limit, so daily checks are disabled for that source."
+        : "That saved search is no longer available.";
+    throw new ActionError(message);
+  }
+  return { enabled };
+});
+
+/** Acknowledge saved-search posting alerts without removing or changing the jobs. */
+export const markSavedJobSearchAlertsSeen = action(z.object({ id: searchId }), async ({ id }) => {
+  if (!(await markSavedSearchAlertsSeen(id))) throw new ActionError("That saved search is no longer available.");
+  return null;
 });
 
 /** Removes a kept search and what it found; saved postings stay. */

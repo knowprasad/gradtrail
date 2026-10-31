@@ -4,6 +4,7 @@ import { Prisma, type PrismaClient } from "@/generated/prisma/client";
 import { encryptApiKey } from "@/lib/ai/api-key";
 import { EXPORT_FORMAT, EXPORT_SCHEMA_VERSION, EXPORT_SCHEMA_VERSIONS, exportSchema, INSTALL_SETTINGS, SECRET_SETTINGS, type GradTrailExport } from "@/lib/data-export";
 import { encryptSecret, JOB_SOURCE_KEY } from "@/lib/secrets";
+import { postingLinkHash } from "@/lib/posting-link";
 
 // Restoring from an export file (E10-6, SET-10): everything is replaced in
 // one transaction, so a failure changes nothing. The caller backs up the
@@ -140,6 +141,7 @@ export async function importExport(db: PrismaClient, data: GradTrailExport): Pro
       await tx.application.createMany({
         data: applications.map((application) => ({
           ...omit(application, "events", "documents", "messages", "notes", "facts", "userNote"),
+          postingLinkHash: postingLinkHash(application.postingUrl),
           extracted: json(application.extracted),
           match: json(application.match),
         })),

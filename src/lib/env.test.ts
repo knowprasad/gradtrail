@@ -52,7 +52,7 @@ describe("parseEnv", () => {
       GRADTRAIL_AI_KEY: "sk-test",
     });
     expect(env).toMatchObject({
-      GRADTRAIL_DATA_DIR: "/srv/gradtrail",
+      GRADTRAIL_DATA_DIR: path.resolve("/srv/gradtrail"),
       GRADTRAIL_BACKUP_RETENTION_DAYS: 30,
       GRADTRAIL_AI_PROVIDER: "local",
       GRADTRAIL_AI_URL: "http://ollama:11434",
@@ -171,7 +171,7 @@ describe("job search variables (E14-4)", () => {
 
   it("rejects sources and hosts it doesn't know, without echoing keys", () => {
     expect(problems({ ...valid, GRADTRAIL_JOBS_SOURCE: "linkedin", GRADTRAIL_JSEARCH_HOST: "google", GRADTRAIL_JSEARCH_KEY: "ak_secret" })).toEqual([
-      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, jooble, usajobs, remoteok, student_feeds, off (got "linkedin").',
+      'GRADTRAIL_JOBS_SOURCE must be one of jsearch, adzuna, arbeitsagentur, freehire, jooble, usajobs, remoteok, student_feeds, startup_jobs, off (got "linkedin").',
       'GRADTRAIL_JSEARCH_HOST must be openwebninja or rapidapi (got "google").',
     ]);
   });

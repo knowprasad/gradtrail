@@ -13,7 +13,7 @@ import { SOURCE_INFO } from "./sources";
 // job ad is a "posting".
 
 /** The job sources GradTrail can search (E14-1 to E14-3, FreeHire), in the order Settings lists them; one is chosen there. */
-export const JOB_SOURCES = [PostingSource.JSEARCH, PostingSource.ADZUNA, PostingSource.FREEHIRE, PostingSource.ARBEITSAGENTUR, PostingSource.JOOBLE, PostingSource.USAJOBS, PostingSource.REMOTEOK, PostingSource.STUDENT_FEEDS] as const;
+export const JOB_SOURCES = [PostingSource.JSEARCH, PostingSource.ADZUNA, PostingSource.FREEHIRE, PostingSource.ARBEITSAGENTUR, PostingSource.JOOBLE, PostingSource.USAJOBS, PostingSource.REMOTEOK, PostingSource.STUDENT_FEEDS, PostingSource.STARTUP_JOBS] as const;
 export type JobSource = PostingSource;
 
 /** Where a JSearch key comes from: OpenWeb Ninja directly, or the RapidAPI marketplace. */
@@ -180,7 +180,7 @@ export type StoredSearch = {
 export type PastSearchDay = {
   /** "Today", "Yesterday" or "Thu 1 Oct". */
   day: string;
-  searches: { id: string; source: JobSource; query: SearchQuery; found: number; time: string; saved: boolean; added: number }[];
+  searches: { id: string; source: JobSource; query: SearchQuery; found: number; time: string; saved: boolean; added: number; autoRefresh?: boolean; lastAutoRefreshAt?: string | null }[];
 };
 
 /** "product designer · Hamburg, 25 km · Remote only · Past week": a search in a line, without the km for a source that has no radius. */

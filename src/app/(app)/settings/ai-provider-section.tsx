@@ -1,6 +1,7 @@
 "use client";
 
 import { RadioGroup } from "radix-ui";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import { useTrackSave } from "@/components/save-tracker";
@@ -132,7 +133,7 @@ export function AiProviderSection({ initial }: { initial: AiSettingsView }) {
   return (
     <>
       <SettingsSectionIntro title="AI provider">
-        This is what reads job postings and writes your drafts. A local model keeps everything on your machine.
+        Searching and saving jobs do not need AI. A local model runs on your hardware; hosted providers may charge per use and receive the information needed for each task. See <Link href="/privacy-costs" className="underline underline-offset-2">privacy and possible costs</Link> before choosing.
       </SettingsSectionIntro>
 
       <RadioGroup.Root

@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I like the filters and application tracking, but I would keep checking job posts and deadlines in the original places until I knew the listings were current. Docker feels like a lot of setup for something I can do with a spreadsheet.",
+  "objection": "How can I tell whether a listing is still open and when the source last refreshed?",
+  "would_change_my_mind": "A quick demo with visible source and refresh dates, plus a guided setup I can finish on my laptop without help.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 1,
+  "price_too_expensive": 5
+}

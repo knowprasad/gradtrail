@@ -12,6 +12,7 @@ import { jsearch } from "./jsearch";
 import { jooble } from "./jooble";
 import { remoteok } from "./remoteok";
 import { studentFeeds } from "./student-feeds";
+import { startupJobs } from "./startup-jobs";
 import { usajobs } from "./usajobs";
 import { postingKey, type FoundPosting, type JobSource, type SearchPage, type SearchQuery } from "./search";
 import { sourceCovers } from "./sources";
@@ -33,6 +34,7 @@ const ADAPTERS: { [S in JobSource]: JobSourceAdapter<S> } = {
   USAJOBS: usajobs,
   REMOTEOK: remoteok,
   STUDENT_FEEDS: studentFeeds,
+  STARTUP_JOBS: startupJobs,
 };
 
 const adapterFor = <S extends JobSource>(source: S) => ADAPTERS[source] as JobSourceAdapter<S>;

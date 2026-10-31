@@ -85,7 +85,7 @@ export function StartupsScreen({ filter, list, lastRefresh, refreshJobId, city, 
     <>
       <PageHeader
         title="Startups"
-        description="Startups that are hiring, from YC startups' job posts and Hacker News' “Who is hiring?”, ranked against your profile, with the address each one publishes for applications. You write to each one yourself."
+        description="Hiring leads from YC, Hacker News, and Startup.jobs, ranked against your profile. Open each original post and decide whom to contact."
         actions={
           <Button aria-disabled={refreshing || starting || undefined} onClick={() => !refreshing && !starting && refresh()}>
             {refreshing ? "Refreshing…" : "Refresh"}
@@ -134,8 +134,8 @@ function RefreshStatus({ lastRefresh, refreshing, step, today }: { lastRefresh: 
     return (
       <div role="note" className="flex flex-col gap-2 rounded-panel border border-line-card bg-card px-6 py-5 text-sm text-pretty">
         <p>
-          Press <strong>Refresh</strong> to look for startups. GradTrail reads YC startups&apos; job posts and this month&apos;s “Who is hiring?” thread on
-          Hacker News, keeps the ones that hire where you live or remotely, and looks on the best matches&apos; own sites for the address they publish for
+          Press <strong>Refresh</strong> to look for startups. GradTrail reads YC&apos;s job posts, this month&apos;s “Who is hiring?” thread on
+          Hacker News, and Startup.jobs&apos; latest feed, keeps the ones that hire where you live or remotely, and looks on the best matches&apos; own sites for the address they publish for
           applications, following their robots.txt.
         </p>
         <p className="text-muted">
@@ -403,7 +403,7 @@ function StartupCard({ startup: initial, headline, aiReady, today }: { startup: 
         open={removing}
         onOpenChange={setRemoving}
         title={`Remove ${startup.company} for good?`}
-        description="GradTrail deletes what it keeps about this startup, its addresses and your notes, and refreshes leave it out from now on. An application you started stays."
+        description="This permanently deletes this startup from GradTrail, including its saved status, notes, and addresses. Future refreshes will hide this company and its posts. You can’t undo this. Any application you already started will stay."
         confirmLabel="Remove for good"
         onConfirm={() => void remove()}
       />

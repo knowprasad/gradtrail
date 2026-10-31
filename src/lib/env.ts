@@ -11,7 +11,7 @@ const GENERATE_SECRET = "for example the output of `openssl rand -base64 32`";
 const HASH_PASSWORD = "Make one with `docker/bin/yarn hash-password`";
 
 export const AI_PROVIDERS = ["local", "openai", "anthropic", "mistral", "lmstudio"] as const;
-export const JOB_SOURCE_NAMES = ["jsearch", "adzuna", "arbeitsagentur", "freehire", "jooble", "usajobs", "remoteok", "student_feeds", "off"] as const;
+export const JOB_SOURCE_NAMES = ["jsearch", "adzuna", "arbeitsagentur", "freehire", "jooble", "usajobs", "remoteok", "student_feeds", "startup_jobs", "off"] as const;
 
 // An empty value (`GRADTRAIL_AI_KEY=` in .env) counts as unset.
 const unsetIfEmpty = (value: unknown) =>

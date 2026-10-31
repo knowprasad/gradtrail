@@ -1,0 +1,140 @@
+{
+ "business": "GradTrail, a free, open-source, self-hosted job-search and application workspace",
+ "seed": 731,
+ "dealt": 10,
+ "answered": 10,
+ "skipped": [],
+ "buys": 3,
+ "passes": 7,
+ "buy_rate": 0.3,
+ "by_segment": [
+  [
+   "Final-year student or recent graduate",
+   4,
+   0.5
+  ],
+  [
+   "Student seeking an internship",
+   4,
+   0.25
+  ],
+  [
+   "Early-career developer changing roles",
+   2,
+   0.0
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Privacy-conscious self-hoster",
+   1,
+   1.0
+  ],
+  [
+   "Referral-network builder",
+   1,
+   1.0
+  ],
+  [
+   "Project-led candidate",
+   2,
+   0.5
+  ],
+  [
+   "Application organizer",
+   1,
+   0.0
+  ],
+  [
+   "Multi-board checker",
+   2,
+   0.0
+  ],
+  [
+   "Eligibility-first applicant",
+   2,
+   0.0
+  ],
+  [
+   "Trust and freshness checker",
+   1,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "$5,000 to $13,000",
+   3,
+   0.6666666666666666
+  ],
+  [
+   "$13,000 and up",
+   4,
+   0.25
+  ],
+  [
+   "under $5,000",
+   3,
+   0.0
+  ]
+ ],
+ "why_not": [
+  [
+   "convenience",
+   6,
+   [
+    "I would not set this up right now. I already have a spreadsheet, and Docker plus source keys sounds like more work than it saves unless I can see a useful search working quickly.",
+    "The filters and original links would save me time, but I would probably keep checking the boards I already know instead of setting up Docker on my limited laptop."
+   ],
+   [
+    "P001",
+    "P003"
+   ]
+  ],
+  [
+   "trust",
+   1,
+   [
+    "The filters and original links sound useful for finding internships, but I need to know whether the posting dates and eligibility details stay current before I trust it with my search. Docker setup also feels like a lot when I could keep checking the boards directly."
+   ],
+   [
+    "P007"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "values",
+   2,
+   [
+    "Keeping my application history on my own machine is appealing, and the features cover the scattered tracking I do now. I would try it once, but Docker setup could make me quit before I get to the useful parts.",
+    "I would try it because it is free and I like keeping my application data on my own computer; the Hacker News startup posts could surface roles outside the usual boards. I would still rely on alumni and developer communities for referrals, and I might give up if Docker setup takes too long."
+   ],
+   [
+    "P002",
+    "P010"
+   ]
+  ],
+  [
+   "need",
+   1,
+   [
+    "I would try a free tool that brings internship listings and application follow-ups together, and the project based application-material help sounds useful. I would only install it when I have time to deal with Docker, and I would skip optional AI if the provider cost is unclear."
+   ],
+   [
+    "P004"
+   ]
+  ]
+ ],
+ "flip": [
+  "A guided demo that runs without API keys and shows fresh roles for my country before I install or configure anything.",
+  "A no-key demo or very simple setup that shows recent, verifiable posts on a typical student laptop.",
+  "A quick demo with visible source and refresh dates, plus a guided setup I can finish on my laptop without help.",
+  "A one-click local setup with a sample account that proves my data stays on my computer.",
+  "A short live demo showing fresh roles with original dates, eligibility details, and a setup guide that gets me searching quickly.",
+  "A short demo showing recent, verified roles I would otherwise miss, plus an easy install I can remove if I don't like it.",
+  "A no-key demo with a sample profile, a setup walkthrough that takes under ten minutes, and clear evidence that drafts only use facts I approve."
+ ],
+ "purchases_first_month_per_buyer": 1.0,
+ "price_answers": 10
+}

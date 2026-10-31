@@ -18,6 +18,9 @@ import {
 import { postingStates } from "@/lib/postings";
 import { prisma } from "@/lib/prisma";
 
+const AUTO_REFRESH_MAX = 5;
+const AUTO_REFRESH_MS = 24 * 60 * 60 * 1000;
+
 // Searches kept with what they found (E14-10), until the user removes them,
 // so going back to one costs no searches from the source's plan.
 
@@ -65,7 +68,7 @@ export async function runSearch(query: SearchQuery): Promise<{ ok: true; id: str
 
 /** A saved query refreshes its first page and reports which postings are new since its last refresh. */
 export async function refreshSavedSearch(id: string): Promise<{ ok: true; id: string; added: number } | SearchProblem> {
-  const previous = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, source: true, query: true, postings: true, seen: true } });
+  const previous = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, source: true, query: true, postings: true, seen: true, newPostings: true } });
   if (!previous?.saved) return { ok: false, problem: "changed", message: "That saved search is no longer available." };
   // A manual refresh should ask the provider again; ordinary revisits stay cached.
   const answer = await askSource(queryOf(previous.query), { source: previous.source, fresh: true });
@@ -74,12 +77,20 @@ export async function refreshSavedSearch(id: string): Promise<{ ok: true; id: st
     ...(Array.isArray(previous.seen) ? previous.seen.filter((value): value is string => typeof value === "string") : []),
     ...postingsOf(previous.postings).map(postingKey),
   ]);
-  const added = answer.postings.filter((posting) => !seen.has(postingKey(posting))).length;
+  const unread = Array.isArray(previous.newPostings) ? previous.newPostings.filter((value): value is string => typeof value === "string") : [];
+  const nextUnread = new Set(unread);
+  let added = 0;
+  for (const posting of answer.postings) {
+    const key = postingKey(posting);
+    if (seen.has(key)) continue;
+    if (!nextUnread.has(key)) added += 1;
+    nextUnread.add(key);
+  }
   // Keep new keys as unseen until the next refresh so the screen continues to
   // show the new count between checks, even though its displayed page updates.
   await prisma.postingSearch.update({
     where: { id },
-    data: { postings: answer.postings, found: answer.postings.length, next: answer.next, seen: [...seen] },
+    data: { postings: answer.postings, found: answer.postings.length, next: answer.next, seen: [...seen], newPostings: [...nextUnread] },
   });
   return { ok: true, id, added };
 }
@@ -92,6 +103,7 @@ export async function setSearchSaved(id: string, saved: boolean): Promise<boolea
     where: { id },
     data: {
       saved,
+      ...(!saved ? { autoRefresh: false } : {}),
       ...(!search.saved && saved
         ? {
             seen: Array.isArray(search.seen) && search.seen.length
@@ -102,6 +114,65 @@ export async function setSearchSaved(id: string, saved: boolean): Promise<boolea
     },
   });
   return true;
+}
+
+/** One daily provider request per enabled query, with an explicit five-query ceiling. */
+export async function setSearchAutoRefresh(id: string, enabled: boolean): Promise<{ ok: true } | { ok: false; reason: "missing" | "limit" | "quota" }> {
+  const search = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, source: true } });
+  if (!search?.saved) return { ok: false, reason: "missing" };
+  if (enabled && search.source === "JOOBLE") return { ok: false, reason: "quota" };
+  if (enabled && (await prisma.postingSearch.count({ where: { saved: true, autoRefresh: true } })) >= AUTO_REFRESH_MAX) return { ok: false, reason: "limit" };
+  await prisma.postingSearch.update({ where: { id }, data: { autoRefresh: enabled } });
+  return { ok: true };
+}
+
+/** Keep new-post alerts until a person acknowledges them. */
+export async function markSavedSearchAlertsSeen(id: string): Promise<boolean> {
+  const search = await prisma.postingSearch.findUnique({ where: { id }, select: { seen: true, newPostings: true } });
+  if (!search) return false;
+  const seen = new Set([
+    ...(Array.isArray(search.seen) ? search.seen.filter((value): value is string => typeof value === "string") : []),
+    ...(Array.isArray(search.newPostings) ? search.newPostings.filter((value): value is string => typeof value === "string") : []),
+  ]);
+  await prisma.postingSearch.update({ where: { id }, data: { seen: [...seen], newPostings: [] } });
+  return true;
+}
+
+/** Claim and refresh opted-in searches once per rolling day. */
+export async function refreshDueSavedSearches(now = new Date()): Promise<number> {
+  const cutoff = new Date(now.getTime() - AUTO_REFRESH_MS);
+  const due = await prisma.postingSearch.findMany({
+    where: { saved: true, autoRefresh: true, OR: [{ lastAutoRefreshAt: null }, { lastAutoRefreshAt: { lt: cutoff } }] },
+    select: { id: true, lastAutoRefreshAt: true },
+    orderBy: { lastAutoRefreshAt: "asc" },
+    take: AUTO_REFRESH_MAX,
+  });
+  let checked = 0;
+  for (const search of due) {
+    const claimed = await prisma.postingSearch.updateMany({
+      where: { id: search.id, saved: true, autoRefresh: true, lastAutoRefreshAt: search.lastAutoRefreshAt },
+      data: { lastAutoRefreshAt: now },
+    });
+    if (!claimed.count) continue;
+    try {
+      const result = await refreshSavedSearch(search.id);
+      if (result.ok) checked += 1;
+      else {
+        const { logServerError } = await import("@/lib/log");
+        logServerError(`saved search auto-refresh ${search.id}`, result.message);
+      }
+    } catch (error) {
+      const { logServerError } = await import("@/lib/log");
+      logServerError(`saved search auto-refresh ${search.id}`, error);
+    }
+  }
+  return checked;
+}
+
+/** Number of new posting alerts, retained until marked seen. */
+export async function countUnseenSavedSearchPostings(): Promise<number> {
+  const rows = await prisma.postingSearch.findMany({ where: { saved: true }, select: { newPostings: true } });
+  return rows.reduce((total, row) => total + (Array.isArray(row.newPostings) ? row.newPostings.length : 0), 0);
 }
 
 /** A kept search, the latest one without an id; null when there's none. */
@@ -139,7 +210,7 @@ export async function showMoreFor(id: string): Promise<{ ok: true; postings: Sho
 export async function listSearches({ timeZone, now = new Date(), savedOnly = false }: { timeZone?: string; now?: Date; savedOnly?: boolean } = {}): Promise<PastSearchDay[]> {
   const searches = await prisma.postingSearch.findMany({
     where: savedOnly ? { saved: true } : undefined,
-    select: { id: true, source: true, query: true, found: true, createdAt: true, saved: true, seen: true, postings: true },
+    select: { id: true, source: true, query: true, found: true, createdAt: true, saved: true, seen: true, postings: true, autoRefresh: true, lastAutoRefreshAt: true, newPostings: true },
     orderBy: { createdAt: "desc" },
   });
   const days: PastSearchDay[] = [];
@@ -149,8 +220,8 @@ export async function listSearches({ timeZone, now = new Date(), savedOnly = fal
     if (days.at(-1)?.day !== day) days.push({ day, searches: [] });
     const seen = new Set(Array.isArray(search.seen) ? search.seen.filter((value): value is string => typeof value === "string") : []);
     const postings = postingsOf(search.postings);
-    const added = search.saved ? postings.filter((posting) => !seen.has(postingKey(posting))).length : 0;
-    days.at(-1)!.searches.push({ id: search.id, source: search.source, query: queryOf(search.query), found: search.found, time: formatTime(search.createdAt, timeZone), saved: search.saved, added });
+    const newPostings = Array.isArray(search.newPostings) ? search.newPostings.length : search.saved ? postings.filter((posting) => !seen.has(postingKey(posting))).length : 0;
+    days.at(-1)!.searches.push({ id: search.id, source: search.source, query: queryOf(search.query), found: search.found, time: formatTime(search.createdAt, timeZone), saved: search.saved, added: newPostings, autoRefresh: search.autoRefresh, lastAutoRefreshAt: search.lastAutoRefreshAt?.toISOString() ?? null });
   }
   return days;
 }

@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "The filters and original links would save me time, but I would probably keep checking the boards I already know instead of setting up Docker on my limited laptop.",
+  "objection": "I need confidence the dates and openings are current, and I don't know whether this will run smoothly on my laptop.",
+  "would_change_my_mind": "A no-key demo or very simple setup that shows recent, verifiable posts on a typical student laptop.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

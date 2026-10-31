@@ -85,6 +85,60 @@ export const saveChecklistPlan = action(
   },
 );
 
+/** Build interview practice prompts only from the saved posting, without AI or external calls. */
+export const suggestInterviewPrep = action(z.object({ id: z.string().min(1) }), async ({ id }) => {
+  const application = await prisma.application.findUnique({
+    where: { id },
+    select: { title: true, role: true, company: true, postingText: true, extracted: true, match: true },
+  });
+  if (!application) throw new ActionError(GONE);
+
+  const role = application.role.trim() || application.title.trim() || "this role";
+  const company = application.company.trim() || "the employer";
+  const requirements = extractedSchema.safeParse(application.extracted);
+  const match = matchSchema.safeParse(application.match);
+  const prompts = [
+    `Why are you interested in ${role} at ${company}?`,
+    `Walk me through a project or experience that best prepares you for ${role}. What did you do, and what was the result?`,
+  ];
+  const matchedItems = match.success ? match.data.items : [];
+  const askedRequirements = requirements.success ? requirements.data.requirements : [];
+  const relevant = askedRequirements.slice(0, 4);
+  for (const requirement of relevant) {
+    const isGap = matchedItems.some((item) => item.requirement === requirement.text && item.result === "gap");
+    prompts.push(
+      isGap
+        ? `The posting asks for ${requirement.text}. What related experience do you have, and how would you approach this honestly while you build that skill?`
+        : `The posting asks for ${requirement.text}. Give a specific example of how you have used or demonstrated this.`,
+    );
+  }
+  if (/portfolio|github|project|code sample/i.test(application.postingText)) {
+    prompts.push("Choose a project from your portfolio or code samples. What problem did it solve, what choices did you make, and what would you improve?");
+  }
+  prompts.push("Tell me about a challenge, mistake, or piece of feedback that changed how you work. What did you learn?");
+  prompts.push(`What would you like to ask ${company} about the team's work, expectations, or next steps?`);
+  return [...new Set(prompts)].slice(0, 10);
+});
+
+/** Persist only the practice prompts and answer notes the student reviewed and edited. */
+export const saveInterviewPrep = action(
+  z.object({
+    id: z.string().min(1),
+    items: z.array(z.object({ prompt: z.string().trim().min(1).max(240), notes: z.string().max(4000) })).max(12),
+  }),
+  async ({ id, items }) => {
+    if (!(await prisma.application.count({ where: { id } }))) throw new ActionError(GONE);
+    await prisma.$transaction([
+      prisma.interviewPrepItem.deleteMany({ where: { applicationId: id } }),
+      ...(items.length
+        ? [prisma.interviewPrepItem.createMany({ data: items.map((item, position) => ({ ...item, applicationId: id, position })) })]
+        : []),
+    ]);
+    refresh(id);
+    return null;
+  },
+);
+
 /** Mark a task done or reopen it, scoped to its application. */
 export const setChecklistTaskDone = action(
   checklistTask.extend({ completed: z.boolean() }),

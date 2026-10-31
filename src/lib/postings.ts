@@ -1,9 +1,10 @@
 import "server-only";
 
 import type { Posting } from "@/generated/prisma/client";
-import { linkKey, postingKey, type FoundPosting, type JobSource, type PostingState, type ShownPosting } from "@/lib/job-search/search";
+import { postingKey, type FoundPosting, type JobSource, type PostingState, type ShownPosting } from "@/lib/job-search/search";
 import { stringsOf } from "@/lib/agent/candidates";
 import { prisma } from "@/lib/prisma";
+import { postingLinkHash } from "@/lib/posting-link";
 
 // Postings kept from Find jobs (E14-5): saved, dismissed, or started an
 // application from. Nothing else from a search is stored, and a posting
@@ -123,26 +124,47 @@ export async function countPostings(): Promise<{ saved: number; dismissed: numbe
 export async function postingStates(found: readonly (PostingRef & { url: string })[]): Promise<Map<string, PostingState>> {
   if (found.length === 0) return new Map();
   const refs = found.map(({ source, externalId }) => ({ source, externalId }));
-  const [stored, applications, scores] = await Promise.all([
+  const [stored, scores] = await Promise.all([
     prisma.posting.findMany({
       where: { OR: found.map(({ source, externalId }) => ({ source, externalId })) },
       select: { id: true, source: true, externalId: true, savedAt: true, dismissedAt: true, applicationId: true },
     }),
-    // An agent draft waiting for review isn't applied for yet (#195).
-    prisma.application.findMany({ where: { postingUrl: { not: "" }, awaitingReview: false }, select: { id: true, postingUrl: true }, orderBy: { createdAt: "asc" } }),
     prisma.postingScore.findMany({ where: { OR: refs } }),
   ]);
   const scoreOf = new Map(scores.map((row) => [postingKey(row), { score: row.score, reasons: stringsOf(row.reasons), redFlags: stringsOf(row.redFlags) }]));
   const byKey = new Map(stored.map((posting) => [postingKey(posting), posting]));
+  const linkHashes = [...new Set(found.map(({ url }) => postingLinkHash(url)).filter((hash): hash is string => Boolean(hash)))];
   const byLink = new Map<string, string>();
-  for (const application of applications) {
-    const key = linkKey(application.postingUrl);
-    if (key && !byLink.has(key)) byLink.set(key, application.id);
+  if (linkHashes.length > 0) {
+    // Rows from older installs are filled once. New applications and imports
+    // store this key on write, so the common path is a bounded indexed lookup.
+    for (;;) {
+      const legacy = await prisma.application.findMany({
+        where: { postingLinkHash: null, postingUrl: { not: "" }, awaitingReview: false },
+        select: { id: true, postingUrl: true },
+        take: 250,
+      });
+      if (!legacy.length) break;
+      await prisma.$transaction(
+        legacy.map((application) => prisma.application.updateMany({
+          where: { id: application.id, postingLinkHash: null },
+          data: { postingLinkHash: postingLinkHash(application.postingUrl) },
+        })),
+      );
+    }
+    const applications = await prisma.application.findMany({
+      where: { postingLinkHash: { in: linkHashes }, awaitingReview: false },
+      select: { id: true, postingLinkHash: true },
+      orderBy: { createdAt: "asc" },
+    });
+    for (const application of applications) {
+      if (application.postingLinkHash && !byLink.has(application.postingLinkHash)) byLink.set(application.postingLinkHash, application.id);
+    }
   }
   return new Map(
     found.map((posting) => {
       const row = byKey.get(postingKey(posting));
-      const link = linkKey(posting.url);
+      const link = postingLinkHash(posting.url);
       return [
         postingKey(posting),
         {

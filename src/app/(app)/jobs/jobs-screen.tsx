@@ -114,6 +114,7 @@ export function JobsScreen({
       <>
         {header}
         <NoSource />
+        <DemoPreview />
       </>
     );
   }
@@ -143,6 +144,7 @@ export function JobsScreen({
       {arbeitsagenturNote && <ArbeitsagenturNote accepted={false} onAccept={acceptArbeitsagentur} className="mx-4 mb-5 max-w-[760px] sm:mx-10" />}
       {source === "REMOTEOK" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">Remote OK searches role tags. Location, posting date and country eligibility can vary, so confirm them on the original listing before applying.</p>}
       {source === "STUDENT_FEEDS" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">These public feeds are refreshed by their maintainers. Coverage varies by country; some entries have no employer-posted date. Check the original listing for current status and eligibility.</p>}
+      <DemoPreview />
       <SearchForm source={source} countries={countries} query={query} pending={pending} onSearch={run} />
       {/* Announces each new set of results; the list itself is replaced. */}
       <p role="status" className="sr-only">
@@ -277,12 +279,51 @@ function NoSource() {
     <div className="mx-4 mb-16 flex max-w-[640px] flex-col items-start gap-3 rounded-panel border border-line-card bg-card px-5 py-6 sm:mx-10 sm:px-7 sm:py-7">
       <h2 className="font-serif text-section">Choose where to search</h2>
       <p className="text-sm text-muted">
-        Start with FreeHire, Remote OK, or Student and internship feeds to search without an API key. You can browse and save jobs before setting up AI; AI is only needed for scoring and tailored documents.
+        If you can see this page, GradTrail is running. Choose FreeHire, Remote OK, or Student and internship feeds to search without a source API key. You can browse and save jobs before setting up AI; AI is optional for scoring and tailored documents.
       </p>
       <Link href={SETTINGS_HREF} className={buttonClassName("primary", "md", "mt-1 hover:text-on-primary")}>
         Choose a job source
       </Link>
     </div>
+  );
+}
+
+/** A clearly fictional preview that lets a new user explore the results layout without configuring a source. */
+function DemoPreview() {
+  const [open, setOpen] = useState(false);
+  const samples = [
+    { role: "Software Engineering Intern", company: "Northstar Labs (fictional)", place: "Remote · Worldwide", date: "Example date: 3 days ago", eligibility: "Example eligibility: students graduating in 2027" },
+    { role: "Junior Frontend Developer", company: "Mango Systems (fictional)", place: "Berlin, Germany · Hybrid", date: "Example date: 1 week ago", eligibility: "Example eligibility: 0–2 years of experience" },
+    { role: "Graduate Data Analyst", company: "OpenField (fictional)", place: "Toronto, Canada · On-site", date: "Example date: not supplied", eligibility: "Example eligibility: bachelor’s degree or equivalent" },
+  ];
+  return (
+    <section className="mx-4 mb-5 max-w-[900px] rounded-panel border border-line-card bg-card p-4 sm:mx-10 sm:p-5" aria-label="Sample job search preview">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 className="text-sm font-medium">Preview a sample search</h2>
+          <p className="mt-1 text-xs text-muted">Fictional examples only. No source is contacted and nothing here is a live vacancy.</p>
+        </div>
+        <Button variant="secondary" size="sm" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+          {open ? "Hide preview" : "Show sample listings"}
+        </Button>
+      </div>
+      {open && (
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {samples.map((sample) => (
+            <article key={sample.role} className="rounded-card border border-line-card bg-paper p-4">
+              <p className="text-xs font-medium text-primary-text">DEMO · NOT LIVE</p>
+              <h3 className="mt-2 text-sm font-medium">{sample.role}</h3>
+              <p className="mt-1 text-xs text-muted">{sample.company}</p>
+              <dl className="mt-3 flex flex-col gap-2 text-xs">
+                <div><dt className="inline text-muted">Location: </dt><dd className="inline">{sample.place}</dd></div>
+                <div><dt className="inline text-muted">Posting date: </dt><dd className="inline">{sample.date}</dd></div>
+                <div><dt className="inline text-muted">Eligibility: </dt><dd className="inline">{sample.eligibility}</dd></div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
   );
 }
 

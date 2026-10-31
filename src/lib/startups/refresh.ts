@@ -12,6 +12,8 @@ import { SourceError } from "./http";
 import { placeOf } from "./place";
 import { fetchHnStartups } from "./sources/hn";
 import { fetchYcStartups } from "./sources/yc";
+import { startupJobs } from "@/lib/job-search/startup-jobs";
+import type { SearchQuery } from "@/lib/job-search/search";
 import { lookUpStartup, rescoreStartups, sweepStartups, upsertStartups } from "./store";
 import { STARTUP_SOURCE_INFO, startupsRefreshSchema, type FoundStartup, type StartupSource, type StartupsRefresh } from "./types";
 
@@ -21,6 +23,7 @@ import { STARTUP_SOURCE_INFO, startupsRefreshSchema, type FoundStartup, type Sta
 // doesn't stop the other; what happened is kept for the screen.
 
 export const STARTUPS_JOB_KEY = "startups-refresh";
+const STARTUP_JOBS_QUERY: SearchQuery = { keywords: "", place: "", country: "", radiusKm: 25, remoteOnly: false, postedWithin: "any" };
 /** Sites read for addresses per refresh: the best matches not checked yet. */
 const SITE_LOOKUPS = 12;
 /** Different sites read at once; each site's own pages are read one at a time. */
@@ -36,9 +39,27 @@ export async function refreshStartups(
   const sources: { source: StartupSource; fetch: () => Promise<FoundStartup[]> }[] = [
     { source: "YC", fetch: () => fetchYcStartups(signal) },
     { source: "HN", fetch: () => fetchHnStartups(place, signal) },
+    { source: "STARTUP_JOBS", fetch: async () => {
+      const page = await startupJobs.search(STARTUP_JOBS_QUERY, {}, null, { signal });
+      return page.postings.map((posting): FoundStartup => ({
+        source: "STARTUP_JOBS",
+        externalId: posting.externalId,
+        company: posting.company,
+        website: "",
+        summary: `${posting.title} at ${posting.company}`,
+        details: posting.description,
+        location: posting.place,
+        remote: posting.remote,
+        stage: "",
+        roles: [posting.title],
+        emails: [],
+        links: [{ label: "Job listing", url: posting.url }],
+        postedAt: posting.postedAt,
+      }));
+    } },
   ];
 
-  await step("Asking Y Combinator and Hacker News");
+  await step("Asking Y Combinator, Hacker News, and Startup.jobs");
   const results = await Promise.allSettled(sources.map((entry) => entry.fetch()));
   signal.throwIfAborted();
   const outcomes = results.map((result, index) => {

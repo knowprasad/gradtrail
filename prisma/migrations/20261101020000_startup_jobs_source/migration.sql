@@ -1,0 +1,1 @@
+ALTER TYPE "PostingSource" ADD VALUE 'STARTUP_JOBS';

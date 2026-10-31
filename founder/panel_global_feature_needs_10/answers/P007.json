@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "The filters and original links sound useful for finding internships, but I need to know whether the posting dates and eligibility details stay current before I trust it with my search. Docker setup also feels like a lot when I could keep checking the boards directly.",
+  "objection": "How do I know a role is still open and actually accepts someone with my experience and work authorization?",
+  "would_change_my_mind": "A short live demo showing fresh roles with original dates, eligibility details, and a setup guide that gets me searching quickly.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 5
+}

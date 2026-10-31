@@ -12,6 +12,7 @@ import { newFrame, withFrame } from "@/lib/letter-frame";
 import { logServerError } from "@/lib/log";
 import { describeTrim, fitResumeToPages } from "@/lib/page-limit";
 import { prisma } from "@/lib/prisma";
+import { postingLinkHash } from "@/lib/posting-link";
 import { loadProfile } from "@/lib/profile-data";
 import { maxPages } from "@/lib/settings";
 import { loadSettings } from "@/lib/settings-data";
@@ -130,6 +131,7 @@ export async function createApplicationFromDocuments({ reading, documents, match
         salary: details.salary,
         deadline: details.deadline ? new Date(`${details.deadline}T00:00:00Z`) : null,
         postingUrl,
+        postingLinkHash: postingLinkHash(postingUrl),
         postingText: reading.posting,
         extracted,
         extractedWith,

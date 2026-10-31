@@ -18,6 +18,7 @@ export type SourceCredentials = {
   USAJOBS: { key: string; email: string };
   REMOTEOK: Record<string, never>;
   STUDENT_FEEDS: Record<string, never>;
+  STARTUP_JOBS: Record<string, never>;
 };
 
 export type RequestContext = {

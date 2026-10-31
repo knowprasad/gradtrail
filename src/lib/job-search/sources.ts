@@ -140,6 +140,17 @@ export const SOURCE_INFO: Record<JobSource, SourceInfo> = {
     countries: null,
     radius: false,
   },
+  STARTUP_JOBS: {
+    name: "Startup Jobs",
+    description: "Recent startup and technology openings from Startup.jobs. The feed can include larger employers too; check the company and original listing.",
+    tag: "Worldwide · public RSS · no key · last 14 days",
+    keyUrl: null,
+    quotaPeriod: null,
+    attribution: "Jobs from Startup.jobs",
+    attributionLink: { home: "https://startup.jobs", local: /^startup\.jobs$/ },
+    countries: null,
+    radius: false,
+  },
 };
 
 /** FreeHire's public catalogue; GRADTRAIL_FREEHIRE_URL can name a self-hosted one instead. */
@@ -171,7 +182,7 @@ export function arbeitsagenturPage(posting: { source: JobSource; externalId: str
 
 /** Where a posting's attribution links (www.adzuna.de for one of Adzuna's German postings); null when it's plain text. */
 export function attributionHref(source: JobSource, postingUrl: string): string | null {
-  if (source === "REMOTEOK") return postingUrl || null;
+  if (source === "REMOTEOK" || source === "STARTUP_JOBS") return postingUrl || null;
   const link = SOURCE_INFO[source].attributionLink;
   if (!link) return null;
   const host = URL.canParse(postingUrl) ? new URL(postingUrl) : null;

@@ -6,6 +6,7 @@
 - Start Docker and make sure it is running before setup.
 - The first build downloads dependencies and may take several minutes.
 - Search can start with a no-key source. AI is optional.
+- This script runs the checkout in Docker using Next.js development mode. The first visit to a page can wait for it to compile; use the production image for a deployed server.
 
 ## Start it
 
@@ -24,7 +25,7 @@
 
 3. Choose and confirm a sign-in password when prompted. The script creates the database password and application secret and writes them to `.env`; you do not need to make a secrets folder.
 4. When the script says setup is complete, open `http://localhost:3000` and sign in with the password you chose.
-5. Choose **Settings → Job search** and select FreeHire, Remote OK, or Student and internship feeds to try search without an API key. You can skip AI setup.
+5. Choose **Settings → Job search** and select FreeHire, Remote OK, Startup Jobs, or Student and internship feeds to try search without an API key. You can also open **Startups** and refresh its YC, Hacker News, and Startup.jobs leads without configuring a job source. You can skip AI setup.
 
 ## Stop and restart
 
@@ -67,3 +68,5 @@ That file belongs to the existing installation. The script reuses its password a
 Use the password chosen during the first setup. If you forgot it, reset it as above. Do not delete the database volume to reset a password.
 
 For source-specific setup and privacy/cost explanations, see [Job source coverage](JOB-SOURCES.md) and [Privacy and possible costs](PRIVACY-AND-COSTS.md). The README also links the full demo and installation steps.
+
+For production deployment and the performance difference between this development setup and the production image, see [Performance and architecture](PERFORMANCE.md).

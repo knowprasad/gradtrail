@@ -1,0 +1,112 @@
+[
+ {
+  "id": "P001",
+  "name": "Clara",
+  "age": 27,
+  "segment": "Final-year student or recent graduate",
+  "income": 29000,
+  "behaviour": "Application organizer",
+  "behaviour_how": "Applies to several roles and tracks stages, deadlines, and follow-ups in a spreadsheet.",
+  "objection": "Could API, AI, or hosting costs make a free app expensive to use?",
+  "habit": "You save roles from several countries and boards, then lose track of which ones need a follow-up."
+ },
+ {
+  "id": "P002",
+  "name": "Levi",
+  "age": 28,
+  "segment": "Final-year student or recent graduate",
+  "income": 9000,
+  "behaviour": "Privacy-conscious self-hoster",
+  "behaviour_how": "Prefers keeping application data on a system they control, but weighs setup effort carefully.",
+  "objection": "Will AI drafts use my projects accurately without inventing experience?",
+  "habit": "You prefer a no-cost tool but may tolerate setup if it gives you control over your data."
+ },
+ {
+  "id": "P003",
+  "name": "Declan",
+  "age": 27,
+  "segment": "Student seeking an internship",
+  "income": 11000,
+  "behaviour": "Multi-board checker",
+  "behaviour_how": "Checks several job boards, employer career pages, and social posts each week.",
+  "objection": "Are the posting dates, links, and application deadlines clear and current?",
+  "habit": "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory."
+ },
+ {
+  "id": "P004",
+  "name": "Ines",
+  "age": 24,
+  "segment": "Final-year student or recent graduate",
+  "income": 13000,
+  "behaviour": "Project-led candidate",
+  "behaviour_how": "Uses personal projects, coursework, and open-source work to demonstrate skills.",
+  "objection": "Could API, AI, or hosting costs make a free app expensive to use?",
+  "habit": "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory."
+ },
+ {
+  "id": "P005",
+  "name": "Maya",
+  "age": 19,
+  "segment": "Final-year student or recent graduate",
+  "income": 4000,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks experience level, location, work authorization, degree, and deadline before applying.",
+  "objection": "Are the posting dates, links, and application deadlines clear and current?",
+  "habit": "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory."
+ },
+ {
+  "id": "P006",
+  "name": "Selin",
+  "age": 22,
+  "segment": "Student seeking an internship",
+  "income": 1000,
+  "behaviour": "Multi-board checker",
+  "behaviour_how": "Checks several job boards, employer career pages, and social posts each week.",
+  "objection": "I do not want to upload private application or resume data to an unknown service.",
+  "habit": "You rely on projects and coursework because your formal work history is short."
+ },
+ {
+  "id": "P007",
+  "name": "Yara",
+  "age": 29,
+  "segment": "Student seeking an internship",
+  "income": 3000,
+  "behaviour": "Eligibility-first applicant",
+  "behaviour_how": "Checks experience level, location, work authorization, degree, and deadline before applying.",
+  "objection": "Are the posting dates, links, and application deadlines clear and current?",
+  "habit": "You prefer a no-cost tool but may tolerate setup if it gives you control over your data."
+ },
+ {
+  "id": "P008",
+  "name": "Tess",
+  "age": 20,
+  "segment": "Early-career developer changing roles",
+  "income": 29000,
+  "behaviour": "Trust and freshness checker",
+  "behaviour_how": "Checks original links, dates, employer identity, and whether an opening is still active.",
+  "objection": "I already use LinkedIn, Indeed, company career pages, or student job boards; why add another tool?",
+  "habit": "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory."
+ },
+ {
+  "id": "P009",
+  "name": "Dana",
+  "age": 24,
+  "segment": "Early-career developer changing roles",
+  "income": 67000,
+  "behaviour": "Project-led candidate",
+  "behaviour_how": "Uses personal projects, coursework, and open-source work to demonstrate skills.",
+  "objection": "Will AI drafts use my projects accurately without inventing experience?",
+  "habit": "You want to see the employer's original post and check eligibility before spending time applying."
+ },
+ {
+  "id": "P010",
+  "name": "Ravi",
+  "age": 20,
+  "segment": "Student seeking an internship",
+  "income": 5000,
+  "behaviour": "Referral-network builder",
+  "behaviour_how": "Uses alumni, developer communities, and referrals to find roles outside large job boards.",
+  "objection": "Could API, AI, or hosting costs make a free app expensive to use?",
+  "habit": "You prefer a no-cost tool but may tolerate setup if it gives you control over your data."
+ }
+]
