@@ -10,6 +10,7 @@ import { toast, toastResult } from "@/components/toast";
 import { Button, buttonClassName } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import type { Country } from "@/lib/job-search/countries";
+import { countryName } from "@/lib/job-search/countries";
 import {
   searchHref,
   searchRunHref,
@@ -197,6 +198,10 @@ function SearchForm({
 
   const set = (patch: Partial<SearchQuery>) => setForm((current) => ({ ...current, ...patch }));
   const uncovered = uncoveredCountry(source, form, countries);
+  const linkedinUrl = new URL("https://www.linkedin.com/jobs/search/");
+  linkedinUrl.searchParams.set("keywords", form.keywords.trim());
+  linkedinUrl.searchParams.set("location", [form.place.trim(), form.country ? countryName(form.country) : ""].filter(Boolean).join(", "));
+  if (form.remoteOnly) linkedinUrl.searchParams.set("f_WT", "2");
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
@@ -222,6 +227,11 @@ function SearchForm({
       <div className="flex flex-wrap items-center justify-between gap-4 sm:col-span-2 lg:col-span-5">
         <RemoteOnlyField value={form} onChange={set} source={source} />
         <div className="flex items-center gap-2">
+          {form.keywords.trim() && form.country && (
+            <a href={linkedinUrl.toString()} target="_blank" rel="noopener noreferrer" className={buttonClassName("secondary", "md")}>
+              Search on LinkedIn
+            </a>
+          )}
           <Button type="submit" aria-disabled={pending || undefined}>
             {pending ? "Searching…" : "Search"}
           </Button>
