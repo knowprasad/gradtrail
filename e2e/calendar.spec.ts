@@ -24,7 +24,7 @@ const dayLabel = (day: string) => new Intl.DateTimeFormat("en-GB", { timeZone: "
 
 test("shows interviews and Google's events, and keeps interviews in step both ways", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  const [GradTrail] = await sql<{ id: string; nextInterviewAt: Date }>(`SELECT id, "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
+  const [gradtrail] = await sql<{ id: string; nextInterviewAt: Date }>(`SELECT id, "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
   const interview = () => sql<{ nextInterviewAt: Date | null; interviewEventId: string | null }>(`SELECT "nextInterviewAt", "interviewEventId" FROM "Application" WHERE id = $1`, [gradtrail.id]).then(([row]) => row);
   // The day of the demo's interview, in the browser's zone, which the app uses too.
   await page.goto("/");

@@ -132,7 +132,7 @@ test.describe("the dashboard's calendar", () => {
 
   test("beside the cards", async ({ page }) => {
     await connectFakeGoogle(page);
-    const [GradTrail] = await sql<{ nextInterviewAt: Date }>(`SELECT "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
+    const [gradtrail] = await sql<{ nextInterviewAt: Date }>(`SELECT "nextInterviewAt" FROM "Application" WHERE company = 'GradTrail Health'`);
     await page.goto("/");
     // The week of the demo's interview, in the browser's zone; times as ISO moments.
     const week = await page.evaluate((iso) => {

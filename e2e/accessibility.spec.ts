@@ -152,7 +152,7 @@ test("axe: the dashboard for the last 30 days, with the charts' numbers showing"
 });
 
 test("axe: an interview's date, being set", async ({ page }) => {
-  const [GradTrail] = await sql<{ id: string }>(`SELECT id FROM "Application" WHERE company = 'GradTrail Health'`);
+  const [gradtrail] = await sql<{ id: string }>(`SELECT id FROM "Application" WHERE company = 'GradTrail Health'`);
   await page.goto(`/applications/${gradtrail.id}`);
   await page.getByRole("button", { name: /^Next interview:/ }).click();
   await expect(page.getByRole("dialog", { name: "Next interview" })).toBeVisible();

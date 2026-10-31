@@ -206,7 +206,15 @@ function Welcome({ setup }: { setup: { profileReady: boolean; sourceReady: boole
       <h2 className="font-serif text-section">Welcome to GradTrail</h2>
       <p className="text-sm text-muted">Take these steps at your own pace. You can browse and save jobs before setting up AI.</p>
       <ol className="grid w-full gap-3 pt-2 sm:grid-cols-2">
-        <SetupStep done={setup.profileReady} title="Add your profile and projects" href="/profile" action="Build my profile" detail="Your projects count as experience, even when you have not had a formal role yet." />
+        <SetupStep
+          done={setup.profileReady}
+          title="Add your profile and projects"
+          href="/profile"
+          action="Build my profile"
+          detail="Your projects count as experience, even when you have not had a formal role yet."
+          secondaryHref={setup.aiReady ? "/profile/import" : "/settings?section=ai"}
+          secondaryAction={setup.aiReady ? "Have a resume? Import it" : "Set up AI to import a resume"}
+        />
         <SetupStep done={setup.sourceReady} title="Choose a job source" href="/settings?section=jobs" action="Choose a source" detail="FreeHire and Remote OK work without an API key." />
         <SetupStep done={setup.aiReady} optional={!setup.aiReady} title="Set up AI when you want it" href="/settings?section=ai" action="Configure AI" detail="AI is optional for searching and saving. Add it later for fit scores and tailored documents." />
         <SetupStep done={false} title="Start exploring openings" href="/jobs" action="Find student jobs" detail="Choose India, your city, internship level, and posting date." />
@@ -220,13 +228,25 @@ function Welcome({ setup }: { setup: { profileReady: boolean; sourceReady: boole
   );
 }
 
-function SetupStep({ done, optional, title, href, action, detail }: { done: boolean; optional?: boolean; title: string; href: string; action: string; detail: string }) {
+function SetupStep({ done, optional, title, href, action, detail, secondaryHref, secondaryAction }: {
+  done: boolean;
+  optional?: boolean;
+  title: string;
+  href: string;
+  action: string;
+  detail: string;
+  secondaryHref?: string;
+  secondaryAction?: string;
+}) {
   return (
     <li className="flex min-w-0 flex-col gap-1 rounded-card border border-line-card bg-paper p-4">
       <p className="text-xs font-medium text-primary-text">{done ? "READY" : optional ? "OPTIONAL" : "NEXT STEP"}</p>
       <h3 className="text-sm font-medium">{title}</h3>
       <p className="flex-1 text-xs leading-relaxed text-muted">{detail}</p>
-      <Link href={href} className="mt-1 text-xs font-medium text-primary-text underline underline-offset-2">{done ? "Review" : action} →</Link>
+      <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1">
+        <Link href={href} className="text-xs font-medium text-primary-text underline underline-offset-2">{done ? "Review" : action} →</Link>
+        {secondaryHref && secondaryAction && <Link href={secondaryHref} className="text-xs text-muted underline underline-offset-2 hover:text-ink">{secondaryAction}</Link>}
+      </div>
     </li>
   );
 }
