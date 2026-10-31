@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check several boards and career pages, and running a database plus provider keys sounds like more setup than I want to take on while job hunting. I might try it if I could see it working on my laptop without spending an evening configuring it.",
+  "objection": "I don't know how difficult setup will be or whether my laptop can run it comfortably.",
+  "would_change_my_mind": "A short no-credential demo that proves it runs on an ordinary laptop and shows relevant live listings from my countries.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

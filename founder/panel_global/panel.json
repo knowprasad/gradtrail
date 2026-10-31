@@ -1,0 +1,94 @@
+{
+ "n": 20,
+ "seed": 419470,
+ "customer": {
+  "business": "GradTrail, a free, open-source, self-hosted job-search and application workspace",
+  "target": "Students, recent graduates, and early-career developers worldwide looking for internships and entry-level technical roles",
+  "where": "Worldwide; source and country coverage varies by configured job provider",
+  "age": [
+   18,
+   29
+  ],
+  "segments": [
+   {
+    "name": "Student seeking an internship",
+    "share": 0.4,
+    "income": [
+     0,
+     12000
+    ]
+   },
+   {
+    "name": "Final-year student or recent graduate",
+    "share": 0.35,
+    "income": [
+     0,
+     30000
+    ]
+   },
+   {
+    "name": "Early-career developer changing roles",
+    "share": 0.25,
+    "income": [
+     18000,
+     70000
+    ]
+   }
+  ],
+  "behaviours": [
+   {
+    "name": "Multi-board checker",
+    "share": 0.2,
+    "how": "Checks several job boards, employer career pages, and social posts each week."
+   },
+   {
+    "name": "Eligibility-first applicant",
+    "share": 0.18,
+    "how": "Checks experience level, location, work authorization, degree, and deadline before applying."
+   },
+   {
+    "name": "Project-led candidate",
+    "share": 0.16,
+    "how": "Uses personal projects, coursework, and open-source work to demonstrate skills."
+   },
+   {
+    "name": "Application organizer",
+    "share": 0.16,
+    "how": "Applies to several roles and tracks stages, deadlines, and follow-ups in a spreadsheet."
+   },
+   {
+    "name": "Privacy-conscious self-hoster",
+    "share": 0.12,
+    "how": "Prefers keeping application data on a system they control, but weighs setup effort carefully."
+   },
+   {
+    "name": "Trust and freshness checker",
+    "share": 0.1,
+    "how": "Checks original links, dates, employer identity, and whether an opening is still active."
+   },
+   {
+    "name": "Referral-network builder",
+    "share": 0.08,
+    "how": "Uses alumni, developer communities, and referrals to find roles outside large job boards."
+   }
+  ],
+  "objections": [
+   "I already use LinkedIn, Indeed, company career pages, or student job boards; why add another tool?",
+   "Will the configured sources actually cover roles and countries I care about?",
+   "Are the posting dates, links, and application deadlines clear and current?",
+   "Self-hosting a database and configuring provider keys sounds difficult.",
+   "Could API, AI, or hosting costs make a free app expensive to use?",
+   "Will AI drafts use my projects accurately without inventing experience?",
+   "Can I use it on my laptop without high memory or hardware requirements?",
+   "I do not want to upload private application or resume data to an unknown service."
+  ],
+  "habits": [
+   "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory.",
+   "You save roles from several countries and boards, then lose track of which ones need a follow-up.",
+   "You rely on projects and coursework because your formal work history is short.",
+   "You want to see the employer's original post and check eligibility before spending time applying.",
+   "You prefer a no-cost tool but may tolerate setup if it gives you control over your data."
+  ]
+ },
+ "pitch": "GradTrail is a free, open-source, self-hosted job-search and application workspace for students, recent graduates, and early-career developers.\nSearch supported job sources, filter by role, location, work mode, experience or opportunity type, and posting date, then open the original listing.\nSave opportunities and organize application stages, deadlines, and follow-ups. Build application materials from your profile and projects; configured AI can draft text for you to review.\nYou run GradTrail on your own machine or server. Some job sources and AI features require provider accounts or API keys, and your hosting or API usage may have costs. Coverage varies by source; no hosted plan or commercial price is currently offered."
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I usually find roles through alumni and developer communities, so a job search tool with source coverage that I cannot evaluate upfront does not solve my main problem. Running it myself and setting up accounts or keys is more work than checking the original referral posts directly.",
+  "objection": "I cannot tell whether its sources include the referral posts and countries where I look for roles, and self-hosting adds setup work.",
+  "would_change_my_mind": "A no-key demo with a transparent list of supported countries and sources, including the original referral links I would use.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 8
+}

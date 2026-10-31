@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "I keep losing track of which roles need follow-up, and a free tracker that runs on my laptop sounds worth trying. The script makes setup seem more manageable, though I would stick to the keyless sources and stop if Docker or extra costs become a hassle.",
+  "objection": "I still have to install Docker and maintain a self-hosted app, and I cannot tell how much setup that really takes.",
+  "would_change_my_mind": "A short setup video showing the app running on an ordinary student laptop and tracking one application, with no paid keys needed.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

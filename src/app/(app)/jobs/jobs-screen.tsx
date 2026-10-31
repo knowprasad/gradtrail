@@ -82,7 +82,7 @@ export function JobsScreen({
     <>
       <PageHeader
         title="Find jobs"
-        description={`Search ${source ? SOURCE_INFO[source].name : "job postings"} for internships, fresher roles and developer jobs. Check the original post and its date before you apply.`}
+        description={<>Search {source ? SOURCE_INFO[source].name : "job postings"} for internships, graduate roles, and developer jobs. Check the original post and its date before you apply. <Link href="/job-sources" className="underline underline-offset-2">Compare source coverage</Link>.</>}
       />
       <ViewTabs view={view} counts={counts} />
     </>
@@ -140,7 +140,7 @@ export function JobsScreen({
     <>
       {header}
       {arbeitsagenturNote && <ArbeitsagenturNote accepted={false} onAccept={acceptArbeitsagentur} className="mx-4 mb-5 max-w-[760px] sm:mx-10" />}
-      {source === "REMOTEOK" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">Remote OK searches role tags. Location, posting date and country eligibility can vary, so confirm them on the original listing before applying; its source badge opens that post.</p>}
+      {source === "REMOTEOK" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">Remote OK searches role tags. Location, posting date and country eligibility can vary, so confirm them on the original listing before applying.</p>}
       {source === "STUDENT_FEEDS" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">These public feeds are refreshed by their maintainers. Coverage varies by country; some entries have no employer-posted date. Check the original listing for current status and eligibility.</p>}
       <SearchForm source={source} countries={countries} query={query} pending={pending} onSearch={run} />
       {/* Announces each new set of results; the list itself is replaced. */}
@@ -267,7 +267,7 @@ function NoSource() {
     <div className="mx-4 mb-16 flex max-w-[640px] flex-col items-start gap-3 rounded-panel border border-line-card bg-card px-5 py-6 sm:mx-10 sm:px-7 sm:py-7">
       <h2 className="font-serif text-section">Choose where to search</h2>
       <p className="text-sm text-muted">
-        Start with FreeHire or Remote OK if you want to search without an API key. You can browse and save jobs before setting up AI; AI is only needed for scoring and tailored documents.
+        Start with FreeHire, Remote OK, or Student and internship feeds to search without an API key. You can browse and save jobs before setting up AI; AI is only needed for scoring and tailored documents.
       </p>
       <Link href={SETTINGS_HREF} className={buttonClassName("primary", "md", "mt-1 hover:text-on-primary")}>
         Choose a job source

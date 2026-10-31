@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "Self-hosting sounds like it could give me more control, but the pitch does not explain what resume or application data is stored or what I need to configure. I would keep using my current tools until I can see a clear privacy explanation and try it without putting my real details in.",
+  "objection": "How do I know my application and resume data stay private when I run this myself?",
+  "would_change_my_mind": "A short privacy and data-flow explanation plus a demo I can use with sample data before configuring any accounts.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

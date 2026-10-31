@@ -1,24 +1,37 @@
-# Product idea: India-first job search workspace
+# Product idea: global job-search and application workspace
 
 ## Working hypothesis
 
-Adapt GradTrail into a self-hosted job-search workspace for Indian college students seeking internships and campus placements. It should help them discover legitimate, relevant opportunities, understand eligibility and compensation, tailor application materials from coursework and projects, and keep follow-ups organized.
+GradTrail is a free, open-source, self-hosted workspace for students, recent graduates, and early-career developers worldwide. It aims to help them discover relevant opportunities from supported sources, check the original listing and eligibility, build application materials from projects and coursework, and keep applications, deadlines, and follow-ups organized.
+
+This is a working product hypothesis. No real user interviews or demand validation are included in this file; the 20-person panels in `founder/panel/` and `founder/panel_global/` are simulated.
 
 ## Current product reality
 
-GradTrail already has profile and resume tools, job search through JSearch and Adzuna (both can return India results), FreeHire, application tracking, AI drafting, a daily agent, and optional Gmail/Calendar. Search currently centers on keywords, location/country, radius, remote, date posted, and a newly added keyword-hint seniority selector. It is a self-hosted Docker app; users bring database credentials, a long secret, and usually an AI/search provider key.
+GradTrail has profile and resume tools, job search through multiple configured sources, a startup finder, application tracking, AI drafting, a daily job agent, and optional Gmail/Calendar connections. Job search can include global aggregators, regional sources, student feeds, and remote postings. Source coverage and fields differ. Results keep original links; dates and eligibility details appear only when the source supplies them. Search includes location, remote status, posting date, experience and opportunity-type filters, with keyword hints where providers do not have native filters.
 
-## Product questions to resolve before implementation
+It is a self-hosted Docker application. Windows, macOS, and Linux setup scripts ask for a sign-in password, create local secrets, and start the app. Search can begin with some public sources that do not require a key; other sources and AI integrations may require provider keys and may incur costs. AI is optional. Local AI can be configured; hosted AI sends the information needed for generation to that provider, as described in the privacy documentation. A hosted GradTrail service is not currently offered.
 
-1. **First cohort:** The first segment is now college students seeking internships and campus placements. Choose which kinds of colleges, degrees, study years, and technical roles to prioritize for initial interviews.
-2. **Self-hosted onboarding:** Self-hosting is a high setup burden for students. Make installation, database setup, AI/search credential setup, phone usability, and operating cost part of validation; do not silently assume the target can operate a server.
-3. **Opportunity data:** JSearch/Adzuna provide broad India coverage today. TechReferrals is a useful referral-post directory, but its terms prohibit bulk copying and automated scraping. Treat it as an outbound destination unless the publisher offers permission or a feed.
-4. **Eligibility quality:** Search should distinguish internship, fresher/graduate, experienced roles, degree/year eligibility, experience range, stipend/salary, paid/unpaid, duration, location, work mode, and application deadline where providers actually supply those fields.
-5. **Trust:** Expired, duplicate, misleading, unpaid, fee-charging, and unverifiable opportunities are serious risks. Prefer original employer links, report/stale controls, freshness evidence, and clear uncertainty over unsupported “verified” labels.
-6. **Application workflow:** Students need projects/coursework in place of work history, placement and internship stages, referral outreach, follow-up reminders, rejection learning, and multiple resumes for role families.
+## Product questions to validate
 
-## Planning assumptions
+1. **First cohort:** Test students, recent graduates, and early-career developers across countries before narrowing to a role or region based on observed use.
+2. **Onboarding:** Self-hosting remains a meaningful barrier. Observe setup on participants' own laptops, recording OS, Docker familiarity, memory use, time to first search, and whether the source/key requirements were clear.
+3. **Source coverage:** Confirm which countries and role types users actually need. Do not promise exhaustive listings; link to original posts and show source limitations.
+4. **Eligibility and freshness:** Surface experience, degree, location/work authorization, pay, work mode, dates, duration, and deadline when providers supply them. Make missing fields explicit and send users to the original post for confirmation.
+5. **Trust and privacy:** Distinguish source-provided information from GradTrail judgments. Explain what stays local and what an AI provider receives. Avoid “verified” claims without a defined verification process.
+6. **Application workflow:** Validate that project-based profiles, multiple role families, application stages, reminders, and follow-ups solve a real problem beyond a spreadsheet or existing tracker.
+7. **Operating model:** The current app is self-hosted and free as software. Before proposing a hosted edition or price, estimate hosting, support, data-provider, and AI costs and test demand with real users.
 
-The customer and pitch drafts are hypotheses, not findings from real interviews. The panel script displays income in U.S. dollars, so the profile's income ranges are rough dollar equivalents of the original low student-income assumptions (approximately ₹0–₹1 lakh, ₹0–₹1.7 lakh, and ₹0–₹2.5 lakh annually, using roughly ₹85 per USD). This conversion is only to keep the simulated persona prompts coherent; it is not a researched exchange-rate estimate. No real customer research or product price was supplied. The pitch uses a free self-hosted prototype assumption; server, provider, and API costs are not included.
+## Customer and pitch assumptions
 
-The corrected 20-buyer panel produced 0 buys and 20 passes. Treat the result as qualitative feedback, not a conversion forecast: all participants are simulated, and the sample is small. The previous run is preserved in `founder/panel_inr_mislabeled/`; it showed INR figures as dollar amounts and must not be used as evidence.
+The profile in `founder/customer.json` is a simulation input, not researched customer data. It focuses on global students and early-career developers because that matches the founder's current direction. Income bands are rough USD inputs required by the buyer-panel script, not global income research. The product pitch is free and self-hosted, with user-paid hosting/provider usage disclosed; no commercial price has been selected.
+
+## Simulated panel notes
+
+- India-only profile, seed 419470: 0 buys / 20 passes. Main objection was the effort and cost uncertainty of self-hosting and provider keys. This panel is retained at `founder/panel/` and should not be represented as global demand.
+- Global profile, same seed: 1 buy / 19 passes on the baseline pitch. Convenience dominated; buyers asked for a no-key demo, laptop setup/resource proof, clear source coverage, and privacy/cost explanations. This is qualitative feedback from simulated personas, not a forecast or customer testimony.
+- A same-seed global retest of the revised pitch has only 6 of 20 simulated answers because the current agent-thread limit stopped further buyer runs. No before/after rate is reported. The panel can be resumed when buyer-agent capacity is available.
+
+## Next decision
+
+Run the 30-day user-device validation in `founder/launch.md`. Real student and early-career participants should determine whether guided self-hosting is acceptable or whether a hosted product is necessary. Do not add more sources or promise a hosted tier until this setup and coverage test is complete.

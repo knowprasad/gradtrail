@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check several boards each week, and I don't want to spend my job-search time setting up a database and API keys. It could help me track applications, but I would first need to know that it runs easily on my laptop and covers the sources I use.",
+  "objection": "I would have to host it and configure provider keys before I know whether it will find useful roles.",
+  "would_change_my_mind": "A short, no-credential demo on my laptop that shows the source coverage and lets me track one real application.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P020",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already find referrals through people and communities, and this does not say it includes those posts; I would still have to set it up and figure out API or hosting costs. The free app sounds interesting, but a spreadsheet plus my existing network is easier for me right now.",
+  "objection": "I cannot tell what I would actually spend on hosting and provider APIs, or whether the sources cover the referral roles I rely on.",
+  "would_change_my_mind": "A no-cost, easy-to-try demo that clearly lists its supported sources and actual operating costs, and lets me track referral opportunities alongside regular job posts.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 8
+}

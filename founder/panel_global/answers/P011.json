@@ -1,0 +1,13 @@
+{
+  "id": "P011",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I like that it can use my projects and lets me review AI drafts, but I cannot tell how it prevents made-up claims or how much of setup and usage will cost me. Since I can already track applications in a spreadsheet, I would wait for a real demo before installing another tool.",
+  "objection": "How do I know the AI will stick to the projects and facts I give it, and what will I need to pay for keys or hosting?",
+  "would_change_my_mind": "A short demo showing a project-based resume draft with no invented details, plus a clear setup and cost estimate.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

@@ -1,4 +1,4 @@
-GradTrail is a self-hosted job-search workspace for Indian college students. Search supported job sources for postings in India, save opportunities, and track applications.
-Search by role or skill, country and city, remote work, and posting date. Add terms such as “internship” or “fresher” to the search; source coverage varies.
-Build a profile with coursework and projects, then use a configured AI provider to draft a tailored resume and cover letter for your review.
-The software is free in this concept. You provide hosting and any paid search or AI provider credentials; no commercial price has been set.
+GradTrail is a free, open-source, self-hosted job-search and application workspace for students and early-career developers worldwide.
+On Windows, macOS, or Linux, the setup script checks Docker, asks you to choose a sign-in password, creates local secrets, and starts GradTrail on your machine.
+Start searching with keyless sources such as FreeHire, Remote OK, and student feeds; add other providers for wider or regional coverage. Dates and country coverage depend on the source, and every result links to its original post.
+Track applications and deadlines, and draft resumes from your profile and projects. AI is optional; drafts use profile facts and stay yours to review. Other provider or hosting costs may apply; no hosted plan is offered.

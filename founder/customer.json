@@ -1,37 +1,37 @@
 {
-  "business": "GradTrail, a self-hosted job-search and application workspace for Indian college students",
-  "target": "Indian college students, roughly 18–24, pursuing internships and campus placements for technical roles",
-  "where": "India, including metro and tier-2 college towns and India-wide remote internships",
-  "age": [18, 24],
+  "business": "GradTrail, a free, open-source, self-hosted job-search and application workspace",
+  "target": "Students, recent graduates, and early-career developers worldwide looking for internships and entry-level technical roles",
+  "where": "Worldwide; source and country coverage varies by configured job provider",
+  "age": [18, 29],
   "segments": [
-    {"name": "Early-year student exploring internships", "share": 0.3, "income": [0, 1000]},
-    {"name": "Pre-final-year student seeking a technical internship", "share": 0.4, "income": [0, 2000]},
-    {"name": "Final-year student preparing for campus placement", "share": 0.3, "income": [0, 3000]}
+    {"name": "Student seeking an internship", "share": 0.4, "income": [0, 12000]},
+    {"name": "Final-year student or recent graduate", "share": 0.35, "income": [0, 30000]},
+    {"name": "Early-career developer changing roles", "share": 0.25, "income": [18000, 70000]}
   ],
   "behaviours": [
-    {"name": "Campus-channel checker", "share": 0.22, "how": "Checks placement-cell messages, college groups, LinkedIn, job boards, and referral posts for openings."},
-    {"name": "Eligibility-first applicant", "share": 0.2, "how": "Checks graduation year, branch, degree, backlogs or academic criteria, location, and internship duration before applying."},
-    {"name": "Project-led candidate", "share": 0.17, "how": "Uses coursework, hackathons, and personal projects to prove skills because they have little formal experience."},
-    {"name": "Referral seeker", "share": 0.14, "how": "Asks seniors, alumni, and employees for referrals and wants to send a concise, relevant introduction."},
-    {"name": "Scam and fee cautious", "share": 0.12, "how": "Checks the employer and original link and avoids openings that ask candidates to pay."},
-    {"name": "High-volume applicant", "share": 0.09, "how": "Applies to many internships and placement drives and loses track of tests, deadlines, and follow-ups."},
-    {"name": "Self-hosting skeptic", "share": 0.06, "how": "Likes privacy but is unsure they can set up a server, database, and AI/search keys without help."}
+    {"name": "Multi-board checker", "share": 0.2, "how": "Checks several job boards, employer career pages, and social posts each week."},
+    {"name": "Eligibility-first applicant", "share": 0.18, "how": "Checks experience level, location, work authorization, degree, and deadline before applying."},
+    {"name": "Project-led candidate", "share": 0.16, "how": "Uses personal projects, coursework, and open-source work to demonstrate skills."},
+    {"name": "Application organizer", "share": 0.16, "how": "Applies to several roles and tracks stages, deadlines, and follow-ups in a spreadsheet."},
+    {"name": "Privacy-conscious self-hoster", "share": 0.12, "how": "Prefers keeping application data on a system they control, but weighs setup effort carefully."},
+    {"name": "Trust and freshness checker", "share": 0.1, "how": "Checks original links, dates, employer identity, and whether an opening is still active."},
+    {"name": "Referral-network builder", "share": 0.08, "how": "Uses alumni, developer communities, and referrals to find roles outside large job boards."}
   ],
   "objections": [
-    "I already check Internshala, Unstop, LinkedIn, and my placement cell. Why add another tool?",
-    "Will the listing say which year, branch, degree, and graduation batch can apply?",
-    "Are internships current, paid, and legitimate, and can I see the original post?",
-    "Will this include campus placement drives and off-campus internships, not just generic jobs?",
-    "I have projects but no work experience. Can it help me show what I built without inventing claims?",
-    "I do not want to pay for an AI tool while I am a student.",
-    "Self-hosting and API keys sound too technical. Who helps me set it up?",
-    "Can I use it comfortably on my phone between classes?"
+    "I already use LinkedIn, Indeed, company career pages, or student job boards; why add another tool?",
+    "Will the configured sources actually cover roles and countries I care about?",
+    "Are the posting dates, links, and application deadlines clear and current?",
+    "Self-hosting a database and configuring provider keys sounds difficult.",
+    "Could API, AI, or hosting costs make a free app expensive to use?",
+    "Will AI drafts use my projects accurately without inventing experience?",
+    "Can I use it on my laptop without high memory or hardware requirements?",
+    "I do not want to upload private application or resume data to an unknown service."
   ],
   "habits": [
-    "You check internship posts on a phone between lectures, labs, assignments, and commute time.",
-    "You find roles through your placement cell, college WhatsApp/Telegram groups, seniors, LinkedIn, and job boards.",
-    "You use coursework, hackathons, open-source contributions, and personal projects to show technical ability.",
-    "You compare stipend, duration, city, remote options, graduation batch, and eligibility before applying.",
-    "You may need to track online assessments, interview rounds, placement rules, and referral follow-ups."
+    "You check opportunities between classes, after work, or on weekends, often from a laptop with limited memory.",
+    "You save roles from several countries and boards, then lose track of which ones need a follow-up.",
+    "You rely on projects and coursework because your formal work history is short.",
+    "You want to see the employer's original post and check eligibility before spending time applying.",
+    "You prefer a no-cost tool but may tolerate setup if it gives you control over your data."
   ]
 }

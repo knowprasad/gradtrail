@@ -219,9 +219,9 @@ function Welcome({ setup }: { setup: { profileReady: boolean; sourceReady: boole
           secondaryHref={setup.aiReady ? "/profile/import" : "/settings?section=ai"}
           secondaryAction={setup.aiReady ? "Have a resume? Import it" : "Set up AI to import a resume"}
         />
-        <SetupStep done={setup.sourceReady} title="Choose a job source" href="/settings?section=jobs" action="Choose a source" detail="FreeHire and Remote OK work without an API key." />
+        <SetupStep done={setup.sourceReady} title="Choose a job source" href="/settings?section=jobs" action="Choose a source" detail="FreeHire, Remote OK, and student feeds work without an API key." secondaryHref="/job-sources" secondaryAction="Compare sources" />
         <SetupStep done={setup.aiReady} optional={!setup.aiReady} title="Set up AI when you want it" href="/settings?section=ai" action="Configure AI" detail="AI is optional for searching and saving. Add it later for fit scores and tailored documents." />
-        <SetupStep done={false} title="Start exploring openings" href="/jobs" action="Find student jobs" detail="Choose India, your city, internship level, and posting date." />
+        <SetupStep done={false} title="Start exploring openings" href="/jobs" action="Find jobs" detail="Choose a country or search remote roles, then narrow by experience, opportunity type, and posting date." secondaryHref="/privacy-costs" secondaryAction="Privacy and possible costs" />
       </ol>
       <div className="flex flex-wrap items-center gap-4 pt-2">
         <Link href="/new?fresh=1" className={buttonClassName("secondary")}>

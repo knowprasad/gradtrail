@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "values",
+  "reason": "I would try it because I can run it on my own machine and leave AI off, which feels safer for my resume than uploading everything to an unknown service. I would still want a clear explanation of what job searches or connected providers can see before I use real application details.",
+  "objection": "Self-hosting helps, but I do not know exactly where my profile and application data stays or what gets sent to a job source or AI provider.",
+  "would_change_my_mind": "A short data-flow and privacy guide, plus a sample-data walkthrough before I enter my real resume.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

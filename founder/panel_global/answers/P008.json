@@ -1,0 +1,13 @@
+{
+  "id": "P008",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already check job boards and company pages, and I don't want to host or configure another app just to keep doing that. I also can't tell from this pitch how reliably it shows current dates and deadlines.",
+  "objection": "Would I be able to trust the posting dates and deadlines, or would I still need to verify every listing myself?",
+  "would_change_my_mind": "A simple hosted trial with clear source-by-source freshness and deadlines, so I can see it saves time before setting anything up.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

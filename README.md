@@ -8,7 +8,7 @@
   A job search workspace for students and early-career developers around the world.
 </p>
 
-This project is a global adaptation of [Dossier by AienTech](https://github.com/AienTech/dossier), an open-source job search and application tracker licensed under AGPL-3.0. It includes India-specific sources and defaults, alongside sources for other countries and worldwide remote work. The interface's dark, dotted visual direction and vivid green accents take design inspiration from [Off Grid AI](https://getoffgridai.co/).
+This project is a global adaptation of [Dossier by AienTech](https://github.com/AienTech/dossier), an open-source job search and application tracker licensed under AGPL-3.0. It includes India-specific sources alongside sources for other countries and worldwide remote work. The interface's dark, dotted visual direction and vivid green accents take design inspiration from [Off Grid AI](https://getoffgridai.co/).
 
 <p align="center">
   <a href="https://github.com/knowprasad/gradtrail/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/knowprasad/gradtrail/actions/workflows/ci.yml/badge.svg"></a>
@@ -29,11 +29,20 @@ It's for one person on a small server: one password, your data in your own Postg
 
 <sub>Recorded with the demo data (Jane Doe is made up) and a stand-in AI server that answers at once, played at 1.2× speed. With a real model, reading a posting and writing the documents takes from a few seconds to a few minutes.</sub>
 
+### Walk through the job-search flow
+
+1. Choose a source in **Settings → Job search**. FreeHire, Remote OK, and student feeds work without an API key; AI is optional.
+2. Search for a role and choose a country. Open a result to review its source, employer-posted date (or the source's missing-date notice), and the original listing.
+3. Save a relevant result or start an application. GradTrail keeps its stages, deadlines, checklists, and follow-ups together.
+4. Add projects and coursework to your profile. If you configure AI, it can draft application documents from those facts for you to review.
+
+The animation uses fictional demo data. It is a walkthrough of the workflow, not a live job feed.
+
 ## Features
 
 - **Profile and first run:** the dashboard guides a new user through building a profile, choosing a job source, and finding openings; AI is optional for search. Build the profile by hand or import a PDF, Word or Markdown resume with a configured AI provider. Review the extracted details before adding them. Projects (side, open-source, course or thesis work) count alongside formal experience, and the profile strength meter shows what could make the profile more complete.
 - **Base resume:** twelve themes and a theme builder, previewed live and printed to PDF on the server. Duplicate themes, or share them as files.
-- **Find jobs:** search postings near your city, or anywhere you choose, through JSearch (LinkedIn, Indeed and more), Adzuna, FreeHire (company career pages), Jooble (including India), USAJOBS (U.S. federal positions, including student and recent-graduate hiring paths), Remote OK, student and internship feeds from [InternScan](https://github.com/vishnunandan555/internscan) across its listed regions, [FresherFlow](https://github.com/FresherFlow/India-Jobs-Internships) for India, or the optional Germany-only Bundesagentur für Arbeit source. USAJOBS requires a free API key and its registered email. The first search uses your latest role and location; when your profile has no country, it starts with India, which you can change. Narrow searches by experience, opportunity type (internship, apprenticeship, graduate, part-time or full-time), remote status and posting date; these are keyword hints where a source has no native filter, so check eligibility on the original post. Feed coverage varies by country, and some entries have no employer-posted date. Each result links to the original listing and shows the details its source provides, including location, work mode, employment type, experience, education, eligibility, pay, duration, deadline and application steps when those can be found. Missing details are marked as not provided; always confirm requirements and process on the employer's post. Save the good ones, dismiss the rest, score any of them against your profile, and start an application from a posting with one click.
+- **Find jobs:** search postings through JSearch (LinkedIn, Indeed and more), Adzuna, FreeHire (company career pages), Jooble (India), USAJOBS (U.S. federal positions), Remote OK, student feeds from [InternScan](https://github.com/vishnunandan555/internscan) and [FresherFlow](https://github.com/FresherFlow/India-Jobs-Internships), or the optional Germany-only Bundesagentur für Arbeit source. Start without a key using FreeHire, Remote OK, or student feeds; AI is optional. Some other sources require provider credentials. Choose your own country and location; when the profile has no country, the first search asks you to choose one. Narrow by experience, opportunity type, remote status, and posting date; some sources treat these as keyword hints rather than strict filters. Results link to the original post and show the details their source provides, including date, eligibility, pay, duration, and deadline. Missing details are labelled; confirm requirements and current status on the employer's post. See the [source coverage guide](docs/JOB-SOURCES.md).
 - **Startups:** startups that are hiring, from YC startups' job posts and Hacker News' monthly “Who is hiring?” thread, kept to the ones that hire where you live or remotely from your country and ranked against your profile, with the address each one publishes for applications. GradTrail reads their sites politely and follows their robots.txt. Start an application to one with a click; you decide whom to write to.
 - **Job agent (optional):** once a day it runs one search for you, skips what you've seen, scores the new postings against your profile and keeps the best on the Agent screen, with its reasons. It can prepare tailored drafts too, which wait for your review. It never sends or applies. Save any Find jobs query to refresh it later on demand and see how many new postings appeared; this works without a background scheduler.
 - **New application:** paste a posting; GradTrail pulls out the details and requirements, matches them against your profile, and writes a tailored resume and cover letter in the tone you pick.
@@ -96,6 +105,8 @@ The first build downloads dependencies and can take several minutes. Your profil
 To put this fork on a server, publish a version-tagged image with the repository's Release workflow, then use [`compose.production.yml`](compose.production.yml) and its `GRADTRAIL_*` settings. The [Dossier server guide](https://github.com/AienTech/dossier/wiki#self-host-on-a-server) has general guidance for HTTPS and reverse proxies. Give the server at least 2 vCPUs and 2 GB of memory (see [Performance and sizing](#performance-and-sizing)).
 
 ## Documentation
+
+New to GradTrail? Start with the [local setup and troubleshooting guide](docs/LOCAL-SETUP.md), then the [job source coverage guide](docs/JOB-SOURCES.md) and [privacy and possible costs](docs/PRIVACY-AND-COSTS.md). These explain the no-key first search, source limits, machine setup, data flows, and optional provider costs.
 
 The [wiki](https://github.com/AienTech/dossier/wiki) has what comes after installing:
 

@@ -1,0 +1,13 @@
+{
+  "id": "P014",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I like being able to check the original post and eligibility, but I would have to install and host this and may need API keys with extra costs. I would keep using job sites I already know unless I could try a working version without setting up or paying for services first.",
+  "objection": "I do not know what the hosting and provider usage would cost me, and setting up keys sounds like a lot for a free tool.",
+  "would_change_my_mind": "A clear no-cost setup option or demo that shows the real provider and hosting costs before I configure anything.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

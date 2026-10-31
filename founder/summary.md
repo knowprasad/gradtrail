@@ -1,13 +1,23 @@
 # Executive summary
 
-GradTrail is a self-hosted job-search and application workspace for Indian college students looking for technical internships and campus placements. It brings supported job search, saved opportunities, application tracking, and AI-assisted resume and cover-letter drafts into one workspace.
+GradTrail is a free, open-source, self-hosted job-search and application workspace for students, recent graduates, and early-career developers worldwide. It searches supported job sources, preserves links to original listings, and helps users organize applications and draft materials from their profiles.
 
-**Verdict: Incomplete.** There is no financial model, so unit margin, break-even, and Year 1 operating profit are unknown. A simulated 20-person buyer panel produced **0 buys and 20 passes**; this is qualitative feedback, not a forecast or real customer validation.
+## Current verdict: validate onboarding before a broad launch
 
-The strongest panel signal is convenience: 17 of 20 simulated students objected to self-hosting and supplying search or AI credentials. They repeatedly asked for a phone-friendly hosted demo, current India listings, clear eligibility, and original post links. The competitor review also suggests that basic search filters are already common, while student-specific eligibility and opportunity context may still be worth testing. These are hypotheses to validate with students.
+There is no financial model, hosted service, or commercial price yet. The app is public and can be run locally, but users need Docker and may need provider accounts or keys for some sources and AI features. Some sources work without keys, and AI is optional.
 
-The largest risk is that the delivery model conflicts with the audience: students may not operate a server or configure provider keys. Before building more search features, interview five students and show them a no-setup mobile demo or clickable prototype. Confirm whether they would switch from existing sources for verified freshness, eligibility details, and a single application tracker.
+A simulated global panel produced **1 buy and 19 passes out of 20** on the baseline pitch. Convenience dominated: buyers asked for an easier first run, a no-key demo, clear source coverage, resource expectations, and transparent privacy/cost information. These are simulated buyers, not customers or a conversion forecast.
 
-The panel’s income inputs were translated approximately from low INR student-income assumptions because its script labels income in USD. The corrected run is in `founder/panel/`; the earlier mislabeled run is retained in `founder/panel_inr_mislabeled/` for audit and should not be cited as evidence.
+The same-seed offer retest has 6 of 20 simulated answers. Agent-thread capacity stopped the remaining runs, so there is no valid before/after result. The partial responses are retained but not tallied. The earlier India-specific panel (0/20) is preserved separately and should not be presented as global demand.
 
-Next inputs: `/founder-cfo` for costs and unit economics; `/founder-pricing` for willingness-to-pay research; `/founder-board`, `/founder-offer`, `/founder-marketing`, `/founder-brand`, `/founder-ops`, and `/founder-launch` for the remaining plan sections. The buyer panel is simulated, and the projections are not yet available. Confirm demand with real students and cost estimates. Not financial, legal, or tax advice.
+## 30-day test
+
+The plan in [`launch.md`](launch.md) runs 12 real students and early-career developers through setup and first-search tasks on their own devices between 1 and 30 November 2026. It measures setup completion, time to first search, source relevance, privacy/cost clarity, and resource use. The proposed threshold is at least 8 of 12 reaching first search within 20 minutes without one-to-one help. These are proposed test criteria, not achieved results.
+
+The offer and its limits are in [`offer.md`](offer.md). It does not promise a hosted no-setup trial, guaranteed job coverage, or a paid guarantee. The current global buyer profile is in [`customer.json`](customer.json); the India profile and its pitch are retained as dated historical files.
+
+## What to decide after validation
+
+If people can install and use GradTrail on ordinary student laptops, improve the docs and announce the open-source project more broadly. If setup blocks them, address setup and consider validating a hosted service only after estimating hosting, support, data, and AI costs. If source coverage is the blocker, prioritize sources users name and verify the legal/technical access path before adding them.
+
+Simulated panel language is research input, not a testimonial. Base launch decisions on real participant behavior and follow-up interviews, then build a cost model before setting a price. Not financial, legal, or tax advice.

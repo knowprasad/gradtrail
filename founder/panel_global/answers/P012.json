@@ -1,0 +1,13 @@
+{
+  "id": "P012",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I already find roles through LinkedIn, company pages, and student boards, and running another app with provider keys sounds like more setup than keeping my tracker. I might try it if I could see it working without installing or configuring anything first.",
+  "objection": "How much time and laptop memory will setup take, and will the sources actually find different roles from the sites I already check?",
+  "would_change_my_mind": "A no-setup demo with a few current roles and clear original links, followed by a setup guide that works on a modest laptop.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 8
+}

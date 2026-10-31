@@ -1,0 +1,13 @@
+{
+  "id": "P017",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I already have a spreadsheet that works, and the AI draft feature makes me nervous because I would need to check every claim before sending it. I like controlling my data, but self-hosting plus possible API costs is too much to switch for an offer without a hosted option or clear setup effort.",
+  "objection": "How can I trust the resume draft not to add skills or experience I never had, and what will setup and API usage actually cost me?",
+  "would_change_my_mind": "A short demo proving the draft only uses facts I provide, together with a clear setup and cost estimate and an easy way to keep using my own spreadsheet.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

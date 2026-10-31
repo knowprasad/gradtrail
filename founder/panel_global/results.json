@@ -1,0 +1,142 @@
+{
+ "business": "GradTrail, a free, open-source, self-hosted job-search and application workspace",
+ "seed": 419470,
+ "dealt": 20,
+ "answered": 20,
+ "skipped": [],
+ "buys": 1,
+ "passes": 19,
+ "buy_rate": 0.05,
+ "by_segment": [
+  [
+   "Student seeking an internship",
+   8,
+   0.125
+  ],
+  [
+   "Final-year student or recent graduate",
+   7,
+   0.0
+  ],
+  [
+   "Early-career developer changing roles",
+   5,
+   0.0
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Privacy-conscious self-hoster",
+   2,
+   0.5
+  ],
+  [
+   "Multi-board checker",
+   4,
+   0.0
+  ],
+  [
+   "Eligibility-first applicant",
+   4,
+   0.0
+  ],
+  [
+   "Project-led candidate",
+   3,
+   0.0
+  ],
+  [
+   "Trust and freshness checker",
+   2,
+   0.0
+  ],
+  [
+   "Referral-network builder",
+   2,
+   0.0
+  ],
+  [
+   "Application organizer",
+   3,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "under $7,000",
+   5,
+   0.2
+  ],
+  [
+   "$7,000 to $26,000",
+   8,
+   0.0
+  ],
+  [
+   "$26,000 and up",
+   7,
+   0.0
+  ]
+ ],
+ "why_not": [
+  [
+   "convenience",
+   16,
+   [
+    "I already check several boards and career pages, and running a database plus provider keys sounds like more setup than I want to take on while job hunting. I might try it if I could see it working on my laptop without spending an evening configuring it.",
+    "The free tracker sounds useful, but I need confidence that dates and deadlines are accurate before I spend time applying. Running a server and setting up provider keys is too much friction for me to try another job tool right now."
+   ],
+   [
+    "P001",
+    "P002"
+   ]
+  ],
+  [
+   "trust",
+   3,
+   [
+    "Self-hosting sounds like it could give me more control, but the pitch does not explain what resume or application data is stored or what I need to configure. I would keep using my current tools until I can see a clear privacy explanation and try it without putting my real details in.",
+    "I like that it can use my projects and lets me review AI drafts, but I cannot tell how it prevents made-up claims or how much of setup and usage will cost me. Since I can already track applications in a spreadsheet, I would wait for a real demo before installing another tool."
+   ],
+   [
+    "P006",
+    "P011"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "values",
+   1,
+   [
+    "I would try it because I like keeping application data under my control, and the software itself is free. I would check the project-based AI draft carefully and stop if setup or provider costs became a hassle."
+   ],
+   [
+    "P013"
+   ]
+  ]
+ ],
+ "flip": [
+  "A short no-credential demo that proves it runs on an ordinary laptop and shows relevant live listings from my countries.",
+  "A short no-key demo with recently checked listings, visible original links and deadlines, plus a setup path that works on a normal laptop in under 15 minutes.",
+  "A clear local-only setup guide with a no-paid-API demo and a simple way to back up my data.",
+  "A safe, no-key demo that shows the workflow and a setup guide with real time and cost expectations; ideally it works on my laptop without maintaining a server.",
+  "A clearly documented local setup that works without AI or paid keys, plus a short demo showing exactly where my resume and application data stays.",
+  "A short privacy and data-flow explanation plus a demo I can use with sample data before configuring any accounts.",
+  "A no-key demo with a transparent list of supported countries and sources, including the original referral links I would use.",
+  "A simple hosted trial with clear source-by-source freshness and deadlines, so I can see it saves time before setting anything up.",
+  "A short, no-credential demo on my laptop that shows the source coverage and lets me track one real application.",
+  "A simple install I can finish in a few minutes, with a demo search and a clear estimate of any provider costs.",
+  "A short demo showing a project-based resume draft with no invented details, plus a clear setup and cost estimate.",
+  "A no-setup demo with a few current roles and clear original links, followed by a setup guide that works on a modest laptop.",
+  "A clear no-cost setup option or demo that shows the real provider and hosting costs before I configure anything.",
+  "A clear, no-cost demo with my country and job sources shown, plus setup and provider costs explained before I install anything.",
+  "A short, tested setup guide showing memory use and first-search time on ordinary laptops, plus a simple way to keep my spreadsheet data.",
+  "A short demo proving the draft only uses facts I provide, together with a clear setup and cost estimate and an easy way to keep using my own spreadsheet.",
+  "A simple guided setup I can complete on my laptop in a few minutes, with a clear list of what data stays local and what any connected provider receives.",
+  "A no-setup demo with clear posting dates, working original links, and transparent provider costs.",
+  "A no-cost, easy-to-try demo that clearly lists its supported sources and actual operating costs, and lets me track referral opportunities alongside regular job posts."
+ ],
+ "purchases_first_month_per_buyer": 1.0,
+ "price_answers": 20
+}

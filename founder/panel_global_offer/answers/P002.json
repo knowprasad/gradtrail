@@ -1,0 +1,13 @@
+{
+  "id": "P002",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "The setup path sounds more manageable, but I still cannot tell whether dates and deadlines come from the original posting or if every source actually includes them. I would stick with checking the employer listing directly until I can verify a few examples in my countries.",
+  "objection": "I need confidence that the posting date and application deadline are accurate and visible before I rely on this to decide where to apply.",
+  "would_change_my_mind": "A short demo showing several real listings with their source, original link, posting date, and deadline clearly labeled when available.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

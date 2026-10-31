@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I like that my data stays on my own machine, but I am looking for an internship and do not want to set up a server or figure out API keys just to search and track jobs. I would stick with the sites and spreadsheet I already know for now.",
+  "objection": "How much technical setup and ongoing maintenance will I have to do on my own laptop?",
+  "would_change_my_mind": "A simple guided setup I can complete on my laptop in a few minutes, with a clear list of what data stays local and what any connected provider receives.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}

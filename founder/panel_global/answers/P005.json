@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I like that it is self-hosted and links back to the original posting, but I am already juggling classes and applications. Setting up a server and figuring out which sources or AI features need paid API keys feels like more work than using the boards I already know.",
+  "objection": "How much setup and ongoing cost will I take on just to keep my job search organized?",
+  "would_change_my_mind": "A clearly documented local setup that works without AI or paid keys, plus a short demo showing exactly where my resume and application data stays.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 8
+}

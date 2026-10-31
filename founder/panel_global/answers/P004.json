@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "I do lose track of applications, so the tracker sounds useful, but running a database and getting provider keys set up feels like another project I would not finish during internship hunting. I would keep using my spreadsheet and the job boards I already check.",
+  "objection": "I don't know how much time or technical setup it takes before I can use it, and I don't want surprise API or hosting bills.",
+  "would_change_my_mind": "A safe, no-key demo that shows the workflow and a setup guide with real time and cost expectations; ideally it works on my laptop without maintaining a server.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

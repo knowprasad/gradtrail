@@ -73,8 +73,7 @@ async function profileSearch() {
     prisma.experience.findMany({ select: { role: true, current: true, startYear: true, startMonth: true, endYear: true, endMonth: true } }),
   ]);
   const field = (key: string) => fields.find((entry) => entry.key === key)?.value ?? "";
-  // GradTrail is aimed at Indian students and early-career developers. Use
-  // India as the first-search default when a resume/profile has no country;
-  // people can still choose another country in the search form.
-  return defaultSearch({ role: latestRole(experience), city: field("city"), country: field("country") || "in" });
+  // GradTrail serves job seekers worldwide. Keep the country unset when a
+  // profile has none, so the user chooses where to search instead of assuming India.
+  return defaultSearch({ role: latestRole(experience), city: field("city"), country: field("country") });
 }

@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "Keeping my resume data on my own machine is appealing, but I don't want to set up and maintain a server or figure out which job and AI APIs are worth paying for. I already have a way to save roles, so I would wait until setup and costs are clearer.",
+  "objection": "Self-hosting sounds like extra maintenance, and I can't tell what the API usage might cost me.",
+  "would_change_my_mind": "A clear local-only setup guide with a no-paid-API demo and a simple way to back up my data.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 0,
+  "price_too_expensive": 0
+}

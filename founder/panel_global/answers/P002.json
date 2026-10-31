@@ -1,0 +1,13 @@
+{
+  "id": "P002",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "The free tracker sounds useful, but I need confidence that dates and deadlines are accurate before I spend time applying. Running a server and setting up provider keys is too much friction for me to try another job tool right now.",
+  "objection": "How do I know the listing date and deadline are current, and will setup take me a whole evening?",
+  "would_change_my_mind": "A short no-key demo with recently checked listings, visible original links and deadlines, plus a setup path that works on a normal laptop in under 15 minutes.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 6
+}

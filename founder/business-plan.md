@@ -1,4 +1,6 @@
-# Product idea: India-first job search workspace · Business plan
+# Historical business plan: India-first job search workspace
+
+> This is the earlier India-only plan and is retained for its competitor research and history. The current customer direction is global students and early-career developers. Use [`idea.md`](idea.md), [`summary.md`](summary.md), [`offer.md`](offer.md), and [`launch.md`](launch.md) for the current product hypothesis and validation plan. Its India-only panel result is not global-market evidence.
 
 **Verdict: Incomplete**
 

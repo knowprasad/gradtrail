@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { RadioGroup } from "radix-ui";
 import { useId, useState } from "react";
 
@@ -99,8 +100,12 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
   return (
     <>
       <SettingsSectionIntro title="Job search">
-        Choose where Find jobs looks. FreeHire and Remote OK need no API key, so you can start there; AI setup is separate and can wait until you want scoring or tailored documents. Switch sources any time.
+        Choose where Find jobs looks. FreeHire, Remote OK, and student feeds need no API key, so you can start there; AI setup is separate and can wait until you want scoring or tailored documents. Switch sources any time.
       </SettingsSectionIntro>
+      <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        <Link href="/job-sources" className="underline underline-offset-2 hover:text-ink">Compare source coverage and requirements →</Link>
+        <Link href="/privacy-costs" className="underline underline-offset-2 hover:text-ink">Privacy and possible costs →</Link>
+      </div>
 
       <RadioGroup.Root
         aria-label="Job source"

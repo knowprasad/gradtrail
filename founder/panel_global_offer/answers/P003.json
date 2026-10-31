@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "values",
+  "reason": "I would give it a try because the local, self-hosted setup fits my privacy concerns and I can use projects in my applications. I would still check that AI is actually optional and avoid connecting a provider until I understand what data it receives.",
+  "objection": "The pitch says self-hosted, but I want to know whether my resume and application records stay on my machine and what is sent if I use AI.",
+  "would_change_my_mind": "A concise data-flow explanation and a sample local-only setup using fake profile data.",
+  "price_too_cheap": 0,
+  "price_cheap": 0,
+  "price_expensive": 3,
+  "price_too_expensive": 8
+}

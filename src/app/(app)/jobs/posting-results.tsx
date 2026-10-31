@@ -556,7 +556,7 @@ function PostingDetail({
         )}
         {posting.url && (
           <a href={posting.url} target="_blank" rel="noopener noreferrer" className={buttonClassName("secondary", "sm")}>
-            Open posting<span aria-hidden>↗</span>
+            Open original post<span aria-hidden>↗</span>
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         )}

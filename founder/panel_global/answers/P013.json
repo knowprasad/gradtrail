@@ -1,0 +1,13 @@
+{
+  "id": "P013",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "values",
+  "reason": "I would try it because I like keeping application data under my control, and the software itself is free. I would check the project-based AI draft carefully and stop if setup or provider costs became a hassle.",
+  "objection": "I want to know whether the AI sticks to the projects and details I give it, and how much setup and API usage will cost me.",
+  "would_change_my_mind": "A short setup walkthrough plus a sample draft showing exactly which profile details it used, with provider costs explained before I configure anything.",
+  "price_too_cheap": 0,
+  "price_cheap": 2,
+  "price_expensive": 5,
+  "price_too_expensive": 10
+}
