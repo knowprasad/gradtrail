@@ -27,6 +27,7 @@ import { SOURCE_INFO } from "@/lib/job-search/sources";
 import { acceptArbeitsagenturNote, runJobSearch } from "./actions";
 import { PastSearches } from "./past-searches";
 import { PostingResults } from "./posting-results";
+import { SavedSearches } from "./saved-searches";
 import { RemoteOnlyField, SearchFields, uncoveredCountry } from "./search-fields";
 
 export type JobsScreenProps = {
@@ -51,7 +52,7 @@ export type JobsScreenProps = {
   /** Past searches by day, in that view. */
   history?: PastSearchDay[];
   /** How many searches, saved and dismissed postings there are, for the tabs. */
-  counts: { searches: number; saved: number; dismissed: number };
+  counts: { searches: number; savedSearches: number; saved: number; dismissed: number };
   /** Now, from the server, so "3 days ago" reads the same on both sides. */
   today: string;
 };
@@ -95,6 +96,8 @@ export function JobsScreen({
       </>
     );
   }
+
+  if (view === "saved-searches") return <>{header}<SavedSearches days={history} countries={countries} /></>;
 
   if (view !== "search") {
     return (
@@ -217,20 +220,23 @@ function SearchForm({
       <SearchFields value={form} onChange={set} source={source} countries={countries} errors={errors} />
       <div className="flex flex-wrap items-center justify-between gap-4 sm:col-span-2 lg:col-span-5">
         <RemoteOnlyField value={form} onChange={set} source={source} />
-        <Button type="submit" aria-disabled={pending || undefined}>
-          {pending ? "Searching…" : "Search"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button type="submit" aria-disabled={pending || undefined}>
+            {pending ? "Searching…" : "Search"}
+          </Button>
+        </div>
       </div>
     </form>
   );
 }
 
 /** Search, Past searches (E14-10), Saved and Dismissed (E14-7), with how many each holds. */
-function ViewTabs({ view, counts }: { view: JobsView; counts: { searches: number; saved: number; dismissed: number } }) {
+function ViewTabs({ view, counts }: { view: JobsView; counts: { searches: number; saved: number; savedSearches: number; dismissed: number } }) {
   const tabs = [
     // The latest search, as it was kept.
     { view: "search", label: "Search", href: "/jobs", count: null },
     { view: "history", label: "Past searches", href: viewHref("history"), count: counts.searches },
+    { view: "saved-searches", label: "Saved searches", href: viewHref("saved-searches"), count: counts.savedSearches },
     { view: "saved", label: "Saved", href: viewHref("saved"), count: counts.saved },
     { view: "dismissed", label: "Dismissed", href: viewHref("dismissed"), count: counts.dismissed },
   ] as const;

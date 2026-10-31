@@ -10,7 +10,7 @@ import type { Country } from "@/lib/job-search/countries";
 import { describeSearch, searchRunHref, type PastSearchDay } from "@/lib/job-search/search";
 import { SOURCE_INFO } from "@/lib/job-search/sources";
 
-import { removeJobSearch } from "./actions";
+import { removeJobSearch, saveJobSearch } from "./actions";
 
 /**
  * Past searches (E14-10): every kept search, newest first, grouped by the day
@@ -37,10 +37,15 @@ export function PastSearches({ days, countries }: { days: PastSearchDay[]; count
     router.refresh();
   };
 
+  const save = async (id: string) => {
+    const result = toastResult(await saveJobSearch({ id, saved: true }));
+    if (result.ok) router.refresh();
+  };
+
   if (shown.length === 0) {
     return (
       <div className="mx-4 mb-16 max-w-[860px] rounded-panel border border-line-card bg-card px-5 py-9 text-center text-sm text-muted sm:mx-10">
-        No searches yet. Each search you run is kept here with what it found, so you can open it again without spending another search.
+        No past searches. Run a search and open it from this history, or save it to check for new postings later.
       </div>
     );
   }
@@ -54,16 +59,17 @@ export function PastSearches({ days, countries }: { days: PastSearchDay[]; count
             {day.searches.map((search) => {
               const what = describeSearch(search.query, countryName(search.query.country), search.source);
               return (
-                <li key={search.id} className="flex items-center justify-between gap-4 rounded-card border border-line-card bg-card px-4 py-3 hover:border-line-strong">
+                <li key={search.id} className="flex flex-wrap items-center justify-between gap-3 rounded-card border border-line-card bg-card px-4 py-3 hover:border-line-strong">
                   <Link href={searchRunHref(search.id)} className="flex min-w-0 flex-col gap-0.5 text-ink hover:text-ink">
                     <span className="truncate text-field font-medium">{what}</span>
                     <span className="text-meta text-muted">
-                      {search.time} · {search.found === 1 ? "1 posting" : `${search.found} postings`} · {SOURCE_INFO[search.source].name}
+                {search.time} · {search.found === 1 ? "1 posting" : `${search.found} postings`} · {SOURCE_INFO[search.source].name}
                     </span>
                   </Link>
-                  <Button variant="text" size="sm" aria-label={`Remove the search “${what}” from ${search.time}`} onClick={() => void remove(search.id)}>
-                    Remove
-                  </Button>
+                  <div className="flex gap-1">
+                    {!search.saved && <Button variant="secondary" size="sm" onClick={() => void save(search.id)}>Save search</Button>}
+                    <Button variant="text" size="sm" aria-label={`Remove the search “${what}” from ${search.time}`} onClick={() => void remove(search.id)}>Remove</Button>
+                  </div>
                 </li>
               );
             })}

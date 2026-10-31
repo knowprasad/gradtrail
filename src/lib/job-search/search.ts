@@ -180,7 +180,7 @@ export type StoredSearch = {
 export type PastSearchDay = {
   /** "Today", "Yesterday" or "Thu 1 Oct". */
   day: string;
-  searches: { id: string; source: JobSource; query: SearchQuery; found: number; time: string }[];
+  searches: { id: string; source: JobSource; query: SearchQuery; found: number; time: string; saved: boolean; added: number }[];
 };
 
 /** "product designer · Hamburg, 25 km · Remote only · Past week": a search in a line, without the km for a source that has no radius. */
@@ -266,14 +266,14 @@ export function queryFromParams(params: Record<string, string | string[] | undef
 }
 
 /** Find jobs' views: the search, past searches (E14-10), and the postings kept from them (E14-7). */
-export type JobsView = "search" | "history" | "saved" | "dismissed";
+export type JobsView = "search" | "history" | "saved-searches" | "saved" | "dismissed";
 
 export function viewFromParams(params: Record<string, string | string[] | undefined>): JobsView {
   const view = one(params.view);
-  return view === "history" || view === "saved" || view === "dismissed" ? view : "search";
+  return view === "history" || view === "saved-searches" || view === "saved" || view === "dismissed" ? view : "search";
 }
 
-export const viewHref = (view: "history" | "saved" | "dismissed") => `/jobs?view=${view}`;
+export const viewHref = (view: "history" | "saved-searches" | "saved" | "dismissed") => `/jobs?view=${view}`;
 
 /** A kept search on Find jobs (E14-10). */
 export const searchRunHref = (id: string) => `/jobs?search=${encodeURIComponent(id)}`;

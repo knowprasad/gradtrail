@@ -1,0 +1,3 @@
+ALTER TABLE "PostingSearch"
+  ADD COLUMN "saved" BOOLEAN NOT NULL DEFAULT false,
+  ADD COLUMN "seen" JSONB NOT NULL DEFAULT '[]';

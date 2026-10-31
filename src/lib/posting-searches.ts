@@ -50,10 +50,57 @@ export async function runSearch(query: SearchQuery): Promise<{ ok: true; id: str
   const answer = await askSource(query);
   if (!answer.ok) return answer;
   const search = await prisma.postingSearch.create({
-    data: { source: answer.source, query, postings: answer.postings, found: answer.postings.length, next: answer.next },
+    data: {
+      source: answer.source,
+      query,
+      postings: answer.postings,
+      found: answer.postings.length,
+      next: answer.next,
+      seen: answer.postings.map(postingKey),
+    },
     select: { id: true },
   });
   return { ok: true, id: search.id };
+}
+
+/** A saved query refreshes its first page and reports which postings are new since its last refresh. */
+export async function refreshSavedSearch(id: string): Promise<{ ok: true; id: string; added: number } | SearchProblem> {
+  const previous = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, source: true, query: true, postings: true, seen: true } });
+  if (!previous?.saved) return { ok: false, problem: "changed", message: "That saved search is no longer available." };
+  const answer = await askSource(queryOf(previous.query), { source: previous.source });
+  if (!answer.ok) return answer;
+  const seen = new Set<string>([
+    ...(Array.isArray(previous.seen) ? previous.seen.filter((value): value is string => typeof value === "string") : []),
+    ...postingsOf(previous.postings).map(postingKey),
+  ]);
+  const added = answer.postings.filter((posting) => !seen.has(postingKey(posting))).length;
+  // Keep new keys as unseen until the next refresh so the screen continues to
+  // show the new count between checks, even though its displayed page updates.
+  await prisma.postingSearch.update({
+    where: { id },
+    data: { postings: answer.postings, found: answer.postings.length, next: answer.next, seen: [...seen] },
+  });
+  return { ok: true, id, added };
+}
+
+/** Save or unsave a past search for user-triggered refreshes. */
+export async function setSearchSaved(id: string, saved: boolean): Promise<boolean> {
+  const search = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, seen: true, postings: true } });
+  if (!search) return false;
+  await prisma.postingSearch.update({
+    where: { id },
+    data: {
+      saved,
+      ...(!search.saved && saved
+        ? {
+            seen: Array.isArray(search.seen) && search.seen.length
+              ? search.seen
+              : postingsOf(search.postings).map(postingKey),
+          }
+        : {}),
+    },
+  });
+  return true;
 }
 
 /** A kept search, the latest one without an id; null when there's none. */
@@ -88,9 +135,10 @@ export async function showMoreFor(id: string): Promise<{ ok: true; postings: Sho
 }
 
 /** Every kept search, newest first, grouped by the day it ran in the user's time zone. */
-export async function listSearches({ timeZone, now = new Date() }: { timeZone?: string; now?: Date } = {}): Promise<PastSearchDay[]> {
+export async function listSearches({ timeZone, now = new Date(), savedOnly = false }: { timeZone?: string; now?: Date; savedOnly?: boolean } = {}): Promise<PastSearchDay[]> {
   const searches = await prisma.postingSearch.findMany({
-    select: { id: true, source: true, query: true, found: true, createdAt: true },
+    where: savedOnly ? { saved: true } : undefined,
+    select: { id: true, source: true, query: true, found: true, createdAt: true, saved: true, seen: true, postings: true },
     orderBy: { createdAt: "desc" },
   });
   const days: PastSearchDay[] = [];
@@ -98,12 +146,17 @@ export async function listSearches({ timeZone, now = new Date() }: { timeZone?: 
     const ago = daysBetween(search.createdAt, now, timeZone);
     const day = ago === 0 ? "Today" : ago === 1 ? "Yesterday" : formatDay(search.createdAt, timeZone, now);
     if (days.at(-1)?.day !== day) days.push({ day, searches: [] });
-    days.at(-1)!.searches.push({ id: search.id, source: search.source, query: queryOf(search.query), found: search.found, time: formatTime(search.createdAt, timeZone) });
+    const seen = new Set(Array.isArray(search.seen) ? search.seen.filter((value): value is string => typeof value === "string") : []);
+    const postings = postingsOf(search.postings);
+    const added = search.saved ? postings.filter((posting) => !seen.has(postingKey(posting))).length : 0;
+    days.at(-1)!.searches.push({ id: search.id, source: search.source, query: queryOf(search.query), found: search.found, time: formatTime(search.createdAt, timeZone), saved: search.saved, added });
   }
   return days;
 }
 
-export const countSearches = () => prisma.postingSearch.count();
+export const countAllSearches = () => prisma.postingSearch.count();
+export const countSavedSearches = () => prisma.postingSearch.count({ where: { saved: true } });
+export const countPastSearches = () => prisma.postingSearch.count({ where: { saved: false } });
 
 export async function removeSearch(id: string): Promise<void> {
   await prisma.postingSearch.deleteMany({ where: { id } });

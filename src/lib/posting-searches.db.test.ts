@@ -10,7 +10,7 @@ import { saveSettings } from "@/lib/settings-data";
 import { createTestClient, resetDatabase } from "@/test/db";
 import { jsearchV2LastPage, jsearchV2Page } from "@/test/job-search-fixtures";
 
-import { countSearches, listSearches, loadSearch, removeSearch, runSearch, showMoreFor } from "./posting-searches";
+import { countAllSearches, countPastSearches, countSavedSearches, listSearches, loadSearch, refreshSavedSearch, removeSearch, runSearch, setSearchSaved, showMoreFor } from "./posting-searches";
 
 const db = vi.hoisted(() => ({ client: undefined as ReturnType<typeof createTestClient> | undefined }));
 vi.mock("@/lib/prisma", async () => {
@@ -40,7 +40,7 @@ describe("runSearch", () => {
     await saveSettings({ jobSource: "JSEARCH" });
     expect(await runSearch({ ...query, country: "" })).toMatchObject({ ok: false, problem: "no-country" });
     expect(await runSearch(query)).toEqual({ ok: false, problem: "no-key", message: "Add your JSearch key in Settings → Job search first." });
-    expect(await countSearches()).toBe(0);
+    expect(await countAllSearches()).toBe(0);
   });
 
   it("keeps the search with its first page", async () => {
@@ -51,13 +51,14 @@ describe("runSearch", () => {
     expect(requests[0].headers.get("x-api-key")).toBe("ak_test");
     const kept = await prisma().postingSearch.findUniqueOrThrow({ where: { id: result.ok ? result.id : "" } });
     expect(kept).toMatchObject({ source: "JSEARCH", query, found: 2, next: "cursor:CURSOR-PAGE-2" });
+    expect(kept.seen).toEqual(["JSEARCH:aG9tZWQtZGVzaWduZXItbGVkZ2VybHk=", "JSEARCH:bm9ydGh3aW5kLXV4LXJlc2VhcmNo"]);
   });
 
   it("keeps nothing when the source says no", async () => {
     await useJSearch();
     stubFetch(() => json({}, { status: 429 }));
     expect(await runSearch(query)).toMatchObject({ ok: false, problem: "quota" });
-    expect(await countSearches()).toBe(0);
+    expect(await countAllSearches()).toBe(0);
   });
 
   it("treats a request that fails as the source not answering", async () => {
@@ -192,7 +193,31 @@ describe("listSearches and removeSearch", () => {
       ["Yesterday", [["12:00", "writer", 3]]],
       ["Mon 28 Sep", [["10:00", "nurse", 3]]],
     ]);
-    expect(await countSearches()).toBe(4);
+    expect(await countPastSearches()).toBe(4);
+    expect(await countSavedSearches()).toBe(0);
+    expect(await countAllSearches()).toBe(4);
+  });
+
+  it("saves a search and refreshes it with a count of genuinely new postings", async () => {
+    await useJSearch();
+    stubFetch(() => json(jsearchV2LastPage));
+    const first = await runSearch(query);
+    const id = first.ok ? first.id : "";
+    expect(await setSearchSaved(id, true)).toBe(true);
+    expect(await countSavedSearches()).toBe(1);
+    expect(await countPastSearches()).toBe(0);
+    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 0, found: 2 }] }]);
+
+    stubFetch(() => json({ ...jsearchV2LastPage, data: { ...jsearchV2LastPage.data, jobs: [...jsearchV2LastPage.data.jobs, { ...jsearchV2LastPage.data.jobs[0], job_id: "new-role", job_title: "New role" }] } }));
+    expect(await refreshSavedSearch(id)).toEqual({ ok: true, id, added: 1 });
+    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 1, found: 3 }] }]);
+    expect(await refreshSavedSearch(id)).toMatchObject({ ok: true, added: 0 });
+    expect(await refreshSavedSearch("gone")).toMatchObject({ ok: false, problem: "changed" });
+
+    expect(await setSearchSaved(id, false)).toBe(true);
+    expect(await countSavedSearches()).toBe(0);
+    expect(await countPastSearches()).toBe(1);
+    expect(await setSearchSaved("gone", true)).toBe(false);
   });
 
   it("removes a search, and leaves saved postings alone", async () => {
@@ -200,7 +225,7 @@ describe("listSearches and removeSearch", () => {
     await savePosting({ ...EMPTY_POSTING, source: "JSEARCH" });
     await removeSearch(search.id);
     await removeSearch("gone");
-    expect(await countSearches()).toBe(0);
+    expect(await countAllSearches()).toBe(0);
     expect(await prisma().posting.count()).toBe(1);
   });
 });

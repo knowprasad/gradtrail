@@ -5,7 +5,7 @@ import { handsOffToClaude } from "@/lib/connector/handoff";
 import { loadJobSearchConfig } from "@/lib/job-search/config";
 import { COUNTRIES } from "@/lib/job-search/countries";
 import { defaultSearch, latestRole, queryFromParams, viewFromParams } from "@/lib/job-search/search";
-import { countSearches, listSearches, loadSearch } from "@/lib/posting-searches";
+import { countPastSearches, countSavedSearches, listSearches, loadSearch } from "@/lib/posting-searches";
 import { countPostings, listPostings } from "@/lib/postings";
 import { prisma } from "@/lib/prisma";
 import { userTimeZone } from "@/lib/time-zone";
@@ -26,19 +26,20 @@ export default async function JobsPage({ searchParams }: PageProps<"/jobs">) {
   const view = viewFromParams(params);
   const typed = queryFromParams(params);
   const searchId = typeof params.search === "string" ? params.search : undefined;
-  const [config, timeZone, postingCounts, searches, scoreInClaude] = await Promise.all([
+  const [config, timeZone, postingCounts, savedSearches, scoreInClaude] = await Promise.all([
     loadJobSearchConfig(),
     userTimeZone(),
     countPostings(),
-    countSearches(),
+    countSavedSearches(),
     isAiUsable().then(handsOffToClaude),
   ]);
   const now = new Date();
 
   const search = view === "search" && !typed ? await loadSearch(searchId, { timeZone, now }) : null;
-  const [kept, history] = await Promise.all([
+  const [kept, history, searchCount] = await Promise.all([
     view === "saved" || view === "dismissed" ? listPostings(view) : undefined,
-    view === "history" ? listSearches({ timeZone, now }) : undefined,
+    view === "history" || view === "saved-searches" ? listSearches({ timeZone, now, savedOnly: view === "saved-searches" }) : undefined,
+    countPastSearches(),
   ]);
 
   return (
@@ -54,7 +55,7 @@ export default async function JobsPage({ searchParams }: PageProps<"/jobs">) {
       missingSearch={Boolean(searchId) && !search}
       kept={kept}
       history={history}
-      counts={{ ...postingCounts, searches }}
+      counts={{ ...postingCounts, searches: searchCount ?? 0, savedSearches }}
       today={now.toISOString()}
     />
   );

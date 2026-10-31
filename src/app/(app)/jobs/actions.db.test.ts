@@ -12,8 +12,10 @@ import {
   dismissFoundPosting,
   loadFullText,
   removeJobSearch,
+  refreshSavedJobSearch,
   restorePosting,
   runJobSearch,
+  saveJobSearch,
   savePostingForLater,
   showMorePostings,
   startApplicationFrom,
@@ -77,6 +79,17 @@ describe("Find jobs actions", () => {
 
     expect(await removeJobSearch({ id })).toEqual({ ok: true, data: null, toast: "Search removed. Saved postings from it stay in Saved." });
     expect(await prisma().postingSearch.count()).toBe(0);
+  });
+
+  it("saves a query and refreshes for new postings", async () => {
+    stubFetch(() => json(jsearchV2LastPage));
+    const run = await runJobSearch({ query });
+    const id = run.ok && run.data.ok ? run.data.id : "";
+    expect(await saveJobSearch({ id, saved: true })).toEqual({ ok: true, data: { saved: true } });
+    stubFetch(() => json({ ...jsearchV2LastPage, data: { ...jsearchV2LastPage.data, jobs: [...jsearchV2LastPage.data.jobs, { ...jsearchV2LastPage.data.jobs[0], job_id: "new-role", job_title: "New role" }] } }));
+    expect(await refreshSavedJobSearch({ id })).toEqual({ ok: true, data: { id, added: 1 } });
+    expect(await saveJobSearch({ id, saved: false })).toEqual({ ok: true, data: { saved: false } });
+    expect(await refreshSavedJobSearch({ id })).toMatchObject({ ok: false, error: "That saved search is no longer available." });
   });
 
   it("says why a search didn't run", async () => {

@@ -13,6 +13,8 @@ import {
   removeJobSearch,
   restorePosting,
   runJobSearch,
+  saveJobSearch,
+  refreshSavedJobSearch,
   savePostingForLater,
   showMorePostings,
   startApplicationFrom,
@@ -28,6 +30,8 @@ vi.mock("./actions", () => ({
   acceptArbeitsagenturNote: vi.fn(),
   startApplicationFrom: vi.fn(),
   runJobSearch: vi.fn(),
+  saveJobSearch: vi.fn(),
+  refreshSavedJobSearch: vi.fn(),
   removeJobSearch: vi.fn(),
   showMorePostings: vi.fn(),
   loadFullText: vi.fn(),
@@ -69,7 +73,7 @@ const screenProps: ComponentProps<typeof JobsScreen> = {
   view: "search",
   query,
   search: null,
-  counts: { searches: 0, saved: 0, dismissed: 0 },
+  counts: { searches: 0, savedSearches: 0, saved: 0, dismissed: 0 },
   today: "2026-10-03T12:00:00.000Z",
 };
 
@@ -80,6 +84,8 @@ function renderScreen(props: Partial<ComponentProps<typeof JobsScreen>> = {}) {
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(runJobSearch).mockResolvedValue({ ok: true, data: { ok: true, id: "run-2" } });
+  vi.mocked(saveJobSearch).mockResolvedValue({ ok: true, data: { saved: true } });
+  vi.mocked(refreshSavedJobSearch).mockResolvedValue({ ok: true, data: { id: "s1", added: 2 } });
   vi.mocked(removeJobSearch).mockResolvedValue({ ok: true, data: null, toast: "Search removed." });
   vi.mocked(savePostingForLater).mockResolvedValue({ ok: true, data: { postingId: "p1" } });
   vi.mocked(unsavePosting).mockResolvedValue({ ok: true, data: null });
@@ -187,7 +193,7 @@ describe("the results", () => {
     expect(items[0]).toHaveTextContent("Company a · Hamburg · Remote");
     expect(items[0]).toHaveTextContent("Posted 3 days ago · 30 Sep 2026 · via LinkedIn · EUR 70,000 a year");
     expect(screen.getByRole("heading", { level: 2, name: "Designer a" })).toBeInTheDocument();
-    expect(screen.getByText("The whole posting a.")).toBeInTheDocument();
+    expect(screen.getAllByText("The whole posting a.")).toHaveLength(2);
     expect(screen.getByRole("link", { name: /Open posting/ })).toHaveAttribute("href", "https://jobs.example/a");
     expect(screen.getByRole("link", { name: /Open posting/ })).toHaveAttribute("rel", "noopener noreferrer");
   });
@@ -397,15 +403,15 @@ describe("past searches (E14-10)", () => {
     {
       day: "Today",
       searches: [
-        { id: "s1", source: "JSEARCH" as const, query: { ...query, radiusKm: 50 as const, remoteOnly: true, postedWithin: "week" as const }, found: 16, time: "14:32" },
-        { id: "s2", source: "JSEARCH" as const, query: { ...query, keywords: "researcher", place: "" }, found: 1, time: "09:05" },
+        { id: "s1", source: "JSEARCH" as const, query: { ...query, radiusKm: 50 as const, remoteOnly: true, postedWithin: "week" as const }, found: 16, time: "14:32", saved: false, added: 0 },
+        { id: "s2", source: "JSEARCH" as const, query: { ...query, keywords: "researcher", place: "" }, found: 1, time: "09:05", saved: false, added: 0 },
       ],
     },
-    { day: "Mon 28 Sep", searches: [{ id: "s3", source: "ADZUNA" as const, query: { ...query, keywords: "writer" }, found: 0, time: "10:00" }] },
+    { day: "Mon 28 Sep", searches: [{ id: "s3", source: "ADZUNA" as const, query: { ...query, keywords: "writer" }, found: 0, time: "10:00", saved: false, added: 0 }] },
   ];
 
   it("lists them by day, each opening without asking the source again", () => {
-    renderScreen({ view: "history", history, counts: { searches: 3, saved: 0, dismissed: 0 } });
+    renderScreen({ view: "history", history, counts: { searches: 3, savedSearches: 0, saved: 0, dismissed: 0 } });
     expect(screen.queryByRole("search")).not.toBeInTheDocument();
     const today = screen.getByRole("region", { name: "Today" });
     expect(within(today).getAllByRole("link").map((link) => [link.textContent, link.getAttribute("href")])).toEqual([
@@ -423,6 +429,13 @@ describe("past searches (E14-10)", () => {
     expect(router.refresh).toHaveBeenCalled();
   });
 
+  it("saves a search for later refreshes", async () => {
+    renderScreen({ view: "history", history });
+    await userEvent.click(within(screen.getByRole("region", { name: "Today" })).getAllByRole("button", { name: "Save search" })[0]);
+    expect(saveJobSearch).toHaveBeenCalledWith({ id: "s1", saved: true });
+    expect(router.refresh).toHaveBeenCalled();
+  });
+
   it("puts a search back when removing it didn't work", async () => {
     vi.mocked(removeJobSearch).mockResolvedValue({ ok: false, error: "Something went wrong on the server. Please try again." });
     renderScreen({ view: "history", history });
@@ -432,30 +445,30 @@ describe("past searches (E14-10)", () => {
 
   it("says when there are none", () => {
     renderScreen({ view: "history", history: [] });
-    expect(screen.getByText(/No searches yet\. Each search you run is kept here/)).toBeInTheDocument();
+    expect(screen.getByText(/No past searches\. Run a search and open it from this history/)).toBeInTheDocument();
   });
 });
 
 describe("the Saved and Dismissed views (E14-7)", () => {
   it("has tabs for the search, past searches and the kept postings, with how many each holds", () => {
-    renderScreen({ counts: { searches: 4, saved: 3, dismissed: 1 } });
+    renderScreen({ counts: { searches: 4, savedSearches: 0, saved: 3, dismissed: 1 } });
     const tabs = within(screen.getByRole("navigation", { name: "Find jobs views" })).getAllByRole("link");
     expect(tabs.map((tab) => [tab.textContent, tab.getAttribute("href"), tab.getAttribute("aria-current")])).toEqual([
       ["Search", "/jobs", "page"],
       ["Past searches4", "/jobs?view=history", null],
+      ["Saved searches0", "/jobs?view=saved-searches", null],
       ["Saved3", "/jobs?view=saved", null],
       ["Dismissed1", "/jobs?view=dismissed", null],
     ]);
   });
 
   it("lists the saved postings, without the search form, even with job search off", () => {
-    renderScreen({ source: null, view: "saved", kept: [posting("a", { state: { ...state, saved: true } })], counts: { searches: 0, saved: 1, dismissed: 0 } });
+    renderScreen({ source: null, view: "saved", kept: [posting("a", { state: { ...state, saved: true } })], counts: { searches: 0, savedSearches: 0, saved: 1, dismissed: 0 } });
     expect(screen.queryByRole("search")).not.toBeInTheDocument();
     expect(screen.queryByText("Choose where to search")).not.toBeInTheDocument();
     expect(screen.getByText("1 saved posting")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Designer a" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Start application →" })).toBeInTheDocument();
-    expect(within(screen.getByRole("navigation", { name: "Find jobs views" })).getByRole("link", { name: /Saved/ })).toHaveAttribute("aria-current", "page");
   });
 
   it("takes an unsaved posting out of Saved, with Undo", async () => {

@@ -10,7 +10,7 @@ import { fullText } from "@/lib/job-search/find";
 import { foundPostingSchema, JOB_SOURCES, searchQuerySchema } from "@/lib/job-search/search";
 import { findUnfinishedJobs, startJob } from "@/lib/jobs/runner";
 import { scoreJobKey, scorePostingJob } from "@/lib/jobs/score-posting";
-import { removeSearch, runSearch, showMoreFor } from "@/lib/posting-searches";
+import { refreshSavedSearch as refreshSearch, removeSearch, runSearch, setSearchSaved, showMoreFor } from "@/lib/posting-searches";
 import { dismissPosting, savePosting, storePosting, unmarkPosting } from "@/lib/postings";
 import { saveSettings } from "@/lib/settings-data";
 
@@ -34,6 +34,19 @@ export const runJobSearch = action(z.object({ query: searchQuerySchema }), ({ qu
 
 /** "Show more": the next page, added to the kept search. */
 export const showMorePostings = action(z.object({ searchId }), ({ searchId }) => showMoreFor(searchId));
+
+/** Save a past query for user-triggered refreshes, or remove it from saved searches. */
+export const saveJobSearch = action(z.object({ id: searchId, saved: z.boolean() }), async ({ id, saved }) => {
+  if (!(await setSearchSaved(id, saved))) throw new ActionError("That search is no longer kept.");
+  return { saved };
+});
+
+/** Refresh a saved search and report how many new postings arrived. */
+export const refreshSavedJobSearch = action(z.object({ id: searchId }), async ({ id }) => {
+  const result = await refreshSearch(id);
+  if (!result.ok) throw new ActionError(result.message);
+  return { id: result.id, added: result.added };
+});
 
 /** Removes a kept search and what it found; saved postings stay. */
 export const removeJobSearch = action(z.object({ id: searchId }), async ({ id }, { toast }) => {

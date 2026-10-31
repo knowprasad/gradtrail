@@ -706,6 +706,10 @@ model PostingScore {
 /// (E14-10), so going back to it costs no searches from the source's plan.
 model PostingSearch {
   id        String        @id @default(cuid())
+  /// A saved query runs again when the user asks; refreshes are kept here for new-post comparison.
+  saved     Boolean       @default(false)
+  /// Posting keys present at the previous refresh, as JSON strings source:id.
+  seen      Json          @default("[]")
   source    PostingSource
   /// The search as asked (searchQuerySchema in src/lib/job-search/search.ts).
   query     Json

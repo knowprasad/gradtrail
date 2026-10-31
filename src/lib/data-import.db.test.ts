@@ -149,7 +149,7 @@ describe("importExport (E10-6)", () => {
 
   it("restores past searches with what they found (E14-10)", async () => {
     await prisma().postingSearch.create({
-      data: { source: "JSEARCH", query: { keywords: "designer" }, postings: [{ externalId: "job-1" }], found: 1, next: "cursor:2", createdAt: now },
+      data: { source: "JSEARCH", query: { keywords: "designer" }, postings: [{ externalId: "job-1" }], found: 1, next: "cursor:2", saved: true, seen: ["JSEARCH:job-1"], createdAt: now },
     });
     const file = await asFile();
     expect(file.searches).toHaveLength(1);
@@ -160,6 +160,8 @@ describe("importExport (E10-6)", () => {
       postings: [{ externalId: "job-1" }],
       found: 1,
       next: "cursor:2",
+      saved: true,
+      seen: ["JSEARCH:job-1"],
       createdAt: now,
     });
   });
