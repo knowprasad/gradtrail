@@ -1,7 +1,8 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { loadSettings } from "@/lib/settings-data";
 import { createTestClient, resetDatabase } from "@/test/db";
+import { startupJobs } from "../job-search/startup-jobs";
 
 import { placeOf } from "./place";
 import { refreshStartups, refreshStartupsJob } from "./refresh";
@@ -79,7 +80,6 @@ const address = (email: string, change: Partial<StartupEmail> = {}): StartupEmai
 const now = new Date("2026-10-23T12:00:00Z");
 
 beforeEach(async () => {
-  vi.unstubAllGlobals();
   await resetDatabase(prisma());
   web.emails = [];
   web.noApplicationsFrom = "";
@@ -87,6 +87,7 @@ beforeEach(async () => {
   sources.yc = [];
   sources.hnFails = false;
 });
+afterEach(() => vi.restoreAllMocks());
 afterAll(() => prisma().$disconnect());
 
 describe("keeping startups (#222)", () => {
@@ -224,8 +225,23 @@ describe("refreshing startups (#222)", () => {
     sources.yc = [startup({ source: "YC", externalId: "1" }), startup({ source: "YC", externalId: "2", company: "No site", website: "" })];
     sources.hnFails = true;
     web.emails = [address("jobs@acme.io")];
-    const rss = Array.from({ length: 50 }, (_, index) => `<item><title>Engineer ${index} at Startup Jobs Co ${index}</title><guid>https://startup.jobs/jobs/${index}</guid><description></description></item>`).join("");
-    vi.stubGlobal("fetch", vi.fn(async () => new Response(`<?xml version="1.0"?><rss version="2.0"><channel>${rss}</channel></rss>`, { headers: { "content-type": "application/rss+xml" } })));
+    vi.spyOn(startupJobs, "search").mockResolvedValue({
+      next: null,
+      postings: Array.from({ length: 50 }, (_, index) => ({
+        source: "STARTUP_JOBS" as const,
+        externalId: `https://startup.jobs/jobs/${index}`,
+        title: `Engineer ${index}`,
+        company: `Startup Jobs Co ${index}`,
+        place: "Berlin, Germany",
+        remote: false,
+        salary: "",
+        postedAt: null,
+        url: `https://startup.jobs/jobs/${index}`,
+        via: "Startup.jobs",
+        description: "",
+        complete: false,
+      })),
+    });
     const steps: string[] = [];
     const result = await refreshStartups(async (name) => void steps.push(name), new AbortController().signal, now);
     expect(result).toEqual({
