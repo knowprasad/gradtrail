@@ -67,7 +67,8 @@ export async function runSearch(query: SearchQuery): Promise<{ ok: true; id: str
 export async function refreshSavedSearch(id: string): Promise<{ ok: true; id: string; added: number } | SearchProblem> {
   const previous = await prisma.postingSearch.findUnique({ where: { id }, select: { id: true, saved: true, source: true, query: true, postings: true, seen: true } });
   if (!previous?.saved) return { ok: false, problem: "changed", message: "That saved search is no longer available." };
-  const answer = await askSource(queryOf(previous.query), { source: previous.source });
+  // A manual refresh should ask the provider again; ordinary revisits stay cached.
+  const answer = await askSource(queryOf(previous.query), { source: previous.source, fresh: true });
   if (!answer.ok) return answer;
   const seen = new Set<string>([
     ...(Array.isArray(previous.seen) ? previous.seen.filter((value): value is string => typeof value === "string") : []),

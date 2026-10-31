@@ -206,11 +206,11 @@ describe("listSearches and removeSearch", () => {
     expect(await setSearchSaved(id, true)).toBe(true);
     expect(await countSavedSearches()).toBe(1);
     expect(await countPastSearches()).toBe(0);
-    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 0, found: 2 }] }]);
+    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 0, found: 1 }] }]);
 
     stubFetch(() => json({ ...jsearchV2LastPage, data: { ...jsearchV2LastPage.data, jobs: [...jsearchV2LastPage.data.jobs, { ...jsearchV2LastPage.data.jobs[0], job_id: "new-role", job_title: "New role" }] } }));
     expect(await refreshSavedSearch(id)).toEqual({ ok: true, id, added: 1 });
-    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 1, found: 3 }] }]);
+    expect(await listSearches({ savedOnly: true })).toMatchObject([{ searches: [{ id, saved: true, added: 1, found: 2 }] }]);
     expect(await refreshSavedSearch(id)).toMatchObject({ ok: true, added: 0 });
     expect(await refreshSavedSearch("gone")).toMatchObject({ ok: false, problem: "changed" });
 

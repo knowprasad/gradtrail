@@ -104,6 +104,11 @@ export function LoginForm({ next }: { next?: string }) {
       <Button type="submit" size="lg" disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </Button>
+      <p className="-mt-3 text-center text-label text-muted">
+        <a href="/forgot-password" className="underline underline-offset-3 hover:text-ink">
+          Forgot password?
+        </a>
+      </p>
     </form>
   );
 }

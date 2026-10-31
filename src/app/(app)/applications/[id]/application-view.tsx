@@ -130,6 +130,7 @@ export type ApplicationViewProps = {
   facts: FactItem[];
   /** Notes and status changes, newest first (E8-9). */
   activity: ActivityEntry[];
+  checklistTasks?: { id: string; title: string; completed: boolean }[];
   meta: string[];
   resume: DocumentData | null;
   letter: DocumentData | null;
@@ -179,6 +180,7 @@ export function ApplicationView({
   requirements,
   facts: factsAtLoad,
   activity,
+  checklistTasks = [],
   resume,
   letter,
   themes,
@@ -763,7 +765,7 @@ export function ApplicationView({
         </TabsContent>
 
         <TabsContent value="notes" className="flex min-h-0 min-w-0 flex-[999_1_480px]">
-          <NotesTab applicationId={application.id} activity={activity} />
+          <NotesTab applicationId={application.id} activity={activity} checklistTasks={checklistTasks} />
         </TabsContent>
 
         <VersionHistory

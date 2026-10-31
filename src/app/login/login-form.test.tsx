@@ -36,6 +36,11 @@ describe("LoginForm", () => {
     expect(container.querySelector('input[type="hidden"][name="next"]')).toHaveValue("/profile");
   });
 
+  it("links to password recovery help", () => {
+    render(<LoginForm />);
+    expect(screen.getByRole("link", { name: "Forgot password?" })).toHaveAttribute("href", "/forgot-password");
+  });
+
   it("shows and hides the password", async () => {
     const user = userEvent.setup();
     render(<LoginForm />);

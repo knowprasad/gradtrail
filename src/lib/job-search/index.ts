@@ -54,11 +54,12 @@ export async function searchPostings<S extends JobSource>(
   query: SearchQuery,
   next: string | null = null,
   context: RequestContext = {},
+  { fresh = false }: { fresh?: boolean } = {},
 ): Promise<SearchPage> {
   if (!sourceCovers(source, query.country)) throw jobSearchError("country", source, { country: query.country });
   const adapter = adapterFor(source);
   const key = `search:${source}:${JSON.stringify(query)}:${next ?? ""}`;
-  const hit = cached<SearchPage>(key);
+  const hit = fresh ? undefined : cached<SearchPage>(key);
   if (hit) return hit;
   const page = await logged(() => adapter.search(query, credentials, next, context));
   remember(key, page);

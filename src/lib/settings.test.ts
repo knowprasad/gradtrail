@@ -57,6 +57,7 @@ describe("stored settings", () => {
       educationOrder: "date",
       backupProblem: null,
       jobSource: null,
+      joobleKeyEnc: null,
       jsearchKeyEnc: null,
       jsearchHost: "openwebninja",
       adzunaAppId: null,

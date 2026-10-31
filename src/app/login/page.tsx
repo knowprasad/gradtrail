@@ -27,9 +27,8 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
         </div>
         <LoginForm next={typeof next === "string" ? next : undefined} />
         <p className="text-meta leading-[1.6] text-pretty text-muted">
-          Your password is set on the server, as a hash in{" "}
-          <code className="font-mono text-label">GRADTRAIL_PASSWORD</code>. Forgot it? Make a new hash with{" "}
-          <code className="font-mono text-label">hash-password</code> and restart.
+          Your password is stored on your server as a hash. If you forget it, use the recovery steps on the{" "}
+          <a href="/forgot-password" className="underline underline-offset-3 hover:text-ink">password reset page</a>.
         </p>
       </div>
       </div>

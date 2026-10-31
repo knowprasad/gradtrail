@@ -47,6 +47,7 @@ describe("JobSearchSection", () => {
       "Bundesagentur für Arbeit",
       "Jooble",
       "Remote OK",
+      "Student and internship feeds",
       "Off",
     ]);
     expect(screen.getByRole("radio", { name: "Off" })).toBeChecked();
@@ -131,7 +132,7 @@ describe("JobSearchSection", () => {
 
   it("leaves the Arbeitsagentur out when the server doesn't offer it", () => {
     render(<JobSearchSection initial={withSource({ arbeitsagentur: { offered: false, acceptedAt: null } })} />);
-    expect(screen.getAllByRole("radio").map((radio) => radio.getAttribute("aria-label"))).toEqual(["JSearch", "Adzuna", "FreeHire", "Jooble", "Remote OK", "Off"]);
+    expect(screen.getAllByRole("radio").map((radio) => radio.getAttribute("aria-label"))).toEqual(["JSearch", "Adzuna", "FreeHire", "Jooble", "Remote OK", "Student and internship feeds", "Off"]);
   });
 
   it("says which FreeHire it searches, with no key to ask for", () => {

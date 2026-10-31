@@ -43,6 +43,58 @@ export const setFollowUp = action(
   },
 );
 
+const checklistTask = z.object({ id: z.string().min(1), taskId: z.string().min(1) });
+const CHECKLIST_LIMIT = 100;
+
+/** Add a private, student-managed application prep task. It is never sent to an AI provider. */
+export const addChecklistTask = action(
+  z.object({ id: z.string().min(1), title: z.string().trim().min(1, "Write a task first.").max(160) }),
+  async ({ id, title }) => {
+    if (!(await prisma.application.count({ where: { id } }))) throw new ActionError(GONE);
+    const count = await prisma.applicationTask.count({ where: { applicationId: id } });
+    if (count >= CHECKLIST_LIMIT) throw new ActionError("This checklist has reached its 100-task limit.");
+    await prisma.applicationTask.create({ data: { applicationId: id, title, position: count } });
+    refresh(id);
+    return null;
+  },
+);
+
+/** Add the common steps only to an empty checklist; custom tasks stay untouched. */
+export const addChecklistStarter = action(z.object({ id: z.string().min(1) }), async ({ id }) => {
+  if (!(await prisma.application.count({ where: { id } }))) throw new ActionError(GONE);
+  if (await prisma.applicationTask.count({ where: { applicationId: id } })) return null;
+  await prisma.applicationTask.createMany({
+    data: [
+      "Confirm eligibility and application deadline",
+      "Tailor and review your resume",
+      "Gather documents requested by the employer",
+      "Submit the application and record the date",
+      "Follow up if you have not heard back",
+    ].map((title, position) => ({ applicationId: id, title, position })),
+  });
+  refresh(id);
+  return null;
+});
+
+/** Mark a task done or reopen it, scoped to its application. */
+export const setChecklistTaskDone = action(
+  checklistTask.extend({ completed: z.boolean() }),
+  async ({ id, taskId, completed }) => {
+    const { count } = await prisma.applicationTask.updateMany({ where: { id: taskId, applicationId: id }, data: { completed } });
+    if (!count) throw new ActionError("That task no longer exists. Reload the application to see the latest checklist.");
+    refresh(id);
+    return null;
+  },
+);
+
+/** Remove a task, scoped to its application. */
+export const deleteChecklistTask = action(checklistTask, async ({ id, taskId }) => {
+  const { count } = await prisma.applicationTask.deleteMany({ where: { id: taskId, applicationId: id } });
+  if (!count) throw new ActionError("That task no longer exists. Reload the application to see the latest checklist.");
+  refresh(id);
+  return null;
+});
+
 /** The Resume tab's layout switch (APP-4): the theme's own layout, or a single column. */
 export const setFollowThemeLayout = action(
   z.object({ id: z.string().min(1), follow: z.boolean() }),

@@ -3,9 +3,12 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { createTestClient, resetDatabase } from "@/test/db";
 
 import {
+  addChecklistStarter,
+  addChecklistTask,
   addMatchSkill,
   addNote,
   deleteNote,
+  deleteChecklistTask,
   leaveOutUnit,
   listVersions,
   loadVersion,
@@ -16,6 +19,7 @@ import {
   saveUnit,
   sendMessage,
   setApplicationTheme,
+  setChecklistTaskDone,
   setFollowThemeLayout,
   setInterviewDate,
   setShowPhoto,
@@ -80,6 +84,31 @@ const units = async () =>
   (await prisma().document.findUniqueOrThrow({ where: { applicationId_kind: { applicationId: "app-1", kind: "RESUME" } } }))
     .units as typeof resume;
 afterAll(() => prisma().$disconnect());
+
+describe("application checklist", () => {
+  it("adds common tasks once and supports private custom tasks, completion and removal", async () => {
+    expect(await addChecklistStarter({ id: "app-1" })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(5);
+    expect(await addChecklistStarter({ id: "app-1" })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.count({ where: { applicationId: "app-1" } })).toBe(5);
+
+    const custom = await addChecklistTask({ id: "app-1", title: "Add my portfolio" });
+    expect(custom).toEqual({ ok: true, data: null });
+    const task = await prisma().applicationTask.findFirstOrThrow({ where: { applicationId: "app-1", title: "Add my portfolio" } });
+    expect(await setChecklistTaskDone({ id: "app-1", taskId: task.id, completed: true })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.findUniqueOrThrow({ where: { id: task.id } })).toMatchObject({ completed: true });
+    expect(await deleteChecklistTask({ id: "app-1", taskId: task.id })).toEqual({ ok: true, data: null });
+    expect(await prisma().applicationTask.findUnique({ where: { id: task.id } })).toBeNull();
+  });
+
+  it("does not let a task be changed through another application", async () => {
+    await prisma().application.create({ data: { id: "app-2" } });
+    const task = await prisma().applicationTask.create({ data: { applicationId: "app-1", title: "Read the role" } });
+    expect(await setChecklistTaskDone({ id: "app-2", taskId: task.id, completed: true })).toMatchObject({ ok: false });
+    expect(await deleteChecklistTask({ id: "app-2", taskId: task.id })).toMatchObject({ ok: false });
+    expect(await prisma().applicationTask.findUniqueOrThrow({ where: { id: task.id } })).toMatchObject({ completed: false });
+  });
+});
 
 describe("setFollowThemeLayout (E8-2)", () => {
   it("saves the layout switch on the application", async () => {

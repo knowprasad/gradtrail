@@ -453,6 +453,7 @@ model Application {
   documents           Document[]
   messages            ChatMessage[]
   notes               Note[]
+  checklistTasks      ApplicationTask[]
   /// What the user tells the AI for this application; "Anything I should know?" (NEW-6) becomes the first.
   facts               Fact[]
   /// Its background jobs, deleted with it (their inputs and results hold the posting and the documents).
@@ -576,6 +577,19 @@ model Note {
   updatedAt     DateTime    @default(now()) @updatedAt
 
   @@index([applicationId, createdAt])
+}
+
+/// A private, user-managed preparation task for one application.
+model ApplicationTask {
+  id            String      @id @default(cuid())
+  applicationId String
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  title         String      @db.VarChar(160)
+  completed     Boolean     @default(false)
+  position      Int         @default(0)
+  createdAt     DateTime    @default(now())
+
+  @@index([applicationId, position, createdAt])
 }
 
 // ─── Job search (E14) ────────────────────────────────────────────────────────

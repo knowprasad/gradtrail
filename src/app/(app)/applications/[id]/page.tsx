@@ -14,6 +14,7 @@ import { emailJobKey } from "@/lib/jobs/write-email";
 import { googleConnection } from "@/lib/google/account";
 import { pullInterviewEvents } from "@/lib/google/availability";
 import { loadConversation } from "@/lib/google/inbox-data";
+import { prisma } from "@/lib/prisma";
 import { refineSuggestions } from "@/lib/refine-suggestions";
 import { loadThemes } from "@/lib/theme-data";
 import { userTimeZone } from "@/lib/time-zone";
@@ -40,7 +41,7 @@ export async function generateMetadata({ params }: PageProps<"/applications/[id]
 export default async function ApplicationPage({ params, searchParams }: PageProps<"/applications/[id]">) {
   const [{ id }, { tab }] = await Promise.all([params, searchParams]);
   await pullCalendar(id);
-  const [{ application, profile, settings, extracted, resume, letter, email, includeReferences, letterDate }, aiReady, unitJobs, refineJobs, emailJobs, timeZone, google, emails, themes] =
+  const [{ application, profile, settings, extracted, resume, letter, email, includeReferences, letterDate }, aiReady, unitJobs, refineJobs, emailJobs, timeZone, google, emails, themes, checklistTasks] =
     await Promise.all([
       loadDocuments(id),
       isAiConfigured(),
@@ -51,6 +52,7 @@ export default async function ApplicationPage({ params, searchParams }: PageProp
       googleConnection(),
       loadConversation(id),
       loadThemes(),
+      prisma.applicationTask.findMany({ where: { applicationId: id }, orderBy: [{ position: "asc" }, { createdAt: "asc" }] }),
     ]);
 
   const match = readJson(matchSchema, application.match);
@@ -106,6 +108,7 @@ export default async function ApplicationPage({ params, searchParams }: PageProp
       requirements={extracted?.requirements ?? []}
       facts={application.facts}
       activity={activityTimeline({ notes: application.notes, events: application.events, createdAt: application.createdAt })}
+      checklistTasks={checklistTasks}
       meta={metaLine(application)}
       resume={resume}
       letter={letter}

@@ -11,9 +11,12 @@ import { retry } from "@/lib/jobs/actions";
 import type { JobView } from "@/lib/jobs/runner";
 
 import {
+  addChecklistStarter,
+  addChecklistTask,
   addMatchSkill,
   addNote,
   deleteNote,
+  deleteChecklistTask,
   leaveOutUnit,
   listVersions,
   loadVersion,
@@ -24,6 +27,7 @@ import {
   saveUnit,
   sendMessage,
   setApplicationTheme,
+  setChecklistTaskDone,
   setFollowThemeLayout,
   setShowPhoto,
   startRegenerating,
@@ -35,6 +39,10 @@ import {
 import { ApplicationView, type ApplicationViewProps } from "./application-view";
 
 vi.mock("./actions", () => ({
+  addChecklistStarter: vi.fn(async () => ({ ok: true, data: null })),
+  addChecklistTask: vi.fn(async () => ({ ok: true, data: null })),
+  setChecklistTaskDone: vi.fn(async () => ({ ok: true, data: null })),
+  deleteChecklistTask: vi.fn(async () => ({ ok: true, data: null })),
   setApplicationTheme: vi.fn(async () => ({ ok: true, data: null })),
   setFollowThemeLayout: vi.fn(async () => ({ ok: true, data: null })),
   setShowPhoto: vi.fn(async () => ({ ok: true, data: null })),
@@ -754,6 +762,10 @@ describe("notes and activity (E8-9)", () => {
   const timeline = () => screen.getByRole("list", { name: "Notes and activity" });
 
   beforeEach(() => {
+    vi.mocked(addChecklistStarter).mockClear();
+    vi.mocked(addChecklistTask).mockClear();
+    vi.mocked(setChecklistTaskDone).mockClear();
+    vi.mocked(deleteChecklistTask).mockClear();
     vi.mocked(addNote).mockClear();
     vi.mocked(updateNote).mockClear();
     vi.mocked(deleteNote).mockClear();
@@ -764,6 +776,23 @@ describe("notes and activity (E8-9)", () => {
     open();
     expect(screen.getByRole("tab", { name: "Notes · 2" })).toHaveAttribute("aria-selected", "true");
     expect(screen.getByText("Private and never sent to the AI")).toBeInTheDocument();
+  });
+
+  it("adds common steps and keeps custom checklist tasks editable", async () => {
+    const user = userEvent.setup();
+    const first = open();
+    await user.click(screen.getByRole("button", { name: "Add common steps" }));
+    expect(addChecklistStarter).toHaveBeenCalledWith({ id: "app-1" });
+    first.unmount();
+
+    render(<ApplicationView {...props} activity={[]} checklistTasks={[{ id: "task-1", title: "Add my portfolio", completed: false }]} initialTab="notes" />);
+    await user.click(screen.getByRole("checkbox", { name: "Complete: Add my portfolio" }));
+    expect(setChecklistTaskDone).toHaveBeenCalledWith({ id: "app-1", taskId: "task-1", completed: true });
+    await user.type(screen.getByLabelText("Add a task"), "Request transcript");
+    await user.click(screen.getByRole("button", { name: "Add task" }));
+    expect(addChecklistTask).toHaveBeenCalledWith({ id: "app-1", title: "Request transcript" });
+    await user.click(screen.getByRole("button", { name: "Remove task: Add my portfolio" }));
+    expect(deleteChecklistTask).toHaveBeenCalledWith({ id: "app-1", taskId: "task-1" });
   });
 
   it("shows notes and status changes in one timeline, newest first", () => {
