@@ -28,6 +28,21 @@ const PART_GONE = "That part of the document no longer exists. Reload the page t
 
 const refresh = (id: string) => revalidatePath(`/applications/${id}`);
 
+/** A user-set follow-up date and optional prompt, shown on the dashboard when due or within a week. */
+export const setFollowUp = action(
+  z.object({ id: z.string().min(1), date: z.union([z.literal(""), z.iso.date()]), note: z.string().trim().max(200) }),
+  async ({ id, date, note }) => {
+    const { count } = await prisma.application.updateMany({
+      where: { id },
+      data: { followUpAt: date ? new Date(`${date}T00:00:00.000Z`) : null, followUpNote: date ? note : "" },
+    });
+    if (count === 0) throw new ActionError(GONE);
+    refresh(id);
+    revalidatePath("/");
+    return null;
+  },
+);
+
 /** The Resume tab's layout switch (APP-4): the theme's own layout, or a single column. */
 export const setFollowThemeLayout = action(
   z.object({ id: z.string().min(1), follow: z.boolean() }),

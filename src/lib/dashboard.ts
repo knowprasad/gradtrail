@@ -15,6 +15,9 @@ export type DashboardApplication = {
   archived: boolean;
   /** Calendar date at UTC midnight. */
   deadline: Date | null;
+  /** User-set follow-up date and optional note. */
+  followUpAt: Date | null;
+  followUpNote: string;
   /** When its status last changed; null when it never did. */
   lastStatusChange: Date | null;
   sentAt: Date | null;
@@ -55,6 +58,8 @@ export type AttentionItem = {
   tab?: "conversation";
   /** An interview today or tomorrow (E9-9). */
   soon?: boolean;
+  /** This item is a user-set reminder with a dashboard completion action. */
+  followUp?: boolean;
 };
 
 /** One week of the activity chart (E9-8): applications started and sent in it. */
@@ -119,6 +124,12 @@ export type DashboardOptions = {
 
 const DAY_MS = 86_400_000;
 const rank = (stage: FunnelStage | null) => (stage === null ? -1 : FUNNEL_STAGES.indexOf(stage));
+
+function dateKey(date: Date, timeZone?: string): string {
+  const parts = new Intl.DateTimeFormat("en", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(date);
+  const part = (type: "year" | "month" | "day") => parts.find((entry) => entry.type === type)!.value;
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
 
 /** A closed status says how it ended; an open one archived means it was let go (decided 16 October 2026). */
 function outcome({ status, archived }: DashboardApplication): FunnelOutcome {
@@ -290,7 +301,21 @@ function worthALook(
     return [{ ...item(application, reason, "Answer"), tab: "conversation" as const }];
   });
   const answered = new Set(answering.map((entry) => entry.id));
+  const followUps = applications
+    .filter((application) => application.followUpAt && Date.parse(`${application.followUpAt.toISOString().slice(0, 10)}T00:00:00.000Z`) <= Date.parse(`${dateKey(now, timeZone)}T00:00:00.000Z`) + 7 * DAY_MS)
+    .sort((a, b) => a.followUpAt!.getTime() - b.followUpAt!.getTime())
+    .map((application) => {
+      const date = application.followUpAt!;
+      const days = Math.floor((Date.parse(`${date.toISOString().slice(0, 10)}T00:00:00.000Z`) - Date.parse(`${dateKey(now, timeZone)}T00:00:00.000Z`)) / DAY_MS);
+      const reason = days < 0
+        ? `Follow-up overdue${application.followUpNote ? `: ${application.followUpNote}` : "."}`
+        : days === 0
+          ? `Follow up today${application.followUpNote ? `: ${application.followUpNote}` : "."}`
+          : `Follow up in ${days} ${days === 1 ? "day" : "days"}${application.followUpNote ? `: ${application.followUpNote}` : "."}`;
+      return { ...item(application, reason, "Open"), followUp: true };
+    });
+  const followUpIds = new Set(followUps.map((entry) => entry.id));
   const soon = upcoming.filter((entry) => entry.soon);
   const later = upcoming.filter((entry) => !entry.soon);
-  return [...answering, ...[...soon, ...offers, ...drafts, ...quiet, ...later, ...past, ...undated].filter((entry) => !answered.has(entry.id))];
+  return [...answering, ...[...followUps, ...soon, ...offers, ...drafts, ...quiet, ...later, ...past, ...undated].filter((entry) => !answered.has(entry.id) && !followUpIds.has(entry.id))];
 }

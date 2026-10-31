@@ -13,7 +13,7 @@ import { SOURCE_INFO } from "./sources";
 // job ad is a "posting".
 
 /** The job sources GradTrail can search (E14-1 to E14-3, FreeHire), in the order Settings lists them; one is chosen there. */
-export const JOB_SOURCES = [PostingSource.JSEARCH, PostingSource.ADZUNA, PostingSource.FREEHIRE, PostingSource.ARBEITSAGENTUR, PostingSource.JOOBLE, PostingSource.REMOTEOK] as const;
+export const JOB_SOURCES = [PostingSource.JSEARCH, PostingSource.ADZUNA, PostingSource.FREEHIRE, PostingSource.ARBEITSAGENTUR, PostingSource.JOOBLE, PostingSource.REMOTEOK, PostingSource.STUDENT_FEEDS] as const;
 export type JobSource = PostingSource;
 
 /** Where a JSearch key comes from: OpenWeb Ninja directly, or the RapidAPI marketplace. */

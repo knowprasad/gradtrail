@@ -405,6 +405,9 @@ model Application {
   mode                String            @default("")
   salary              String            @default("")
   deadline            DateTime?         @db.Date
+  /// A user-set follow-up reminder, surfaced on the dashboard when due or within a week.
+  followUpAt          DateTime?         @db.Date
+  followUpNote        String            @default("")
   /// Saved, not fetched (NEW-1).
   postingUrl          String            @default("")
   postingText         String            @default("")
@@ -585,6 +588,7 @@ enum PostingSource {
   FREEHIRE
   JOOBLE
   REMOTEOK
+  STUDENT_FEEDS
 }
 
 /// A posting from Find jobs that the user kept (E14-5): saved, dismissed, or

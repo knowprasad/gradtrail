@@ -141,6 +141,7 @@ export function JobsScreen({
       {header}
       {arbeitsagenturNote && <ArbeitsagenturNote accepted={false} onAccept={acceptArbeitsagentur} className="mx-4 mb-5 max-w-[760px] sm:mx-10" />}
       {source === "REMOTEOK" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">Remote OK searches role tags. Location, posting date and country eligibility can vary, so confirm them on the original listing before applying; its source badge opens that post.</p>}
+      {source === "STUDENT_FEEDS" && <p className="mx-4 mb-4 max-w-[760px] text-meta text-muted sm:mx-10">These public feeds are refreshed by their maintainers. Coverage varies by country; some entries have no employer-posted date. Check the original listing for current status and eligibility.</p>}
       <SearchForm source={source} countries={countries} query={query} pending={pending} onSearch={run} />
       {/* Announces each new set of results; the list itself is replaced. */}
       <p role="status" className="sr-only">

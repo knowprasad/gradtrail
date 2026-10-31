@@ -51,6 +51,7 @@ const FROM_ENV: Record<NonNullable<Env["GRADTRAIL_JOBS_SOURCE"]>, JobSource | nu
   freehire: "FREEHIRE",
   jooble: "JOOBLE",
   remoteok: "REMOTEOK",
+  student_feeds: "STUDENT_FEEDS",
   off: null,
 };
 
@@ -166,6 +167,8 @@ export function credentialsFor<S extends JobSource>(config: JobSearchConfig, sou
       return { key } as SourceCredentials[S];
     }
     case "REMOTEOK":
+      return {} as SourceCredentials[S];
+    case "STUDENT_FEEDS":
       return {} as SourceCredentials[S];
   }
 }

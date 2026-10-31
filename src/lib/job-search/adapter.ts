@@ -16,6 +16,7 @@ export type SourceCredentials = {
   FREEHIRE: Record<string, never>;
   JOOBLE: { key: string };
   REMOTEOK: Record<string, never>;
+  STUDENT_FEEDS: Record<string, never>;
 };
 
 export type RequestContext = {

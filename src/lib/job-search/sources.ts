@@ -117,6 +117,17 @@ export const SOURCE_INFO: Record<JobSource, SourceInfo> = {
     countries: null,
     radius: false,
   },
+  STUDENT_FEEDS: {
+    name: "Student and internship feeds",
+    description: "Technical internships and early-career roles from public regional feeds, including InternScan worldwide and FresherFlow India. Check eligibility and availability on the original listing.",
+    tag: "Multiple countries · free public feeds · no key",
+    keyUrl: null,
+    quotaPeriod: null,
+    attribution: "From FresherFlow and InternScan",
+    attributionLink: null,
+    countries: null,
+    radius: false,
+  },
 };
 
 /** FreeHire's public catalogue; GRADTRAIL_FREEHIRE_URL can name a self-hosted one instead. */

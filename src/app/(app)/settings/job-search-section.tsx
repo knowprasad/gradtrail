@@ -187,6 +187,11 @@ export function JobSearchSection({ initial }: { initial: JobSearchSettingsView }
                 onSave={(change) => saveKey("JOOBLE", change)}
               />
             )}
+            {source === "STUDENT_FEEDS" && (
+              <p className="text-sm text-muted">
+                Listings come from <a className="underline underline-offset-2 hover:text-ink" href="https://github.com/FresherFlow/India-Jobs-Internships" target="_blank" rel="noopener noreferrer">FresherFlow</a> and <a className="underline underline-offset-2 hover:text-ink" href="https://github.com/vishnunandan555/internscan" target="_blank" rel="noopener noreferrer">InternScan</a>. No key is needed. GradTrail keeps the original application link; confirm each role is still open before applying.
+              </p>
+            )}
 
             {testable && (
               <div className="flex flex-wrap items-center gap-3.5 pt-1">

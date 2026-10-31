@@ -12,10 +12,26 @@ if ! docker info >/dev/null 2>&1; then
   exit 1
 fi
 
+wait_for_app() {
+  local port="$1"
+  echo "Waiting for GradTrail at http://localhost:${port} …"
+  for _ in $(seq 1 60); do
+    if curl -fsS --max-time 3 "http://localhost:${port}/login" >/dev/null 2>&1; then
+      return 0
+    fi
+    sleep 2
+  done
+  echo "GradTrail didn't become ready. Check startup with 'docker compose logs --tail 80 app'." >&2
+  return 1
+}
+
 if [[ -f .env ]]; then
-  echo "Using the existing .env so this setup keeps its password and data."
+  port="$(sed -n 's/^[[:space:]]*GRADTRAIL_PORT[[:space:]]*=[[:space:]]*//p' .env | head -n 1 | tr -d "'\"[:space:]")"
+  port="${port:-3000}"
+  echo "Found an existing .env. Reusing its password and database; setup won't ask you to choose a new password."
   docker compose up -d --build
-  echo "Open http://localhost:3000 when the app is ready."
+  wait_for_app "$port"
+  echo "GradTrail is ready at http://localhost:${port}. Sign in with the password you chose previously."
   exit 0
 fi
 
@@ -49,4 +65,5 @@ umask 077
   printf 'GRADTRAIL_PORT=3000\nPOSTGRES_PORT=5433\n'
 } > .env
 docker compose up -d
+wait_for_app 3000
 echo "Setup is complete. Open http://localhost:3000 and sign in with the password you chose."

@@ -99,6 +99,8 @@ const props: ApplicationViewProps = {
     showPhoto: null,
     archived: false,
     nextInterviewAt: null,
+    followUpAt: null,
+    followUpNote: "",
   },
   posting: { text: "Ledgerly is hiring.\n\n  - Figma", url: "", pasted: "27 Sep" },
   match: null,

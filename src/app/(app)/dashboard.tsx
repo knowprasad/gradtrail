@@ -9,6 +9,7 @@ import { DASHBOARD_PERIODS, DEFAULT_QUIET_DAYS, type DashboardFigures, type Dash
 import type { DayPeriod } from "@/lib/greeting";
 import { STATUSES } from "@/lib/status";
 
+import { DashboardFollowUpDone } from "./dashboard-follow-up-done";
 import { ActivityChart } from "./activity-chart";
 import { FunnelChart } from "./funnel-chart";
 import { Greeting } from "./greeting";
@@ -179,17 +180,20 @@ function WorthALook({ items, quietDays }: { items: DashboardFigures["attention"]
         <ul>
           {items.map((item) => (
             <li key={item.id} className="-mx-2.5 border-t border-line">
-              <Link href={`/applications/${item.id}${item.tab ? `?tab=${item.tab}` : ""}`} className="flex items-start gap-3 rounded-control px-2.5 py-[13px] text-ink hover:bg-hover">
-                <StatusDot status={item.status} className="mt-1.5" />
-                <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-                  <span className="text-field font-medium">
-                    {[item.company, item.role].filter(Boolean).join(", ")}
-                    {item.soon && <span className="ml-2 rounded-[6px] bg-warning-surface px-2 py-[3px] align-[1px] text-xs font-normal text-warning">Soon</span>}
+              <div className="flex items-center gap-2">
+                <Link href={`/applications/${item.id}${item.tab ? `?tab=${item.tab}` : ""}`} className="flex min-w-0 flex-1 items-start gap-3 rounded-control px-2.5 py-[13px] text-ink hover:bg-hover">
+                  <StatusDot status={item.status} className="mt-1.5" />
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span className="text-field font-medium">
+                      {[item.company, item.role].filter(Boolean).join(", ")}
+                      {item.soon && <span className="ml-2 rounded-[6px] bg-warning-surface px-2 py-[3px] align-[1px] text-xs font-normal text-warning">Soon</span>}
+                    </span>
+                    <span className="text-meta leading-[1.45] text-muted">{item.reason}</span>
                   </span>
-                  <span className="text-meta leading-[1.45] text-muted">{item.reason}</span>
-                </span>
-                <span className="mt-px flex-none text-meta text-muted">{item.action} →</span>
-              </Link>
+                  {!item.followUp && <span className="mt-px flex-none text-meta text-muted">{item.action} →</span>}
+                </Link>
+                {item.followUp && <DashboardFollowUpDone id={item.id} label={[item.company, item.role].filter(Boolean).join(", ")} />}
+              </div>
             </li>
           ))}
         </ul>

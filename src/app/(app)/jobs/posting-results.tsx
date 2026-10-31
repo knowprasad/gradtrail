@@ -430,6 +430,47 @@ function Fit({ fit }: { fit: PostingFit }) {
 
 type Text = { status: "ready"; text: string } | { status: "loading" } | { status: "partial"; text: string };
 
+type PostingFact = { label: string; value: string };
+
+/** Show only details present in the feed or description; never infer requirements. */
+function postingFacts(posting: ShownPosting, description: string): PostingFact[] {
+  const text = description.replace(/\s+/g, " ").trim();
+  const find = (patterns: RegExp[]) => {
+    for (const pattern of patterns) {
+      const match = text.match(pattern);
+      if (match) return (match[1] ?? match[0]).trim().replace(/[.;,]+$/, "");
+    }
+    return "Not provided by this source";
+  };
+  const locations = posting.place || "Not provided by this source";
+  const mode = posting.remote === true ? "Remote" : posting.remote === false ? "On-site or hybrid" : "Not provided by this source";
+  const employment = find([/\b(full[- ]time|part[- ]time|intern(?:ship)?|contract|temporary|apprenticeship|graduate program)\b/i]);
+  const experience = find([/(\d+\s*(?:-\s*\d+)?\+?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:relevant\s+)?experience[^.\n;]*)/i, /((?:entry[- ]level|new grad|fresher|graduate|intern(?:ship)?)[^.\n;]*)/i]);
+  const education = find([/((?:bachelor'?s?|master'?s?|ph\.?d\.?|degree|diploma)[^.\n;]*)/i]);
+  const eligibility = find([/((?:eligible|eligibility|graduat(?:e|ion) year|pass(?:ing|out) year|class of)[^.;\n]*)/i]);
+  const duration = find([/(\d+\s*(?:-|to)\s*\d+\s*months?|\d+\s*months?|\d+\s*weeks?|(?:one|two|three|four|six|eight|twelve)\s+months?)[^.\n;]*/i]);
+  const deadline = find([/((?:apply|application)\s+(?:by|before|until|closes on)\s+[^.;\n]*|deadline\s*[:\-]?\s*[^.;\n]*|closing date\s*[:\-]?\s*[^.;\n]*)/i]);
+  const process = find([/((?:apply|application)\s+(?:through|via|by)\s+[^.;\n]*|(?:assessment|coding test|interview process|take[- ]home)[^.\n;]*)/i]);
+  const requirements = find([/((?:requirements?|qualifications?|what you(?:'ll| will) need|must have)\s*[:\-]?\s*[^.;\n]*)/i]);
+  const compensation = posting.salary || find([/(?:₹|\$|€|£|INR\s*)\s?\d[\d,.]*(?:\s*[-–to]+\s*(?:₹|\$|€|£|INR\s*)?\s?\d[\d,.]*)?(?:\s*(?:per|\/)?\s*(?:hour|month|year|annum|pa|lpa|stipend))?/i]);
+  const sourceSeen = posting.via.match(/(?:first seen|added)\s+(\d{4}-\d{2}-\d{2})/i)?.[1];
+  return [
+    { label: "Location", value: locations },
+    { label: "Work mode", value: mode },
+    { label: "Employment type", value: employment },
+    { label: "Experience", value: experience },
+    { label: "Education", value: education },
+    { label: "Eligibility", value: eligibility },
+    { label: "Pay", value: compensation || "Not provided by this source" },
+    { label: "Duration", value: duration },
+    { label: "Application deadline", value: deadline },
+    { label: "Application process", value: process },
+    { label: "Requirements", value: requirements },
+    { label: "Employer posting date", value: posting.postedAt ? new Date(posting.postedAt).toLocaleDateString() : "Not provided by this source" },
+    { label: "Feed first seen / added", value: sourceSeen || "Not provided by this source" },
+  ];
+}
+
 /** The selected posting: its facts, what to do with it, and its whole text. */
 function PostingDetail({
   ref,
@@ -477,6 +518,7 @@ function PostingDetail({
   }, [initial]);
 
   const { state } = posting;
+  const facts = postingFacts(posting, text.status === "ready" ? text.text : text.status === "partial" ? text.text : posting.description);
 
   return (
     <section
@@ -542,6 +584,21 @@ function PostingDetail({
       ) : (
         state.score && <Fit fit={state.score} />
       )}
+
+      <section aria-label="Posting details" className="rounded-card border border-line-card bg-paper px-4 py-3">
+        <h3 className="mb-2 text-sm font-medium">Posting details</h3>
+        <dl className="grid grid-cols-1 gap-x-5 gap-y-2 text-xs sm:grid-cols-2">
+          {facts.map(({ label, value }) => (
+            <div key={label}>
+              <dt className="text-muted">{label}</dt>
+              <dd className={value === "Not provided by this source" ? "text-muted" : "text-ink"}>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-3 border-t border-line pt-2 text-xs text-muted">
+          Feed details can be incomplete. Confirm eligibility, deadline, pay and application steps on the employer&apos;s original post.
+        </p>
+      </section>
 
       {/* Only the text scrolls, so the title and actions stay in view; focusable, so it scrolls from the keyboard too. */}
       <div tabIndex={0} role="region" aria-label="Posting text" className="-mx-1 min-h-0 flex-1 overflow-y-auto border-t border-line px-1 pt-4">

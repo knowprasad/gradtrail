@@ -18,6 +18,33 @@ function New-RandomHex([int] $ByteCount) {
   ([BitConverter]::ToString($bytes)).Replace("-", "").ToLowerInvariant()
 }
 
+function Get-AppPort([string] $Path) {
+  $port = 3000
+  if (Test-Path -LiteralPath $Path) {
+    $entry = Get-Content -LiteralPath $Path | Where-Object { $_ -match '^\s*GRADTRAIL_PORT\s*=' } | Select-Object -First 1
+    if ($entry) {
+      $configured = ($entry -split '=', 2)[1].Trim().Trim("'").Trim('"')
+      if ($configured -match '^\d{1,5}$' -and [int]$configured -ge 1 -and [int]$configured -le 65535) { $port = [int]$configured }
+    }
+  }
+  return $port
+}
+
+function Wait-ForApp([int] $Port) {
+  $url = "http://localhost:$Port/login"
+  Write-Host "Waiting for GradTrail at http://localhost:$Port …"
+  for ($attempt = 0; $attempt -lt 60; $attempt++) {
+    try {
+      $response = Invoke-WebRequest -Uri $url -TimeoutSec 3 -UseBasicParsing
+      if ($response.StatusCode -ge 200 -and $response.StatusCode -lt 500) { return }
+    } catch {
+      # The development server may need a little while to start or compile.
+    }
+    Start-Sleep -Seconds 2
+  }
+  throw "GradTrail didn't become ready at http://localhost:$Port. Check the app startup with 'docker compose logs --tail 80 app'."
+}
+
 try {
   if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     throw "Docker was not found. Install Docker Desktop, start it, then run this script again."
@@ -27,9 +54,12 @@ try {
 
   $envPath = Join-Path $repoRoot ".env"
   if (Test-Path -LiteralPath $envPath) {
-    Write-Host "Using the existing .env so this setup keeps its password and data."
+    $port = Get-AppPort $envPath
+    Write-Host "Found an existing .env. Reusing its password and database; setup won't ask you to choose a new password."
     & docker compose up -d --build
     if ($LASTEXITCODE -ne 0) { throw "Docker Compose could not start the app." }
+    Wait-ForApp $port
+    Write-Host "GradTrail is ready at http://localhost:$port. Sign in with the password you chose previously."
   } else {
     Write-Host "Choose the password you'll use to sign in to GradTrail. It won't be saved as plain text."
     do {
@@ -85,6 +115,7 @@ try {
 
     & docker compose up -d
     if ($LASTEXITCODE -ne 0) { throw "Docker Compose could not start the app." }
+    Wait-ForApp 3000
     $first = $null
     $second = $null
     $firstSecure = $null

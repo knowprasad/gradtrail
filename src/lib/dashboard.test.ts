@@ -12,6 +12,8 @@ const app = (id: string, extra: Partial<DashboardApplication> = {}): DashboardAp
   furthestStage: "SENT",
   archived: false,
   deadline: null,
+  followUpAt: null,
+  followUpNote: "",
   lastStatusChange: daysAgo(2),
   sentAt: daysAgo(2),
   nextInterviewAt: null,

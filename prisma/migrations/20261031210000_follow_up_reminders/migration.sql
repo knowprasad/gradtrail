@@ -1,0 +1,3 @@
+ALTER TABLE "Application"
+ADD COLUMN "followUpAt" DATE,
+ADD COLUMN "followUpNote" TEXT NOT NULL DEFAULT '';

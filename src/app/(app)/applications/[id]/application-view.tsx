@@ -62,6 +62,7 @@ import { NotesTab } from "./notes-tab";
 import { PostingTab, type PostingData } from "./posting-tab";
 import { RefinePanel, type ChatEntry } from "./refine-panel";
 import { StatusControl } from "./status-control";
+import { FollowUpReminder } from "./follow-up-reminder";
 import { ThemeMenu } from "./theme-menu";
 import { byPageLimit, TrimmedNotice } from "./trimmed-notice";
 
@@ -114,6 +115,9 @@ export type ApplicationViewProps = {
     awaitingReview?: boolean;
     /** The next interview, while in Interview (E9-9). */
     nextInterviewAt: Date | null;
+    /** A user-set follow-up date and note, shown on the dashboard. */
+    followUpAt: Date | null;
+    followUpNote: string;
   };
   /** The browser's time zone as it last told the server, for the interview's time. */
   timeZone?: string;
@@ -626,6 +630,7 @@ export function ApplicationView({
                 From the job agent · waiting for review
               </Link>
             )}
+            <FollowUpReminder id={application.id} at={application.followUpAt} note={application.followUpNote} />
             <StatusControl id={application.id} status={application.status} interviewAt={application.nextInterviewAt} timeZone={timeZone} />
             {(resume || letter) && (
               // The document on screen; from the Job posting tab, the resume (E8-8).
