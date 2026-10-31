@@ -2,7 +2,7 @@ import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vites
 
 import { loadSettings } from "@/lib/settings-data";
 import { createTestClient, resetDatabase } from "@/test/db";
-import { startupJobs } from "../job-search/startup-jobs";
+import { startupJobs } from "@/lib/job-search/startup-jobs";
 
 import { placeOf } from "./place";
 import { refreshStartups, refreshStartupsJob } from "./refresh";
