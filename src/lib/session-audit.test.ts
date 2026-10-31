@@ -23,8 +23,12 @@ const OPEN_ROUTES = new Set([
   "src/app/api/oauth/register/route.ts",
   "src/app/api/oauth/token/route.ts",
 ]);
+const OPEN_PAGES = new Set([
+  "src/app/forgot-password/page.tsx", // explains local recovery; reads no session data
+]);
 
-const sources = globSync("src/**/*.{ts,tsx}").filter((file) => !/\.test\.tsx?$/.test(file) && !file.startsWith("src/generated/"));
+const normalize = (file: string) => file.replaceAll("\\", "/");
+const sources = globSync("src/**/*.{ts,tsx}").map(normalize).filter((file) => !/\.test\.tsx?$/.test(file) && !file.startsWith("src/generated/"));
 const read = (file: string) => readFileSync(file, "utf8");
 const isActionFile = (source: string) => /^\s*["']use server["'];?/.test(source);
 const exportsOf = (source: string) => [...source.matchAll(/^export\s+(?:async\s+)?(?:const|function|let|var|default)\s*(\w*)\s*(?:=\s*(\w+))?/gm)];
@@ -57,10 +61,11 @@ describe("session checks (E11-5)", () => {
   it("checks the session on every page but the sign-in page", () => {
     // The (app) layout checks for everything inside it; print pages take the renderer's token too.
     expect(read("src/app/(app)/layout.tsx")).toContain("await verifySession()");
-    const unchecked = globSync("src/app/**/page.tsx").filter(
+    const unchecked = globSync("src/app/**/page.tsx").map(normalize).filter(
       (file) =>
         !file.startsWith("src/app/(app)/") &&
         !file.startsWith("src/app/login/") &&
+        !OPEN_PAGES.has(file) &&
         !/await (verifySession|verifyPrintAccess)\(/.test(read(file)),
     );
     expect(unchecked).toEqual([]);
@@ -81,7 +86,7 @@ describe("session checks (E11-5)", () => {
   });
 
   it("defines every route handler with route()", () => {
-    const unchecked = globSync("src/app/**/route.ts")
+    const unchecked = globSync("src/app/**/route.ts").map(normalize)
       .filter((file) => !OPEN_ROUTES.has(file))
       .flatMap((file) =>
         exportsOf(read(file))

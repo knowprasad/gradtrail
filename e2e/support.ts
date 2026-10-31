@@ -106,6 +106,11 @@ export async function fakeStartupRequests(): Promise<{ url: string; userAgent: s
   return ((await response.json()) as { requests: { url: string; userAgent: string }[] }).requests;
 }
 
+/** Clears the fake sites' request log before a retryable test. */
+export async function clearFakeStartupRequests(): Promise<void> {
+  await fetch(`http://localhost:${FAKE_JOBS_PORT}/startup-requests`, { method: "DELETE" });
+}
+
 /** How many searches the fake JSearch has answered so far (E14-10). */
 export async function fakeJobSearches(): Promise<number> {
   const response = await fetch(`http://localhost:${FAKE_JOBS_PORT}/searches`);

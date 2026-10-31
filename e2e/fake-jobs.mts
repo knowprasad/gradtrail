@@ -92,6 +92,10 @@ createServer((request, response) => {
   if (url.pathname === "/health") return send(response, 200, { ok: true });
   if (url.pathname === "/searches") return send(response, 200, { searches });
   if (url.pathname === "/pings") return send(response, 200, { pings });
+  if (url.pathname === "/startup-requests" && request.method === "DELETE") {
+    siteRequests.length = 0;
+    return response.writeHead(204).end();
+  }
   if (url.pathname === "/startup-requests") return send(response, 200, { requests: siteRequests });
   if (url.pathname.startsWith("/startups/")) return startups(url.pathname, request, response);
   if (url.pathname === "/ping" && request.method === "POST") {

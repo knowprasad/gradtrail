@@ -27,7 +27,7 @@
   /* Secondary text: hints, labels, metadata. It passes on every surface
      and on the hover tints, but not on a selected item over the shell
      (4.3:1 in the light scheme): use ink there. */
-  --color-muted: light-dark(#5f7068, #a3aea8);
+  --color-muted: light-dark(#5a6b63, #a3aea8);
   /* Disabled and decorative only: never for text people need to read. */
   --color-faint: light-dark(#8b9992, #727d77);
 

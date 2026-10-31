@@ -51,7 +51,7 @@ test("searches, keeps postings, and starts an application from one", async ({ pa
   await expect(list.getByRole("button", { name: /^Product Designer, Logistics/ })).toBeVisible();
 
   // The saved posting is in Saved.
-  await page.getByRole("link", { name: /^Saved/ }).click();
+  await page.locator('a[href="/jobs?view=saved"]').click();
   await expect(page).toHaveURL(/\/jobs\?view=saved/);
   await expect(page.getByText("1 saved posting")).toBeVisible();
 
@@ -156,7 +156,7 @@ test("searches USAJOBS with a registered key and shows the federal posting detai
   await expect(page.getByRole("heading", { name: "Software Engineering Intern" })).toBeVisible();
   await expect(page.getByText(/^1 posting from USAJOBS · searched/)).toBeVisible();
   await expect(page.getByRole("region", { name: "Posting text" })).toContainText("Students and U.S. citizens");
-  await expect(page.getByRole("link", { name: "Source: USAJOBS" })).toHaveAttribute("href", "https://www.usajobs.gov");
+  await expect(page.getByRole("list", { name: "Postings" }).getByRole("link", { name: "Source: USAJOBS" })).toHaveAttribute("href", "https://www.usajobs.gov");
 
   await page.goto("/settings?section=jobs");
   await page.getByRole("radio", { name: "JSearch" }).click();

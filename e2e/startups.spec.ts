@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 
-import { fakeStartupRequests, resetData, sql } from "./support";
+import { clearFakeStartupRequests, fakeStartupRequests, resetData, sql } from "./support";
 
 // Startups (#222) against the fake Hacker News and startup sites
 // (e2e/fake-jobs.mts), for the demo profile in Rotterdam: what a refresh
@@ -16,6 +16,7 @@ async function expectAccessible(page: Page) {
 }
 
 test("finds hiring startups with the addresses they publish, and leaves alone what it should", async ({ page }) => {
+  await clearFakeStartupRequests();
   await page.goto("/startups");
   await expect(page.getByRole("note")).toContainText("Press Refresh to look for startups.");
   await page.getByRole("button", { name: "Refresh" }).click();
