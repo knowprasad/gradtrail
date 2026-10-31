@@ -21,7 +21,7 @@ test("finds hiring startups with the addresses they publish, and leaves alone wh
   await expect(page.getByRole("note")).toContainText("Press Refresh to look for startups.");
   await page.getByRole("button", { name: "Refresh" }).click();
   await expect(page.getByText("Found 5 new startups.")).toBeVisible({ timeout: 30_000 });
-  await expect(page.getByText(/Last refreshed .*: Y Combinator 2 · Hacker News 3\./)).toBeVisible();
+  await expect(page.getByText(/Last refreshed .*: Y Combinator 2 · Hacker News 3 · Startup\.jobs 0\./)).toBeVisible();
 
   // Remote work only for the US doesn't suit someone in Rotterdam.
   const cards = page.getByRole("article");

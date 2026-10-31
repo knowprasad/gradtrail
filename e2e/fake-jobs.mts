@@ -98,6 +98,10 @@ createServer((request, response) => {
   }
   if (url.pathname === "/startup-requests") return send(response, 200, { requests: siteRequests });
   if (url.pathname.startsWith("/startups/")) return startups(url.pathname, request, response);
+  if (url.pathname === "/startup_jobs/feeds/jobs") {
+    response.writeHead(200, { "content-type": "application/rss+xml" }).end("<?xml version=\"1.0\"?><rss version=\"2.0\"><channel><title>Startup.jobs</title></channel></rss>");
+    return;
+  }
   if (url.pathname === "/ping" && request.method === "POST") {
     let body = "";
     request.on("data", (chunk: Buffer) => (body += chunk.toString()));

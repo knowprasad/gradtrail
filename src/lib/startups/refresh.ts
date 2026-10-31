@@ -13,6 +13,7 @@ import { placeOf } from "./place";
 import { fetchHnStartups } from "./sources/hn";
 import { fetchYcStartups } from "./sources/yc";
 import { startupJobs } from "@/lib/job-search/startup-jobs";
+import { requestContext } from "@/lib/job-search/config";
 import type { SearchQuery } from "@/lib/job-search/search";
 import { lookUpStartup, rescoreStartups, sweepStartups, upsertStartups } from "./store";
 import { STARTUP_SOURCE_INFO, startupsRefreshSchema, type FoundStartup, type StartupSource, type StartupsRefresh } from "./types";
@@ -40,7 +41,7 @@ export async function refreshStartups(
     { source: "YC", fetch: () => fetchYcStartups(signal) },
     { source: "HN", fetch: () => fetchHnStartups(place, signal) },
     { source: "STARTUP_JOBS", fetch: async () => {
-      const page = await startupJobs.search(STARTUP_JOBS_QUERY, {}, null, { signal });
+      const page = await startupJobs.search(STARTUP_JOBS_QUERY, {}, null, { ...requestContext("STARTUP_JOBS"), signal });
       return page.postings.map((posting): FoundStartup => ({
         source: "STARTUP_JOBS",
         externalId: posting.externalId,

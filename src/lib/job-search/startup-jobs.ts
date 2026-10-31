@@ -104,7 +104,9 @@ function matches(posting: FoundPosting, query: SearchQuery): boolean {
 }
 
 async function search(query: SearchQuery, _credentials: Record<string, never>, _next: string | null, context: RequestContext = {}): Promise<SearchPage> {
-  const url = new URL(context.baseUrl ?? FEED);
+  const url = context.baseUrl
+    ? new URL(`${context.baseUrl.replace(/\/+$/, "")}/feeds/jobs`)
+    : new URL(FEED);
   if (query.keywords.trim()) url.searchParams.set("role", query.keywords.trim().slice(0, 80));
   if (query.remoteOnly) url.searchParams.set("workplace", "remote");
   const xml = await requestText("STARTUP_JOBS", url, {
